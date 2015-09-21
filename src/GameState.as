@@ -74,7 +74,6 @@ package {
 			kb.addKeyAction("a", Keyboard.A);
 			kb.addKeyAction("d", Keyboard.D);
 			kb.addKeyAction("s", Keyboard.S);
-
 		}
 
 		private var da:Number = 0;
