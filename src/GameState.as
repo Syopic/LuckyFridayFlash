@@ -114,26 +114,26 @@ package {
 
 			if (_ce.input.isDoing("left"))
 			{
-				var impulse2:Vec2 = new Vec2(-1, 0);
-				impulse2.length = 1;
-				impulse2.angle = physicObject.body.rotation;
-				physicObject.body.applyImpulse(impulse2.reflect(impulse2), physicObject.body.position);
+				var impulse1:Vec2 = new Vec2(-1, 0);
+				impulse1.length = 1;
+				impulse1.angle = physicObject.body.rotation;
+				physicObject.body.applyImpulse(impulse1.reflect(impulse1), physicObject.body.position);
 			}
 
 			if (_ce.input.isDoing("up"))
 			{
-				var impulse:Vec2 = new Vec2(0, 1);
-				impulse.length = 1;
-				impulse.angle = physicObject.body.rotation;
-				physicObject.body.applyImpulse(impulse.reflect(impulse).perp(), physicObject.body.position);
+				var impulse2:Vec2 = new Vec2(0, 1);
+				impulse2.length = 1;
+				impulse2.angle = physicObject.body.rotation;
+				physicObject.body.applyImpulse(impulse2.reflect(impulse2).perp(), physicObject.body.position);
 			}
 
 			if (_ce.input.isDoing("down"))
 			{
-				var impulse2:Vec2 = new Vec2(0, 1);
-				impulse2.length = 1;
-				impulse2.angle = physicObject.body.rotation;
-				physicObject.body.applyImpulse(impulse2.perp(), physicObject.body.position);
+				var impulse3:Vec2 = new Vec2(0, 1);
+				impulse3.length = 1;
+				impulse3.angle = physicObject.body.rotation;
+				physicObject.body.applyImpulse(impulse3.perp(), physicObject.body.position);
 			}
 
 			if (_ce.input.isDoing("s"))
