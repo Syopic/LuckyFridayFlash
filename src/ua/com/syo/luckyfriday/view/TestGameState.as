@@ -1,4 +1,6 @@
 package ua.com.syo.luckyfriday.view {
+	import flash.ui.GameInput;
+
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.input.controllers.gamepad.GamePadManager;
@@ -96,26 +98,32 @@ package ua.com.syo.luckyfriday.view {
 			add(physicObject);
 
 
-
-			var gamePadManager:GamePadManager = new GamePadManager(1);
-
-			gamePadManager.onControllerAdded.add(function(gamepad:Gamepad):void
+			if (GameInput.isSupported)
 			{
-				gamepad.setStickActions(GamePadMap.STICK_LEFT, "up", "right", "down", "left");
-				gamepad.setStickActions(GamePadMap.STICK_RIGHT, "zoomIn", "rotateCW", "zoomOut", "rotateCCW");
 
-				gamepad.setButtonAction(GamePadMap.L1, "rotateCCW");
-				gamepad.setButtonAction(GamePadMap.R1, "rotateCW");
+				var gamePadManager:GamePadManager = new GamePadManager(1);
 
-				gamepad.setButtonAction(GamePadMap.L2, "zoomOut");
-				gamepad.setButtonAction(GamePadMap.R2, "zoomIn");
+				gamePadManager.onControllerAdded.add(function(gamepad:Gamepad):void
+				{
+					gamepad.setStickActions(GamePadMap.STICK_LEFT, "up", "right", "down", "left");
+					gamepad.setStickActions(GamePadMap.STICK_RIGHT, "zoomIn", "rotateCW", "zoomOut", "rotateCCW");
 
-				gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, "jump");
+					gamepad.setButtonAction(GamePadMap.L1, "rotateCCW");
+					gamepad.setButtonAction(GamePadMap.R1, "rotateCW");
 
-				gamepad.setButtonAction(GamePadMap.START, "pause");
-				gamepad.setButtonAction(GamePadMap.SELECT, "fullscreen");
+					gamepad.setButtonAction(GamePadMap.L2, "zoomOut");
+					gamepad.setButtonAction(GamePadMap.R2, "zoomIn");
 
-			});
+					gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, "jump");
+
+					gamepad.setButtonAction(GamePadMap.START, "pause");
+					gamepad.setButtonAction(GamePadMap.SELECT, "fullscreen");
+
+				});
+			} else
+			{
+				trace("Gamepad is not supported!");
+			}
 
 			// get the keyboard, and add actions.
 			var kb:Keyboard = _ce.input.keyboard;
