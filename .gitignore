@@ -1,3 +1,13 @@
+# Compiled source
+*.swf
+
+# Project
+*.project
+*.gitattributes
+*.actionScriptProperties
+bin-debug
+.settings
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
