@@ -22,11 +22,11 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source="/../assets/img/platform.png")]
 		public static const PlatformC:Class;
 
-		[Embed(source="/../assets/anim/shipKren.png")]
+		/*[Embed(source="/../assets/anim/shipKren.png")]
 		private var ShipKrenC:Class;
 
 		[Embed(source="/../assets/anim/shipKren.xml",mimeType="application/octet-stream")]
-		private var ShipKrenXMLC:Class;
+		private var ShipKrenXMLC:Class;*/
 
 		private static var gameTextures:Dictionary = new Dictionary();
 

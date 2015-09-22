@@ -31,11 +31,11 @@ package ua.com.syo.luckyfriday.view {
 		private var physicObject:NapePhysicsObject;
 		private var hero:Hero;
 
-		[Embed(source="/../assets/anim/shipKren.png")]
-		private var ShipKrenC:Class;
+		[Embed(source="/../assets/anim/shipAnim.png")]
+		private var ShipAnimC:Class;
 
-		[Embed(source="/../assets/anim/shipKren.xml",mimeType="application/octet-stream")]
-		private var ShipKrenXMLC:Class;
+		[Embed(source="/../assets/anim/shipAnim.xml",mimeType="application/octet-stream")]
+		private var ShipAnimXMLC:Class;
 
 		public function TestGameState() {
 			super();
@@ -85,13 +85,13 @@ package ua.com.syo.luckyfriday.view {
 			//add(shipHero);
 
 
-			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipKrenC()), XML(new ShipKrenXMLC()));
-			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idle", "kren"], "idle", 8);
+			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
+			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idle", "kren", "rotate"], "idle", 15);
 
 			//shipSeq.pauseAnimation(true);
 			//var hero:Hero = new Hero("hero", {view:shipSeq});
 			//add(hero);
-			StarlingArt.setLoopAnimations(["kren"]);
+			StarlingArt.setLoopAnimations(["kren", "rotate"]);
 
 			var image:Image = new Image(Assets.getTexture("ShipC"));
 			physicObject = new NapePhysicsObject("physicobject", { x:500, y:300, width:190, height:68, view:shipSeq} );
@@ -178,23 +178,24 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.isDoing("left"))
 			{
+				physicObject.animation = "rotate";
 				var impulse1:Vec2 = new Vec2(-1, 0);
 				impulse1.length = 1;
 				impulse1.angle = physicObject.body.rotation;
 				physicObject.body.applyImpulse(impulse1.reflect(impulse1), physicObject.body.position);
-			}
-
-			if (_ce.input.isDoing("up"))
-			{
-				physicObject.animation = "kren";
-				var impulse2:Vec2 = new Vec2(0, 1);
-				impulse2.length = 1;
-				impulse2.angle = physicObject.body.rotation;
-				physicObject.body.applyImpulse(impulse2.reflect(impulse2).perp(), physicObject.body.position);
 			} else
-			{
-				physicObject.animation = "idle";
-			}
+
+				if (_ce.input.isDoing("up"))
+				{
+					physicObject.animation = "kren";
+					var impulse2:Vec2 = new Vec2(0, 1);
+					impulse2.length = 1;
+					impulse2.angle = physicObject.body.rotation;
+					physicObject.body.applyImpulse(impulse2.reflect(impulse2).perp(), physicObject.body.position);
+				} else
+				{
+					physicObject.animation = "idle";
+				}
 
 			if (_ce.input.isDoing("down"))
 			{
