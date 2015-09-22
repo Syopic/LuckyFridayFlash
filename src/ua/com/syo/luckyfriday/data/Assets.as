@@ -1,4 +1,4 @@
-package {
+package ua.com.syo.luckyfriday.data {
 
 	import flash.display.Bitmap;
 	import flash.utils.Dictionary;

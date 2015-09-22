@@ -1,4 +1,4 @@
-package
+package ua.com.syo.luckyfriday.view
 {
 	import citrus.objects.platformer.nape.Hero;
 

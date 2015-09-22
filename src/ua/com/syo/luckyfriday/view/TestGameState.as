@@ -1,4 +1,4 @@
-package {
+package ua.com.syo.luckyfriday.view {
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.input.controllers.gamepad.GamePadManager;
@@ -16,12 +16,13 @@ package {
 	import nape.shape.Polygon;
 
 	import starling.display.Image;
+	import ua.com.syo.luckyfriday.data.Assets;
 
-	public class GameState extends StarlingState {
+	public class TestGameState extends StarlingState {
 
 		private var physicObject:NapePhysicsObject;
 
-		public function GameState() {
+		public function TestGameState() {
 			super();
 		}
 
@@ -30,7 +31,6 @@ package {
 
 			var w:int = stage.stageWidth;
 			var h:int = stage.stageHeight;
-			//scaleX = scaleY = 2;
 
 			var nape:Nape = new Nape("nape", {gravity:new Vec2(0, 2)});
 			nape.visible = true;
@@ -83,7 +83,6 @@ package {
 				gamepad.setButtonAction(GamePadMap.SELECT, "fullscreen");
 
 			});
-
 
 			// get the keyboard, and add actions.
 			var kb:Keyboard = _ce.input.keyboard;
