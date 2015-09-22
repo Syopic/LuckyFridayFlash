@@ -105,19 +105,20 @@ package ua.com.syo.luckyfriday.view {
 
 				gamePadManager.onControllerAdded.add(function(gamepad:Gamepad):void
 				{
-					gamepad.setStickActions(GamePadMap.STICK_LEFT, "up", "right", "down", "left");
-					gamepad.setStickActions(GamePadMap.STICK_RIGHT, "zoomIn", "rotateCW", "zoomOut", "rotateCCW");
+					gamepad.setButtonAction(GamePadMap.BUTTON_TOP, "up");
+				/*gamepad.setStickActions(GamePadMap.STICK_LEFT, "up", "right", "down", "left");
+				gamepad.setStickActions(GamePadMap.STICK_RIGHT, "zoomIn", "rotateCW", "zoomOut", "rotateCCW");
 
-					gamepad.setButtonAction(GamePadMap.L1, "rotateCCW");
-					gamepad.setButtonAction(GamePadMap.R1, "rotateCW");
+				gamepad.setButtonAction(GamePadMap.L1, "rotateCCW");
+				gamepad.setButtonAction(GamePadMap.R1, "rotateCW");
 
-					gamepad.setButtonAction(GamePadMap.L2, "zoomOut");
-					gamepad.setButtonAction(GamePadMap.R2, "zoomIn");
+				gamepad.setButtonAction(GamePadMap.L2, "zoomOut");
+				gamepad.setButtonAction(GamePadMap.R2, "zoomIn");
 
-					gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, "jump");
+				gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, "jump");
 
-					gamepad.setButtonAction(GamePadMap.START, "pause");
-					gamepad.setButtonAction(GamePadMap.SELECT, "fullscreen");
+				gamepad.setButtonAction(GamePadMap.START, "pause");
+				gamepad.setButtonAction(GamePadMap.SELECT, "fullscreen");*/
 
 				});
 			} else
