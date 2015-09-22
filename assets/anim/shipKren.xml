@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:98cb865873c9dbced262f9a18dcd74bc:4ac6413731558463e6486d350d079e3b:30795af5d4b4835a33bf5ea3ac0aab76$ -->
+<TextureAtlas imagePath="shipKren.png" width="205" height="433">
+	<SubTexture name="idle0000" x="2" y="349" width="201" height="82" frameX="-2" frameY="-2" frameWidth="208" frameHeight="89"/>
+	<SubTexture name="kren0000" x="2" y="349" width="201" height="82" frameX="-2" frameY="-2" frameWidth="208" frameHeight="89"/>
+	<SubTexture name="kren0001" x="2" y="177" width="201" height="84" frameX="-2" frameY="-2" frameWidth="208" frameHeight="91"/>
+	<SubTexture name="kren0002" x="2" y="2" width="201" height="86" frameX="-2" frameY="-2" frameWidth="208" frameHeight="92"/>
+	<SubTexture name="kren0003" x="2" y="349" width="201" height="82" frameX="-2" frameY="-2" frameWidth="208" frameHeight="89"/>
+	<SubTexture name="kren0004" x="2" y="263" width="201" height="84" frameX="-2" frameY="-2" frameWidth="208" frameHeight="91"/>
+	<SubTexture name="kren0005" x="2" y="90" width="201" height="85" frameX="-2" frameY="-2" frameWidth="208" frameHeight="92"/>
+</TextureAtlas>

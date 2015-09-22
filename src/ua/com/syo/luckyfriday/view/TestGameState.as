@@ -8,7 +8,10 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.objects.CitrusSprite;
 	import citrus.objects.NapePhysicsObject;
 	import citrus.objects.platformer.nape.Platform;
+	import citrus.objects.platformer.simple.Hero;
 	import citrus.physics.nape.Nape;
+	import citrus.view.starlingview.AnimationSequence;
+	import citrus.view.starlingview.StarlingArt;
 
 	import nape.geom.Vec2;
 	import nape.phys.Body;
@@ -16,11 +19,21 @@ package ua.com.syo.luckyfriday.view {
 	import nape.shape.Polygon;
 
 	import starling.display.Image;
+	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
+
 	import ua.com.syo.luckyfriday.data.Assets;
 
 	public class TestGameState extends StarlingState {
 
 		private var physicObject:NapePhysicsObject;
+		private var hero:Hero;
+
+		[Embed(source="/../assets/anim/shipKren.png")]
+		private var ShipKrenC:Class;
+
+		[Embed(source="/../assets/anim/shipKren.xml",mimeType="application/octet-stream")]
+		private var ShipKrenXMLC:Class;
 
 		public function TestGameState() {
 			super();
@@ -29,10 +42,14 @@ package ua.com.syo.luckyfriday.view {
 		override public function initialize():void {
 			super.initialize();
 
+
+
+
+
 			var w:int = stage.stageWidth;
 			var h:int = stage.stageHeight;
 
-			var nape:Nape = new Nape("nape", {gravity:new Vec2(0, 2)});
+			var nape:Nape = new Nape("nape", {gravity:new Vec2(0, 0.1)});
 			nape.visible = true;
 			add(nape);
 
@@ -51,10 +68,6 @@ package ua.com.syo.luckyfriday.view {
 			ship.space = nape.space;
 
 
-			var image:Image = new Image(Assets.getTexture("ShipC"));
-			physicObject = new NapePhysicsObject("physicobject", { x:500, y:300, width:160, height:60, view:image} );
-			add(physicObject);
-
 
 			for (var i:int = 0; i < 16; i++) {
 				var box:Body = new Body(BodyType.DYNAMIC);
@@ -63,6 +76,26 @@ package ua.com.syo.luckyfriday.view {
 				box.space = nape.space;
 				box.dragImpulse(floor);
 			}
+
+
+			// animation test
+			//var shipHero:ShipHero = new ShipHero();
+			//add(shipHero);
+
+
+			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipKrenC()), XML(new ShipKrenXMLC()));
+			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idle", "kren"], "idle", 8);
+
+			//shipSeq.pauseAnimation(true);
+			//var hero:Hero = new Hero("hero", {view:shipSeq});
+			//add(hero);
+			StarlingArt.setLoopAnimations(["kren"]);
+
+			var image:Image = new Image(Assets.getTexture("ShipC"));
+			physicObject = new NapePhysicsObject("physicobject", { x:500, y:300, width:190, height:68, view:shipSeq} );
+			add(physicObject);
+
+
 
 			var gamePadManager:GamePadManager = new GamePadManager(1);
 
@@ -144,10 +177,14 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.isDoing("up"))
 			{
+				physicObject.animation = "kren";
 				var impulse2:Vec2 = new Vec2(0, 1);
 				impulse2.length = 1;
 				impulse2.angle = physicObject.body.rotation;
 				physicObject.body.applyImpulse(impulse2.reflect(impulse2).perp(), physicObject.body.position);
+			} else
+			{
+				physicObject.animation = "idle";
 			}
 
 			if (_ce.input.isDoing("down"))
@@ -162,7 +199,6 @@ package ua.com.syo.luckyfriday.view {
 			{
 				//physicObject.
 			}
-
 
 
 		}
