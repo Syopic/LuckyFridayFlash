@@ -1,8 +1,11 @@
 package ua.com.syo.luckyfriday.view {
+	import flash.utils.getTimer;
+
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
 	import citrus.objects.platformer.nape.Platform;
+	import citrus.objects.vehicle.nape.Nugget;
 	import citrus.physics.nape.Nape;
 
 	import justpinegames.Logi.Console;
@@ -78,6 +81,8 @@ package ua.com.syo.luckyfriday.view {
 		}
 
 
+		private var dt:Number = 0;
+		private var prevButton:String;
 
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
@@ -89,7 +94,6 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.isDoing("d")) {
 				shipHero.rotate(1);
-				log("rotate right");
 			}
 
 			if (_ce.input.isDoing("right")) {
@@ -100,6 +104,26 @@ package ua.com.syo.luckyfriday.view {
 			if (_ce.input.isDoing("left")) {
 				shipHero.moveLeft();
 			}
+
+			if (_ce.input.hasDone("right")) {
+				if (prevButton == "right" && (getTimer() - dt) < 300) {
+					shipHero.animation = "rrotater";
+				} else
+				{
+					dt = getTimer();
+					prevButton = "right";
+				}
+			}
+
+			if (_ce.input.hasDone("left")) {
+				if (prevButton == "left" && (getTimer() - dt) < 300) {
+					shipHero.animation = "rotate";
+				} else {
+					dt = getTimer();
+					prevButton = "left";
+				}
+			}
+
 
 
 			if (_ce.input.isDoing("up")) {

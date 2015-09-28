@@ -30,10 +30,10 @@ package ua.com.syo.luckyfriday.view
 
 		public function moveRight():void
 		{
-			if (body.position.x - oldX > 0.5) {
+			/*if (body.position.x - oldX > 0.5) {
 				animation = "rrotater";
 			}
-			log("DX: " + (body.position.x - oldX));
+			log("DX: " + (body.position.x - oldX));*/
 			var impulse:Vec2 = new Vec2(1, 0);
 			impulse.length = 1;
 			impulse.angle = body.rotation;
@@ -43,10 +43,10 @@ package ua.com.syo.luckyfriday.view
 
 		public function moveLeft():void
 		{
-			if (oldX - body.position.x > 0.5) {
+			/*if (oldX - body.position.x > 0.5) {
 				animation = "rotate";
 			}
-			log("DX: " + (body.position.x - oldX));
+			log("DX: " + (body.position.x - oldX));*/
 			var impulse1:Vec2 = new Vec2(-1, 0);
 			impulse1.length = 1;
 			impulse1.angle = body.rotation;

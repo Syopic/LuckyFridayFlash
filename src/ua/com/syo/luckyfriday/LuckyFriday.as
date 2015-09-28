@@ -8,8 +8,6 @@ package ua.com.syo.luckyfriday
 	import justpinegames.Logi.Console;
 	import justpinegames.Logi.ConsoleSettings;
 
-	import starling.utils.ScaleMode;
-
 	import ua.com.syo.luckyfriday.view.TestGameState;
 
 	[SWF(frameRate = "60", width = "1024", height = "600", backgroundColor = "0x999999")]
