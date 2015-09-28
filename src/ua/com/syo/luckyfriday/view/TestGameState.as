@@ -39,6 +39,8 @@ package ua.com.syo.luckyfriday.view {
 			// platform
 			add(new Platform("platformBot", {x: 490, y: 400, width: 150, height: 10}));
 
+			add(new Platform("platformBot2", {x: 650, y: 580, width: 150, height: 10}));
+
 			// add ship hero
 			shipHero = new ShipHero("ship");
 			add(shipHero);
