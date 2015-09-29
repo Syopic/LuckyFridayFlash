@@ -42,8 +42,8 @@ package ua.com.syo.luckyfriday.view {
 
 			kb.addKeyAction("right", Keyboard.RIGHT);
 			kb.addKeyAction("left", Keyboard.LEFT);
-			kb.addKeyAction("up", Keyboard.UP);
-			kb.addKeyAction("down", Keyboard.DOWN);
+			kb.addKeyAction("up", Keyboard.W);
+			kb.addKeyAction("down", Keyboard.S);
 
 			kb.addKeyAction("rotateCW", Keyboard.A);
 			kb.addKeyAction("rotateCCW", Keyboard.D);
