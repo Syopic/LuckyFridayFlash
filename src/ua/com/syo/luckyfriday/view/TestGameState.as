@@ -1,4 +1,5 @@
 package ua.com.syo.luckyfriday.view {
+	import flash.display.MovieClip;
 	import flash.utils.getTimer;
 
 	import citrus.core.starling.StarlingState;
@@ -11,14 +12,22 @@ package ua.com.syo.luckyfriday.view {
 	import justpinegames.Logi.Console;
 
 	import nape.geom.Vec2;
+	import nape.util.ShapeDebug;
 
+	import starling.core.Starling;
 	import starling.display.Image;
 
 	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.model.Globals;
 
 	public class TestGameState extends StarlingState {
 
 		private var shipHero:ShipHero;
+		private var terrainView:TerrainView;
+		private var debug:ShapeDebug;
+		private var nape:Nape;
+
+		private var isDebug:Boolean = false;
 
 		public function TestGameState() {
 			super();
@@ -28,9 +37,27 @@ package ua.com.syo.luckyfriday.view {
 			super.initialize();
 
 			// init nape
-			var nape:Nape = new Nape("nape", {gravity: new Vec2(0, 0.1)});
-			nape.visible = true;
+			nape = new Nape("nape", {gravity: new Vec2(0, Globals.gravity)});
+			//nape.visible = false;
 			add(nape);
+
+			debug = new ShapeDebug(1024,600,0x00ff00);
+			//debug.drawBodyDetail = true;
+			//debug.cullingEnabled = true;
+			debug.drawBodies = true;
+			debug.drawCollisionArbiters = true;
+			//debug.drawConstraints = true;
+			//debug.drawFluidArbiters = true;
+			debug.drawSensorArbiters = true;
+			//debug.drawShapeAngleIndicators = true;
+			//debug.drawShapeDetail = true;
+
+
+			debug.draw(nape.space);
+			var MovieClipDebug:flash.display.MovieClip = new flash.display.MovieClip();
+			MovieClipDebug.addChild(debug.display);
+			Starling.current.nativeOverlay.addChild(MovieClipDebug);
+
 
 			// add background
 			add(new CitrusSprite("backgroud", {view: new Image(Assets.getTexture("BackgroundC"))}));
@@ -39,7 +66,12 @@ package ua.com.syo.luckyfriday.view {
 			// platform
 			add(new Platform("platformBot", {x: 490, y: 400, width: 150, height: 10}));
 
-			add(new Platform("platformBot2", {x: 650, y: 580, width: 150, height: 10}));
+			add(new Platform("platformBot2", {x: 650, y: 595, width: 150, height: 10}));
+
+			terrainView = new TerrainView(nape.space);
+			//terrainView.visible = false;
+			//addChild(terrainView);
+			//terrainView.body.position.setxy(200, 200);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
@@ -80,6 +112,8 @@ package ua.com.syo.luckyfriday.view {
 			kb.addKeyAction("a", Keyboard.A);
 			kb.addKeyAction("d", Keyboard.D);
 			kb.addKeyAction("console", Keyboard.TAB);
+
+			kb.addKeyAction("debug", Keyboard.SPACE);
 		}
 
 
@@ -88,6 +122,9 @@ package ua.com.syo.luckyfriday.view {
 
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
+
+
+
 			//user input
 			if (_ce.input.isDoing("a")) {
 				shipHero.rotate(-1);
@@ -142,6 +179,12 @@ package ua.com.syo.luckyfriday.view {
 			}
 
 			shipHero.oldX = shipHero.body.position.x;
+
+			debug.clear();
+			if (_ce.input.isDoing("debug")) {
+				debug.draw(nape.space);
+					//debug.flush();
+			} 
 
 		}
 
