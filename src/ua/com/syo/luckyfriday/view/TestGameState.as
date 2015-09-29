@@ -1,12 +1,10 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.MovieClip;
-	import flash.utils.getTimer;
 
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
 	import citrus.objects.platformer.nape.Platform;
-	import citrus.objects.vehicle.nape.Nugget;
 	import citrus.physics.nape.Nape;
 
 	import justpinegames.Logi.Console;
@@ -20,15 +18,25 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.Globals;
 
+	/**
+	 *
+	 * @author Syo
+	 */
 	public class TestGameState extends StarlingState {
 
 		private var shipHero:ShipHero;
 		private var terrainView:TerrainView;
 		private var debug:ShapeDebug;
-		private var nape:Nape;
+		private var napeWorld:Nape;
 
 		private var isDebug:Boolean = false;
 
+		[Embed(source = '/../assets/json/level_test.json', mimeType='application/octet-stream')]
+		private static const LevelJSON:Class;
+
+		/**
+		 *
+		 */
 		public function TestGameState() {
 			super();
 		}
@@ -37,26 +45,24 @@ package ua.com.syo.luckyfriday.view {
 			super.initialize();
 
 			// init nape
-			nape = new Nape("nape", {gravity: new Vec2(0, Globals.gravity)});
-			//nape.visible = false;
-			add(nape);
+			napeWorld = new Nape("nape", {gravity: new Vec2(0, Globals.gravity)});
+			add(napeWorld);
 
-			debug = new ShapeDebug(1024,600,0x00ff00);
-			//debug.drawBodyDetail = true;
-			//debug.cullingEnabled = true;
+			/*var json:String = new LevelJSON();
+
+			var space2:Space = loadSpaceFromRUBE(JSON.parse(json), 5, 1);
+
+			log(space2.bodies.length);
+			for (var i:int = 0; i < space2.bodies.length; i++)
+			{
+				napeWorld.space.bodies.push(space2.bodies.at(i));
+			}*/
+
+
+			debug = new ShapeDebug(1024,600);
 			debug.drawBodies = true;
 			debug.drawCollisionArbiters = true;
-			//debug.drawConstraints = true;
-			//debug.drawFluidArbiters = true;
-			debug.drawSensorArbiters = true;
-			//debug.drawShapeAngleIndicators = true;
-			//debug.drawShapeDetail = true;
-
-
-			debug.draw(nape.space);
-			var MovieClipDebug:flash.display.MovieClip = new flash.display.MovieClip();
-			MovieClipDebug.addChild(debug.display);
-			Starling.current.nativeOverlay.addChild(MovieClipDebug);
+			debug.drawConstraints = true;
 
 
 			// add background
@@ -68,126 +74,58 @@ package ua.com.syo.luckyfriday.view {
 
 			add(new Platform("platformBot2", {x: 650, y: 595, width: 150, height: 10}));
 
-			terrainView = new TerrainView(nape.space);
-			//terrainView.visible = false;
-			//addChild(terrainView);
-			//terrainView.body.position.setxy(200, 200);
+			terrainView = new TerrainView(napeWorld.space);
 
 			// add ship hero
-			shipHero = new ShipHero("ship");
+			if (Globals.inputMode == Globals.BLIND_FISH_MODE)
+			{
+				shipHero = new ShipHeroBF("ship");
+			} else
+			{
+				shipHero = new ShipHero("ship");
+			}
 			add(shipHero);
 			shipHero.body.position.setxy(400, 300);
 
-			/*var floor:Body = new Body(BodyType.STATIC);
-			floor.shapes.add(new Polygon(Polygon.rect(50, (h - 50), (w - 100), 1)));
-			floor.space = nape.space;*/
+			debug.draw(napeWorld.space);
+			var MovieClipDebug:flash.display.MovieClip = new flash.display.MovieClip();
+			MovieClipDebug.addChild(debug.display);
+			Starling.current.nativeOverlay.addChild(MovieClipDebug);
 
-			/*var ship:Body = new Body(BodyType.DYNAMIC);
-			ship.shapes.add(new Polygon(Polygon.rect(50, (h - 50), (w - 100), 1)));
-			//ship.userData.ga
-			ship.space = nape.space;*/
-
+			initKeyboardActions();
+		}
 
 
-			/*for (var i:int = 0; i < 16; i++) {
-				var box:Body = new Body(BodyType.DYNAMIC);
-				box.shapes.add(new Polygon(Polygon.box(16, 32)));
-				box.position.setxy((w / 2) + MathUtils.randomInt(0, 20), ((h - 50) - 32 * (i + 0.5)));
-				box.space = nape.space;
-				box.dragImpulse(floor);
-			}*/
-
-
-
-
-
-			// get the keyboard, and add actions.
+		/**
+		 * Get the keyboard, and add actions
+		 */
+		private function initKeyboardActions():void
+		{
 			var kb:Keyboard = _ce.input.keyboard;
-
-			kb.addKeyAction("right", Keyboard.RIGHT);
-			kb.addKeyAction("left", Keyboard.LEFT);
-			kb.addKeyAction("up", Keyboard.UP);
-			kb.addKeyAction("down", Keyboard.DOWN);
-
-			kb.addKeyAction("a", Keyboard.A);
-			kb.addKeyAction("d", Keyboard.D);
 			kb.addKeyAction("console", Keyboard.TAB);
-
 			kb.addKeyAction("debug", Keyboard.SPACE);
 		}
 
 
-		private var dt:Number = 0;
-		private var prevButton:String;
-
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
-
-
-
-			//user input
-			if (_ce.input.isDoing("a")) {
-				shipHero.rotate(-1);
-
-			}
-
-			if (_ce.input.isDoing("d")) {
-				shipHero.rotate(1);
-			}
-
-			if (_ce.input.isDoing("right")) {
-
-				shipHero.moveRight();
-			}
-
-			if (_ce.input.isDoing("left")) {
-				shipHero.moveLeft();
-			}
-
-			if (_ce.input.hasDone("right")) {
-				if (prevButton == "right" && (getTimer() - dt) < 300) {
-					shipHero.animation = "rrotater";
-				} else
-				{
-					dt = getTimer();
-					prevButton = "right";
-				}
-			}
-
-			if (_ce.input.hasDone("left")) {
-				if (prevButton == "left" && (getTimer() - dt) < 300) {
-					shipHero.animation = "rotate";
-				} else {
-					dt = getTimer();
-					prevButton = "left";
-				}
-			}
-
-
-
-			if (_ce.input.isDoing("up")) {
-				shipHero.moveUp();
-			}
-
-			if (_ce.input.isDoing("down")) {
-				shipHero.moveDown();
-			}
 
 			if (_ce.input.hasDone("console")) {
 				var console:Console = Console.getMainConsoleInstance();
 				console.isShown = !console.isShown;
 			}
 
-			shipHero.oldX = shipHero.body.position.x;
+			if (_ce.input.hasDone("debug")) {
+				// switch debug mode
+			}
+
+			shipHero.update(timeDelta);
 
 			debug.clear();
-			if (_ce.input.isDoing("debug")) {
-				debug.draw(nape.space);
-					//debug.flush();
-			} 
+			debug.draw(napeWorld.space);
+			debug.flush();
 
 		}
-
 	}
 }
 

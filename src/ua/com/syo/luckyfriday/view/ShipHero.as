@@ -1,14 +1,11 @@
-package ua.com.syo.luckyfriday.view
-{
+package ua.com.syo.luckyfriday.view {
+	import flash.utils.getTimer;
+
+	import citrus.input.controllers.Keyboard;
 	import citrus.objects.NapePhysicsObject;
 	import citrus.view.starlingview.AnimationSequence;
 
 	import nape.geom.Vec2;
-	import nape.phys.Body;
-	import nape.phys.BodyType;
-	import nape.phys.Material;
-	import nape.shape.Circle;
-	import nape.shape.Polygon;
 
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
@@ -16,72 +13,102 @@ package ua.com.syo.luckyfriday.view
 	import ua.com.syo.luckyfriday.model.Globals;
 
 
-	public class ShipHero extends NapePhysicsObject
-	{
+	public class ShipHero extends NapePhysicsObject {
 
-		[Embed(source="/../assets/anim/shipAnim.png")]
+		[Embed(source = "/../assets/anim/shipAnim.png")]
 		private var ShipAnimC:Class;
 
-		[Embed(source="/../assets/anim/shipAnim.xml",mimeType="application/octet-stream")]
+		[Embed(source = "/../assets/anim/shipAnim.xml", mimeType = "application/octet-stream")]
 		private var ShipAnimXMLC:Class;
 
-		public var oldX:Number = 0;
+		public var impulse:Vec2 =new Vec2(0, 0);
 
-		public function ShipHero(name:String, params:Object = null)
-		{
+		private var oldX:Number = 0;
+		private var dt:Number = 0;
+		private var prevButton:String;
+
+		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
 			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "rotate", 20);
-			super(name, {width:190, height:68, view:shipSeq});
-			_material = new Material(0.8,1.0,1.4,1.5,0.01);
+			super(name, {width: 190, height: 68, view: shipSeq});
+			//_material = new Material(0.8,1.0,1.4,1.5,0.01);
 			//StarlingArt.setLoopAnimations(["kren"]);
+			this.initKeyboardActions();
+		}
+
+		public function initKeyboardActions():void
+		{
+			var kb:Keyboard = _ce.input.keyboard;
+
+			kb.addKeyAction("right", Keyboard.RIGHT);
+			kb.addKeyAction("left", Keyboard.LEFT);
+			kb.addKeyAction("up", Keyboard.UP);
+			kb.addKeyAction("down", Keyboard.DOWN);
+
+			kb.addKeyAction("rotateCW", Keyboard.A);
+			kb.addKeyAction("rotateCCW", Keyboard.D);
 		}
 
 
-		public function moveRight():void
-		{
-			/*if (body.position.x - oldX > 0.5) {
-				animation = "rrotater";
+		override public function update(timeDelta:Number):void {
+			//user input
+			if (_ce.input.isDoing("rotateCW")) {
+				body.applyAngularImpulse(-Globals.rotateImpulse);
 			}
-			log("DX: " + (body.position.x - oldX));*/
-			var impulse:Vec2 = new Vec2(1, 0);
-			impulse.length = Globals.moveRightImpulse;
-			impulse.angle = body.rotation;
-			body.applyImpulse(impulse, body.position);
 
-		}
-
-		public function moveLeft():void
-		{
-			/*if (oldX - body.position.x > 0.5) {
-				animation = "rotate";
+			if (_ce.input.isDoing("rotateCCW")) {
+				body.applyAngularImpulse(Globals.rotateImpulse);
 			}
-			log("DX: " + (body.position.x - oldX));*/
-			var impulse1:Vec2 = new Vec2(-1, 0);
-			impulse1.length = Globals.moveLeftImpulse;
-			impulse1.angle = body.rotation;
-			body.applyImpulse(impulse1.reflect(impulse1), body.position);
-		}
 
-		public function moveUp():void
-		{
-			var impulse2:Vec2 = new Vec2(0, 1);
-			impulse2.length = Globals.moveUpImpulse;
-			impulse2.angle = body.rotation;
-			body.applyImpulse(impulse2.reflect(impulse2).perp(), body.position);
-		}
 
-		public function moveDown():void
-		{
-			var impulse3:Vec2 = new Vec2(0, 1);
-			impulse3.length = Globals.moveDownImpulse;
-			impulse3.angle = body.rotation;
-			body.applyImpulse(impulse3.perp(), body.position);
+			if (_ce.input.isDoing("right")) {
+				impulse = new Vec2(1, 0);
+				impulse.length = Globals.moveRightImpulse;
+				impulse.angle = body.rotation;
+				body.applyImpulse(impulse, body.position);
+			}
 
-		}
+			if (_ce.input.isDoing("left")) {
+				impulse = new Vec2(-1, 0);
+				impulse.length = Globals.moveLeftImpulse;
+				impulse.angle = body.rotation;
+				body.applyImpulse(impulse.reflect(impulse), body.position);
+			}
 
-		public function rotate(direction:int):void
-		{
-			body.applyAngularImpulse(direction * Globals.rotateImpulse);
+			if (_ce.input.isDoing("up")) {
+				impulse = new Vec2(0, 1);
+				impulse.length = Globals.moveUpImpulse;
+				impulse.angle = body.rotation;
+				body.applyImpulse(impulse.reflect(impulse).perp(), body.position);
+			}
+
+			if (_ce.input.isDoing("down")) {
+				impulse = new Vec2(0, 1);
+				impulse.length = Globals.moveDownImpulse;
+				impulse.angle = body.rotation;
+				body.applyImpulse(impulse.perp(), body.position);
+			}
+
+			if (_ce.input.hasDone("right")) {
+				// double tap
+				if (prevButton == "right" && (getTimer() - dt) < 300) {
+					animation = "rrotater";
+				} else {
+					dt = getTimer();
+					prevButton = "right";
+				}
+			}
+
+			if (_ce.input.hasDone("left")) {
+				// double tap
+				if (prevButton == "left" && (getTimer() - dt) < 300) {
+					animation = "rotate";
+				} else {
+					dt = getTimer();
+					prevButton = "left";
+				}
+			}
+			oldX = body.position.x;
 		}
 	}
 }

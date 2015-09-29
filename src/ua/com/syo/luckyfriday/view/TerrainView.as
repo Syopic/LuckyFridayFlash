@@ -39,7 +39,7 @@ package ua.com.syo.luckyfriday.view
 			//bit.perlinNoise(200, 200, 2, 0x3ed, false, true, BitmapDataChannel.ALPHA, false);
 
 			// Create initial terrain state, invalidating the whole screen.
-			terrain = new Terrain(bit, 60, 10);
+			terrain = new Terrain(bit, 50, 20);
 			terrain.invalidate(new AABB(0, 0, w, h), space);
 		}
 	}
@@ -122,11 +122,13 @@ class Terrain implements IsoFunction {
 				for (var i:int = 0; i < polys.length; i++) {
 					var p:GeomPoly = polys.at(i);
 					var qolys:GeomPolyList = p.convexDecomposition(true);
-
 					for (var j:int = 0; j < qolys.length; j++) {
 						var q:GeomPoly = qolys.at(j);
 						b.shapes.add(new Polygon(q));
 
+						//log("qolys.length: " + q.size());
+						/*if (q.size() == 3)
+							b.type = BodyType.DYNAMIC;*/
 						// Recycle GeomPoly and its vertices
 						q.dispose();
 					}
