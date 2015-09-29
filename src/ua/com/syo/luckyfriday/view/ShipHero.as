@@ -29,7 +29,7 @@ package ua.com.syo.luckyfriday.view {
 
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
-			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "rotate", 20);
+			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 20);
 			super(name, {width: 190, height: 68, view: shipSeq});
 			//_material = new Material(0.8,1.0,1.4,1.5,0.01);
 			//StarlingArt.setLoopAnimations(["kren"]);
