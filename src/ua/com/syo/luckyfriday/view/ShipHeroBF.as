@@ -40,38 +40,35 @@ package ua.com.syo.luckyfriday.view
 				body.applyAngularImpulse(Globals.rotateImpulse);
 			}
 
-			//super.update(timeDelta);
-			if (_ce.input.hasDone("right")) {
+			if (_ce.input.isDoing("right")) {
 				impulse = new Vec2(1, 0);
 				impulse.length = Globals.moveRightImpulse;
-					//body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("forward")) body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("backward")) body.applyImpulse(impulse.reflect(impulse), body.position);
 			}
 
-			if (_ce.input.hasDone("left")) {
+			if (_ce.input.isDoing("left")) {
 				impulse = new Vec2(-1, 0);
 				impulse.length = Globals.moveLeftImpulse;
-					//body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("forward")) body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("backward")) body.applyImpulse(impulse.reflect(impulse), body.position);
 			}
 
-			if (_ce.input.hasDone("up")) {
+			if (_ce.input.isDoing("up")) {
 				impulse = new Vec2(0, -1);
 				impulse.length = Globals.moveUpImpulse;
-					//body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("forward")) body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("backward")) body.applyImpulse(impulse.reflect(impulse), body.position);
 			}
 
-			if (_ce.input.hasDone("down")) {
+			if (_ce.input.isDoing("down")) {
 				impulse = new Vec2(0, 1);
 				impulse.length = Globals.moveDownImpulse;
-					//body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("forward")) body.applyImpulse(impulse, body.position);
+				if (_ce.input.isDoing("backward")) body.applyImpulse(impulse.reflect(impulse), body.position);
 			}
 
-			if (_ce.input.isDoing("forward")) {
-				body.applyImpulse(impulse, body.position);
-			}
 
-			if (_ce.input.isDoing("backward")) {
-				body.applyImpulse(impulse.reflect(impulse), body.position);
-			}
 
 		}
 	}
