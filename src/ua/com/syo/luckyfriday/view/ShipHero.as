@@ -1,14 +1,20 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.Shape;
+	import flash.geom.Point;
 	import flash.utils.getTimer;
 
+	import citrus.core.CitrusObject;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.NapePhysicsObject;
+	import citrus.physics.PhysicsCollisionCategories;
 	import citrus.view.starlingview.AnimationSequence;
 
+	import nape.dynamics.InteractionFilter;
+	import nape.geom.GeomPoly;
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 	import nape.shape.Polygon;
+	import nape.space.Space;
 
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
@@ -29,18 +35,34 @@ package ua.com.syo.luckyfriday.view {
 		private var oldX:Number = 0;
 		private var dt:Number = 0;
 		private var prevButton:String;
-		private var isInited:Boolean = false;
+
 
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
 			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 20);
-			//var shape:Shape = new Shape(Globals.createShipGeom());
-			super(name, {body:new Polygon(Globals.createShipGeom()), view: shipSeq});
+			super(name, {view: shipSeq});
 
 			//body.shapes.add(new Polygon(Polygon.box(152 ,25)));
 			//_material = new Material(0.8,1.0,1.4,1.5,0.01); 
 			//StarlingArt.setLoopAnimations(["kren"]);
 			this.initKeyboardActions();
+		}
+
+		override protected function createShape():void
+		{
+			points = Globals.createShipGeom();
+			super.createShape();
+		/*
+		var geomPoly:GeomPoly = Globals.createShipGeom();
+		var poly:Polygon = new Polygon(geomPoly);
+		poly.validity();
+		body.shapes.add(poly);*/
+		}
+
+		override protected function createFilter():void
+		{
+			super.createFilter();
+			body.setShapeFilters(new InteractionFilter());
 		}
 
 		public function initKeyboardActions():void
@@ -56,18 +78,8 @@ package ua.com.syo.luckyfriday.view {
 			kb.addKeyAction("rotateCCW", Keyboard.D);
 		}
 
-		override public function initialize(poolObjectParam:Object = null):void {
-			super.initialize(poolObjectParam);
-			//body.shapes.add(new Polygon(Globals.createShipGeom()));
-		}
-
-
 		override public function update(timeDelta:Number):void {
-			if (!isInited)
-			{
-				body.shapes.add(new Polygon(Globals.createShipGeom()));
-				isInited = true;
-			}
+			super.update(timeDelta);
 			//user input
 			if (_ce.input.isDoing("rotateCW")) {
 				body.applyAngularImpulse(-Globals.rotateImpulse);

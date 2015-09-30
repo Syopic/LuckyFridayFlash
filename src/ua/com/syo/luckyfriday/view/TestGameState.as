@@ -78,16 +78,8 @@ package ua.com.syo.luckyfriday.view {
 			terrainView = new TerrainView(napeWorld.space);
 
 			// add ship hero
-			if (Globals.inputMode == Globals.BLIND_FISH_MODE)
-			{
-				shipHero = new ShipHeroBF("ship");
-			} else
-			{
-				shipHero = new ShipHero("ship");
-			}
+			shipHero = new ShipHero("ship");
 			add(shipHero);
-			shipHero.body.shapes.add(new Polygon(Globals.createShipGeom()));
-			shipHero.body.space = napeWorld.space;
 			shipHero.body.position.setxy(400, 300);
 
 			debug.draw(napeWorld.space);
