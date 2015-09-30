@@ -10,6 +10,7 @@ package ua.com.syo.luckyfriday.view {
 	import justpinegames.Logi.Console;
 
 	import nape.geom.Vec2;
+	import nape.shape.Polygon;
 	import nape.util.ShapeDebug;
 
 	import starling.core.Starling;
@@ -85,6 +86,8 @@ package ua.com.syo.luckyfriday.view {
 				shipHero = new ShipHero("ship");
 			}
 			add(shipHero);
+			shipHero.body.shapes.add(new Polygon(Globals.createShipGeom()));
+			shipHero.body.space = napeWorld.space;
 			shipHero.body.position.setxy(400, 300);
 
 			debug.draw(napeWorld.space);

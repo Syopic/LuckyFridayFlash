@@ -1,4 +1,5 @@
 package ua.com.syo.luckyfriday.view {
+	import flash.display.Shape;
 	import flash.utils.getTimer;
 
 	import citrus.input.controllers.Keyboard;
@@ -6,6 +7,8 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.view.starlingview.AnimationSequence;
 
 	import nape.geom.Vec2;
+	import nape.phys.Body;
+	import nape.shape.Polygon;
 
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
@@ -26,12 +29,16 @@ package ua.com.syo.luckyfriday.view {
 		private var oldX:Number = 0;
 		private var dt:Number = 0;
 		private var prevButton:String;
+		private var isInited:Boolean = false;
 
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
 			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 20);
-			super(name, {width: 190, height: 68, view: shipSeq});
-			//_material = new Material(0.8,1.0,1.4,1.5,0.01);
+			//var shape:Shape = new Shape(Globals.createShipGeom());
+			super(name, {body:new Polygon(Globals.createShipGeom()), view: shipSeq});
+
+			//body.shapes.add(new Polygon(Polygon.box(152 ,25)));
+			//_material = new Material(0.8,1.0,1.4,1.5,0.01); 
 			//StarlingArt.setLoopAnimations(["kren"]);
 			this.initKeyboardActions();
 		}
@@ -49,8 +56,18 @@ package ua.com.syo.luckyfriday.view {
 			kb.addKeyAction("rotateCCW", Keyboard.D);
 		}
 
+		override public function initialize(poolObjectParam:Object = null):void {
+			super.initialize(poolObjectParam);
+			//body.shapes.add(new Polygon(Globals.createShipGeom()));
+		}
+
 
 		override public function update(timeDelta:Number):void {
+			if (!isInited)
+			{
+				body.shapes.add(new Polygon(Globals.createShipGeom()));
+				isInited = true;
+			}
 			//user input
 			if (_ce.input.isDoing("rotateCW")) {
 				body.applyAngularImpulse(-Globals.rotateImpulse);
@@ -91,7 +108,7 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.hasDone("right")) {
 				// double tap
-				if (prevButton == "right" && (getTimer() - dt) < 300) {
+				if (prevButton == "right" && (getTimer() - dt) < Globals.doubleTapDelay) {
 					animation = "rrotater";
 				} else {
 					dt = getTimer();
@@ -101,7 +118,7 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.hasDone("left")) {
 				// double tap
-				if (prevButton == "left" && (getTimer() - dt) < 300) {
+				if (prevButton == "left" && (getTimer() - dt) < Globals.doubleTapDelay) {
 					animation = "rotate";
 				} else {
 					dt = getTimer();
