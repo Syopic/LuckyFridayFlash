@@ -17,11 +17,13 @@ package ua.com.syo.luckyfriday.model
 		// in miliseconds
 		public static var doubleTapDelay:int = 300;
 
-		static public function createShipGeom():Array {
+		static public function createShipGeom(isMirror:Boolean = false):Array {
 			var vertices:Array = [];
 
 			var dx:int = -103;
 			var dy:int = -42;
+
+			var flipX:int = 0;
 
 			vertices.push(new Point(15 + dx, 15 + dy));
 			vertices.push(new Point(22 + dx, 16 + dy));
@@ -43,6 +45,16 @@ package ua.com.syo.luckyfriday.model
 			vertices.push(new Point(15 + dx, 69 + dy));
 			vertices.push(new Point(7 + dx, 59 + dy));
 			vertices.push(new Point(7 + dx, 26 + dy));
+
+			if (isMirror)
+			{
+				for (var i:int = 0; i < vertices.length; i++) 
+				{
+					var p:Point = vertices[i] as Point;
+					p.x = flipX - p.x;
+				}
+			}
+
 
 			return vertices;
 		}

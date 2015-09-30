@@ -1,20 +1,11 @@
 package ua.com.syo.luckyfriday.view {
-	import flash.display.Shape;
-	import flash.geom.Point;
 	import flash.utils.getTimer;
 
-	import citrus.core.CitrusObject;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.NapePhysicsObject;
-	import citrus.physics.PhysicsCollisionCategories;
 	import citrus.view.starlingview.AnimationSequence;
 
-	import nape.dynamics.InteractionFilter;
-	import nape.geom.GeomPoly;
 	import nape.geom.Vec2;
-	import nape.phys.Body;
-	import nape.shape.Polygon;
-	import nape.space.Space;
 
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
@@ -30,19 +21,20 @@ package ua.com.syo.luckyfriday.view {
 		[Embed(source = "/../assets/anim/shipAnim.xml", mimeType = "application/octet-stream")]
 		private var ShipAnimXMLC:Class;
 
-		public var impulse:Vec2 =new Vec2(0, 0);
+		private var impulse:Vec2 =new Vec2(0, 0);
 
 		private var oldX:Number = 0;
 		private var dt:Number = 0;
 		private var prevButton:String;
 
+		private var direction:uint = 1;
+
 
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
-			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 20);
+			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 30);
 			super(name, {view: shipSeq});
 
-			//body.shapes.add(new Polygon(Polygon.box(152 ,25)));
 			//_material = new Material(0.8,1.0,1.4,1.5,0.01); 
 			//StarlingArt.setLoopAnimations(["kren"]);
 			this.initKeyboardActions();
@@ -52,17 +44,22 @@ package ua.com.syo.luckyfriday.view {
 		{
 			points = Globals.createShipGeom();
 			super.createShape();
-		/*
-		var geomPoly:GeomPoly = Globals.createShipGeom();
-		var poly:Polygon = new Polygon(geomPoly);
-		poly.validity();
-		body.shapes.add(poly);*/
 		}
 
-		override protected function createFilter():void
+		private function flip(direction):void
 		{
-			super.createFilter();
-			body.setShapeFilters(new InteractionFilter());
+			body.shapes.clear();
+			if (direction == 1)
+			{
+				points = Globals.createShipGeom();
+				super.createShape();
+				animation = "rrotater";
+			} else
+			{
+				animation = "rotate";
+				points = Globals.createShipGeom(true);
+				super.createShape();
+			}
 		}
 
 		public function initKeyboardActions():void
@@ -121,7 +118,7 @@ package ua.com.syo.luckyfriday.view {
 			if (_ce.input.hasDone("right")) {
 				// double tap
 				if (prevButton == "right" && (getTimer() - dt) < Globals.doubleTapDelay) {
-					animation = "rrotater";
+					flip(1);
 				} else {
 					dt = getTimer();
 					prevButton = "right";
@@ -131,7 +128,7 @@ package ua.com.syo.luckyfriday.view {
 			if (_ce.input.hasDone("left")) {
 				// double tap
 				if (prevButton == "left" && (getTimer() - dt) < Globals.doubleTapDelay) {
-					animation = "rotate";
+					flip(-1);
 				} else {
 					dt = getTimer();
 					prevButton = "left";
