@@ -1,6 +1,11 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
+	import flash.filters.BitmapFilterQuality;
+	import flash.filters.BlurFilter;
+	import flash.filters.GlowFilter;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 
 	import citrus.objects.NapePhysicsObject;
 
@@ -23,7 +28,7 @@ package ua.com.syo.luckyfriday.view {
 			var color:uint = Math.random() * 0xFFFFFF;
 			var radius:uint = 20;
 
-			shape.graphics.lineStyle(4, 0x555555);
+			shape.graphics.lineStyle(2, 0xffffff);
 			shape.graphics.beginFill(0, 0);
 			for(var i:int = 0; i < points.length; i++){
 				if(i == 0){
@@ -38,8 +43,15 @@ package ua.com.syo.luckyfriday.view {
 			//shape.graphics.drawCircle(radius, radius, radius);
 			//shape.graphics.endFill();
 			var bmd:BitmapData = new BitmapData(100, 200, true, 0x00000000);
-			bmd.draw(shape);
-			var tex:Texture = Texture.fromBitmapData(bmd);
+
+			var result:BitmapData = bmd.clone();
+			var filter2:BlurFilter = new BlurFilter(1, 2, 2);
+			var filter3:GlowFilter = new GlowFilter(0xffffff, 1, 10, 10, 0.8);
+
+			result.draw(shape);
+			result.applyFilter(result,new Rectangle(0,0,100,200),new Point(0,0),filter2);
+			result.applyFilter(result,new Rectangle(0,0,100,200),new Point(0,0),filter3);
+			var tex:Texture = Texture.fromBitmapData(result);
 			img = new Image(tex);
 			super(name, {view: img});
 
