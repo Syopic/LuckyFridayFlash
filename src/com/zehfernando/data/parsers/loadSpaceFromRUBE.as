@@ -195,12 +195,12 @@ function loadFixtureFromRUBE(__rubeFixture:Object, __body:Body, __scale:Number, 
 	if (!isNaN(dynamicFriction)) material.dynamicFriction = dynamicFriction;
 	if (!isNaN(rollingFriction)) material.rollingFriction = rollingFriction;
 
-//	// Filter definition
-//	TODO: var filterData:b2FilterData = new b2FilterData();
-//	TODO: filterData.categoryBits	= getIntegerFromProperty(__rubeFixture, "categoryBits", 1);
-//	TODO: filterData.maskBits		= getIntegerFromProperty(__rubeFixture, "maskBits", 65535);
-//	TODO: filterData.groupIndex	= getIntegerFromProperty(__rubeFixture, "groupIndex");
-//	TODO: fixtureDef.filter		= filterData;
+	//	// Filter definition
+	//	TODO: var filterData:b2FilterData = new b2FilterData();
+	//	TODO: filterData.categoryBits	= getIntegerFromProperty(__rubeFixture, "categoryBits", 1);
+	//	TODO: filterData.maskBits		= getIntegerFromProperty(__rubeFixture, "maskBits", 65535);
+	//	TODO: filterData.groupIndex	= getIntegerFromProperty(__rubeFixture, "groupIndex");
+	//	TODO: fixtureDef.filter		= filterData;
 
 	var shape:Shape;
 	var addedShapeToBody:Boolean = false;
@@ -329,14 +329,14 @@ function loadJointFromRUBE(__rubeJoint:Object, __space:Space, __spaceBodies:Vect
 				joint = pivotJoint;
 			}
 
-//			TODO: revoluteJointDef.enableLimit		= getBooleanFromProperty(__rubeJoint, "enableLimit");
-//			TODO: revoluteJointDef.enableMotor		= getBooleanFromProperty(__rubeJoint, "enableMotor");
-//			// TODO: "jointSpeed": 0,
-//			TODO: revoluteJointDef.lowerAngle			= getFloatFromProperty(__rubeJoint, "lowerLimit");		// Different name?
-//			TODO: revoluteJointDef.maxMotorTorque		= getFloatFromProperty(__rubeJoint, "maxMotorTorque");
-//			TODO: revoluteJointDef.motorSpeed			= getFloatFromProperty(__rubeJoint, "motorSpeed");
-//			TODO: revoluteJointDef.upperAngle			= getFloatFromProperty(__rubeJoint, "upperLimit");		// Different name?
-//			TODO: revoluteJointDef.referenceAngle		= getFloatFromProperty(__rubeJoint, "refAngle");		// Different name?
+			//			TODO: revoluteJointDef.enableLimit		= getBooleanFromProperty(__rubeJoint, "enableLimit");
+			//			TODO: revoluteJointDef.enableMotor		= getBooleanFromProperty(__rubeJoint, "enableMotor");
+			//			// TODO: "jointSpeed": 0,
+			//			TODO: revoluteJointDef.lowerAngle			= getFloatFromProperty(__rubeJoint, "lowerLimit");		// Different name?
+			//			TODO: revoluteJointDef.maxMotorTorque		= getFloatFromProperty(__rubeJoint, "maxMotorTorque");
+			//			TODO: revoluteJointDef.motorSpeed			= getFloatFromProperty(__rubeJoint, "motorSpeed");
+			//			TODO: revoluteJointDef.upperAngle			= getFloatFromProperty(__rubeJoint, "upperLimit");		// Different name?
+			//			TODO: revoluteJointDef.referenceAngle		= getFloatFromProperty(__rubeJoint, "refAngle");		// Different name?
 			break;
 		case "distance":
 			// Distance joint definition: use a DistanceJoint
@@ -368,10 +368,10 @@ function loadJointFromRUBE(__rubeJoint:Object, __space:Space, __spaceBodies:Vect
 				angleJoint.ignore = !getBooleanFromProperty(__rubeJoint, "collideConnected");
 				__space.constraints.add(angleJoint);
 			}
-//			TODO: prismaticJointDef.enableLimit		= getBooleanFromProperty(__rubeJoint, "enableLimit");
-//			TODO: prismaticJointDef.enableMotor		= getBooleanFromProperty(__rubeJoint, "enableMotor");
-//			TODO: prismaticJointDef.maxMotorForce		= getFloatFromProperty(__rubeJoint, "maxMotorForce");
-//			TODO: prismaticJointDef.motorSpeed		= getFloatFromProperty(__rubeJoint, "motorSpeed");
+			//			TODO: prismaticJointDef.enableLimit		= getBooleanFromProperty(__rubeJoint, "enableLimit");
+			//			TODO: prismaticJointDef.enableMotor		= getBooleanFromProperty(__rubeJoint, "enableMotor");
+			//			TODO: prismaticJointDef.maxMotorForce		= getFloatFromProperty(__rubeJoint, "maxMotorForce");
+			//			TODO: prismaticJointDef.motorSpeed		= getFloatFromProperty(__rubeJoint, "motorSpeed");
 			break;
 		case "wheel":
 			// Wheel joint definition: use a PivotJoint
@@ -381,12 +381,12 @@ function loadJointFromRUBE(__rubeJoint:Object, __space:Space, __spaceBodies:Vect
 				pivotJoint.ignore = !getBooleanFromProperty(__rubeJoint, "collideConnected");
 				joint = pivotJoint;
 			}
-//			TODO: "enableMotor": true,
-//			TODO: "localAxisA": (vector),
-//			TODO: "maxMotorTorque": 0,
-//			TODO: "motorSpeed": 0,
-//			TODO: "springDampingRatio": 0.7,
-//			TODO: "springFrequency": 4,
+			//			TODO: "enableMotor": true,
+			//			TODO: "localAxisA": (vector),
+			//			TODO: "maxMotorTorque": 0,
+			//			TODO: "motorSpeed": 0,
+			//			TODO: "springDampingRatio": 0.7,
+			//			TODO: "springFrequency": 4,
 			break;
 		case "rope":
 			// Rope joint definition: use a DistanceJoint
@@ -399,12 +399,12 @@ function loadJointFromRUBE(__rubeJoint:Object, __space:Space, __spaceBodies:Vect
 		case "motor":
 			// Gear joint definition
 			// TODO: this is wrong? update the class?
-//			var gearJointDef:b2GearJointDef = new b2GearJointDef();
-//			TODO: "anchorA": (vector), //this is the 'linear offset' of the joint
-//			TODO: "anchorB": (vector), //ignored
-//			TODO: "maxForce": 10,
-//			TODO: "maxTorque": 7.5,
-//			TODO: "correctionFactor": 0.2,
+			//			var gearJointDef:b2GearJointDef = new b2GearJointDef();
+			//			TODO: "anchorA": (vector), //this is the 'linear offset' of the joint
+			//			TODO: "anchorB": (vector), //ignored
+			//			TODO: "maxForce": 10,
+			//			TODO: "maxTorque": 7.5,
+			//			TODO: "correctionFactor": 0.2,
 			break;
 		case "weld":
 			// Weld joint definition: use a WeldJoint
@@ -424,12 +424,12 @@ function loadJointFromRUBE(__rubeJoint:Object, __space:Space, __spaceBodies:Vect
 			break;
 		case "friction":
 			// Friction joint definition
-//			TODO: var frictionJointDef:b2FrictionJointDef = new b2FrictionJointDef();
-//			TODO: frictionJointDef.localAnchorA		= getB2Vec2FromProperty(__rubeJoint, "anchorA");
-//			TODO: frictionJointDef.localAnchorB		= getB2Vec2FromProperty(__rubeJoint, "anchorB");
-//
-//			TODO: frictionJointDef.maxForce			= getFloatFromProperty(__rubeJoint, "maxForce");
-//			TODO: frictionJointDef.maxTorque			= getFloatFromProperty(__rubeJoint, "maxTorque");
+			//			TODO: var frictionJointDef:b2FrictionJointDef = new b2FrictionJointDef();
+			//			TODO: frictionJointDef.localAnchorA		= getB2Vec2FromProperty(__rubeJoint, "anchorA");
+			//			TODO: frictionJointDef.localAnchorB		= getB2Vec2FromProperty(__rubeJoint, "anchorB");
+			//
+			//			TODO: frictionJointDef.maxForce			= getFloatFromProperty(__rubeJoint, "maxForce");
+			//			TODO: frictionJointDef.maxTorque			= getFloatFromProperty(__rubeJoint, "maxTorque");
 	}
 
 	if (joint != null) {
@@ -535,3 +535,5 @@ function getStringFromProperty(__object:Object, __propertyName:String, __default
 	if (!__object.hasOwnProperty(__propertyName)) return __default;
 	return __object[__propertyName];
 }
+
+

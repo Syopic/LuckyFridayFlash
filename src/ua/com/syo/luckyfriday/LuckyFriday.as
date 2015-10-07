@@ -19,7 +19,6 @@ package ua.com.syo.luckyfriday
 		{
 			setUpStarling(true);
 			console.openKey = Keyboard.ENTER;
-			stage.scaleMode = StageScaleMode.EXACT_FIT;
 			stage.quality = StageQuality.LOW;
 		}
 

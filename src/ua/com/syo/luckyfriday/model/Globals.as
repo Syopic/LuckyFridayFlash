@@ -2,17 +2,16 @@ package ua.com.syo.luckyfriday.model
 {
 	import flash.geom.Point;
 
-	import nape.geom.GeomPoly;
-	import nape.geom.Vec2;
-
 	public class Globals
 	{
-		public static var gravity:Number = 0.1;
-		public static var rotateImpulse:Number = 50;
-		public static var moveUpImpulse:Number = 1;
-		public static var moveDownImpulse:Number = 1;
-		public static var moveRightImpulse:Number = 1;
-		public static var moveLeftImpulse:Number = 1;
+		public static var gravity:Number = 0.7;
+		public static var rotateImpulse:Number = 55;
+		public static var moveUpImpulse:Number = 0.75;
+		public static var moveDownImpulse:Number = 0.75;
+		public static var moveForwardImpulse:Number = 1.8;
+		public static var moveBackwardImpulse:Number = 0.7;
+
+		public static var isReverceLock:Boolean = true;
 
 		// in miliseconds
 		public static var doubleTapDelay:int = 300;

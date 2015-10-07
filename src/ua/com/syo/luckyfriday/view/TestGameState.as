@@ -4,13 +4,20 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
-	import citrus.objects.platformer.nape.Platform;
+	import citrus.objects.NapePhysicsObject;
 	import citrus.physics.nape.Nape;
 
 	import justpinegames.Logi.Console;
 
+	import nape.callbacks.CbEvent;
+	import nape.callbacks.CbType;
+	import nape.callbacks.InteractionCallback;
+	import nape.callbacks.InteractionListener;
+	import nape.callbacks.InteractionType;
 	import nape.geom.Vec2;
-	import nape.shape.Polygon;
+	import nape.phys.Body;
+	import nape.shape.Circle;
+	import nape.shape.Shape;
 	import nape.util.ShapeDebug;
 
 	import starling.core.Starling;
@@ -18,6 +25,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.Globals;
+	import ua.com.syo.luckyfriday.utils.BodyParser;
 
 	/**
 	 *
@@ -32,12 +40,9 @@ package ua.com.syo.luckyfriday.view {
 
 		private var isDebug:Boolean = false;
 
-		[Embed(source = '/../assets/json/level_test.json', mimeType='application/octet-stream')]
+		[Embed(source = '/../assets/json/cave.json', mimeType = 'application/octet-stream')]
 		private static const LevelJSON:Class;
 
-		/**
-		 *
-		 */
 		public function TestGameState() {
 			super();
 		}
@@ -48,57 +53,96 @@ package ua.com.syo.luckyfriday.view {
 			// init nape
 			napeWorld = new Nape("nape", {gravity: new Vec2(0, Globals.gravity)});
 			add(napeWorld);
-
-			/*var json:String = new LevelJSON();
-
-			var space2:Space = loadSpaceFromRUBE(JSON.parse(json), 5, 1);
-
-			log(space2.bodies.length);
-			for (var i:int = 0; i < space2.bodies.length; i++)
-			{
-				napeWorld.space.bodies.push(space2.bodies.at(i));
-			}*/
-
-
-			debug = new ShapeDebug(1024,600);
-			debug.drawBodies = true;
-			debug.drawCollisionArbiters = true;
-			debug.drawConstraints = true;
-
+			//napeWorld.visible = true;
+			initDebugLayer();
+			parseJsonBodies();
 
 			// add background
 			add(new CitrusSprite("backgroud", {view: new Image(Assets.getTexture("BackgroundC"))}));
 			add(new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))}));
 
 			// platform
-			add(new Platform("platformBot", {x: 490, y: 400, width: 150, height: 10}));
+			//add(new Platform("platformBot", {x: 490, y: 400, width: 150, height: 10}));
 
-			add(new Platform("platformBot2", {x: 650, y: 595, width: 150, height: 10}));
+			//add(new Platform("platformBot2", {x: 650, y: 595, width: 150, height: 10}));
 
-			terrainView = new TerrainView(napeWorld.space);
+			// terrain from image
+			//terrainView = new TerrainView(napeWorld.space);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
 			add(shipHero);
-			shipHero.body.position.setxy(400, 300);
+			shipHero.body.position.setxy(300, 380);
 
-			debug.draw(napeWorld.space);
-			var MovieClipDebug:flash.display.MovieClip = new flash.display.MovieClip();
-			MovieClipDebug.addChild(debug.display);
-			Starling.current.nativeOverlay.addChild(MovieClipDebug);
+			parseJsonDrawings()
+			// add ship hero
+
+
 
 			initKeyboardActions();
+
+			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY,
+
+				function OnCollision(e:InteractionCallback):void {
+					log("Body type: " + e.int2.castBody.type.toString() + " Collision Normal: " + e.int2.castBody.arbiters.at(0).collisionArbiter.normal.toString());
+				}
+
+				));
+		}
+
+		/**
+		 * Load geometry from JSON
+		 */
+		private function parseJsonBodies():void {
+			var json:String = new LevelJSON();
+
+			//var space:Space = loadSpaceFromRUBE(JSON.parse(json), 1, 1);
+			var bodies:Vector.<Body> = BodyParser.parse(JSON.parse(json));
+
+			for (var i:int = 0; i < bodies.length; i++) {
+				var body:Body = bodies[i];
+				napeWorld.space.bodies.push(body);
+
+			}
+		}
+
+		/**
+		 * Load geometry from JSON
+		 */
+		private function parseJsonDrawings():void {
+			var json:String = new LevelJSON();
+
+			//var space:Space = loadSpaceFromRUBE(JSON.parse(json), 1, 1);
+			var drawings:Vector.<DrawingPhysicsObject> = BodyParser.parseDrawing(JSON.parse(json), this);
+
+		/*for (var i:int = 0; i < drawings.length; i++) {
+			//var dr:DrawingPhysicsObject = drawings[i];
+			add(drawings[i]);
+		}*/
+		}
+
+		/**
+		 * Init debug layer
+		 */
+		private function initDebugLayer():void {
+			debug = new ShapeDebug(1024, 600);
+			debug.drawBodies = true;
+			debug.drawCollisionArbiters = true;
+			debug.drawConstraints = true;
+			//debug.drawShapeDetail = true;
+
+			var mcDebug:flash.display.MovieClip = new flash.display.MovieClip();
+			mcDebug.addChild(debug.display);
+			Starling.current.nativeOverlay.addChild(mcDebug);
 		}
 
 
 		/**
 		 * Get the keyboard, and add actions
 		 */
-		private function initKeyboardActions():void
-		{
+		private function initKeyboardActions():void {
 			var kb:Keyboard = _ce.input.keyboard;
 			kb.addKeyAction("console", Keyboard.TAB);
-			kb.addKeyAction("debug", Keyboard.SPACE);
 		}
 
 
@@ -109,15 +153,10 @@ package ua.com.syo.luckyfriday.view {
 				var console:Console = Console.getMainConsoleInstance();
 				console.isShown = !console.isShown;
 			}
-
-			if (_ce.input.hasDone("debug")) {
-				// switch debug mode
-			}
-
 			shipHero.update(timeDelta);
 
 			debug.clear();
-			debug.draw(napeWorld.space);
+			//debug.draw(napeWorld.space);
 			debug.flush();
 
 		}

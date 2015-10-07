@@ -6,6 +6,7 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.view.starlingview.AnimationSequence;
 
 	import nape.geom.Vec2;
+	import nape.phys.Material;
 
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
@@ -35,7 +36,7 @@ package ua.com.syo.luckyfriday.view {
 			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 30);
 			super(name, {view: shipSeq});
 
-			//_material = new Material(0.8,1.0,1.4,1.5,0.01); 
+			_material = new Material(0.8,1.0,1.4,1.5,0.01); 
 			//StarlingArt.setLoopAnimations(["kren"]);
 			this.initKeyboardActions();
 		}
@@ -46,28 +47,73 @@ package ua.com.syo.luckyfriday.view {
 			super.createShape();
 		}
 
-		private function flip(direction):void
+		private function flip(dir):void
 		{
-			body.shapes.clear();
-			if (direction == 1)
-			{
-				points = Globals.createShipGeom();
+			var oldPosition:Vec2 = body.position;
+			var oldRotation:Number = body.rotation;
+			var oldVelocity:Vec2 = body.velocity;
+			if (testFlip(dir)) {
+				body.shapes.clear();
+				if (dir == 1)
+				{
+					points = Globals.createShipGeom();
+					animation = "rrotater";
+				} else
+				{
+					animation = "rotate";
+					points = Globals.createShipGeom(true);
+				}
 				super.createShape();
-				animation = "rrotater";
-			} else
-			{
-				animation = "rotate";
-				points = Globals.createShipGeom(true);
-				super.createShape();
+				direction = dir;
+			} else {
+				log("RETURN OLD");
+				body.position = oldPosition;
+				body.rotation = oldRotation;
+				body.velocity = oldVelocity;
 			}
 		}
+
+		private function testFlip(dir):Boolean
+		{
+			var result:Boolean = true;
+			body.shapes.clear();
+			if (dir == 1)
+			{
+				points = Globals.createShipGeom();
+			} else
+			{
+				points = Globals.createShipGeom(true);
+			}
+
+			super.createShape();
+			//body.space.step(1 / 300.0);
+
+			log("ARBITERS: " + body.arbiters.length);
+			if (body.arbiters.length > 0) {
+				result = false;
+				body.shapes.clear();
+				dir = -dir;
+				if (dir == 1)
+				{
+					points = Globals.createShipGeom();
+				} else
+				{
+					points = Globals.createShipGeom(true);
+				}
+
+				super.createShape();
+
+			}
+			return result;
+		}
+
 
 		public function initKeyboardActions():void
 		{
 			var kb:Keyboard = _ce.input.keyboard;
 
-			kb.addKeyAction("right", Keyboard.RIGHT);
-			kb.addKeyAction("left", Keyboard.LEFT);
+			kb.addKeyAction("forward", Keyboard.RIGHT);
+			kb.addKeyAction("backward", Keyboard.LEFT);
 			kb.addKeyAction("up", Keyboard.W);
 			kb.addKeyAction("down", Keyboard.S);
 
@@ -87,16 +133,16 @@ package ua.com.syo.luckyfriday.view {
 			}
 
 
-			if (_ce.input.isDoing("right")) {
+			if (_ce.input.isDoing("forward")) {
 				impulse = new Vec2(1, 0);
-				impulse.length = Globals.moveRightImpulse;
+				impulse.length = (direction == 1 ? Globals.moveForwardImpulse : Globals.moveBackwardImpulse);
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse, body.position);
 			}
 
-			if (_ce.input.isDoing("left")) {
+			if (_ce.input.isDoing("backward")) {
 				impulse = new Vec2(-1, 0);
-				impulse.length = Globals.moveLeftImpulse;
+				impulse.length = (direction == -1 ? Globals.moveBackwardImpulse : Globals.moveForwardImpulse);
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.reflect(impulse), body.position);
 			}
