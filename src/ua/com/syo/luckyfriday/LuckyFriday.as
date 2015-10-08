@@ -19,7 +19,7 @@ package ua.com.syo.luckyfriday
 		{
 			setUpStarling(true);
 			console.openKey = Keyboard.ENTER;
-			stage.quality = StageQuality.LOW;
+			stage.quality = StageQuality.HIGH;
 		}
 
 		override public function handleStarlingReady():void {

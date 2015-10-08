@@ -4,7 +4,9 @@ package ua.com.syo.luckyfriday.model
 
 	public class Globals
 	{
-		public static var gravity:Number = 0.7;
+		public static var isDebugMode:Boolean = false;
+
+		public static var gravity:Number = 1;
 		public static var rotateImpulse:Number = 55;
 		public static var moveUpImpulse:Number = 0.75;
 		public static var moveDownImpulse:Number = 0.75;

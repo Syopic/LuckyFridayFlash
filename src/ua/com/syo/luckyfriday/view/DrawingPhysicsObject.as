@@ -1,13 +1,18 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.BitmapData;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
 	import flash.filters.GlowFilter;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
+	import citrus.objects.CitrusSprite;
 	import citrus.objects.NapePhysicsObject;
+	import citrus.view.starlingview.StarlingArt;
+	import citrus.view.starlingview.StarlingView;
 
 	import nape.phys.Material;
 
@@ -23,38 +28,60 @@ package ua.com.syo.luckyfriday.view {
 		public function DrawingPhysicsObject(name:String, params:Object = null) {
 
 			points = params as Array;
+			super(name);
+
+			//_material = new Material(0.8, 1.0, 1.4, 1.5, 0.01);
+		}
+
+		public function drawShape(strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void
+		{
+			var xMin:Number = Infinity;
+			var yMin:Number = Infinity;
+			var xMax:Number = -Infinity;
+			var yMax:Number = -Infinity;
+			for (var j:int = 0; j < points.length; j++) 
+			{
+				xMin = Math.min(xMin, points[j].x);
+				yMin = Math.min(yMin, points[j].y);
+				xMax = Math.max(xMax, points[j].x);
+				yMax = Math.max(yMax, points[j].y);
+			}
+			var w:Number = xMax - xMin;
+			var h:Number = yMax - yMin;
+			var bBox:Rectangle = new Rectangle(xMin, yMin, w, h);
 
 			var shape:Sprite = new flash.display.Sprite();
-			var color:uint = Math.random() * 0xFFFFFF;
-			var radius:uint = 20;
 
-			shape.graphics.lineStyle(2, 0xffffff);
-			shape.graphics.beginFill(0, 0);
-			for(var i:int = 0; i < points.length; i++){
-				if(i == 0){
-					shape.graphics.moveTo(points[i].x + 50, points[i].y+ 100);
+			shape.graphics.lineStyle(3, strokeColor);
+			shape.graphics.beginFill(fillColor, 1);
+			for (var i:int = 0; i < points.length; i++) {
+				if (i == 0) {
+					shape.graphics.moveTo(points[i].x + w/2, points[i].y + h/2);
 				} else {
-					shape.graphics.lineTo(points[i].x+ 50, points[i].y+ 100);
+					shape.graphics.lineTo(points[i].x + w/2, points[i].y + h/2);
 				}
 			}
 			shape.graphics.endFill();
 
-			//shape.graphics.beginFill(color);
-			//shape.graphics.drawCircle(radius, radius, radius);
-			//shape.graphics.endFill();
-			var bmd:BitmapData = new BitmapData(100, 200, true, 0x00000000);
+			var bBox2:Rectangle = shape.getBounds(shape);
+
+			var bmd:BitmapData = new BitmapData(bBox2.width + 20, bBox2.height + 20, true, 0x00000000);
 
 			var result:BitmapData = bmd.clone();
-			var filter2:BlurFilter = new BlurFilter(1, 2, 2);
-			var filter3:GlowFilter = new GlowFilter(0xffffff, 1, 10, 10, 0.8);
+			var filter2:BlurFilter = new BlurFilter(1, 1, 2);
+			var filter3:GlowFilter = new GlowFilter(0xa78d04, 1, 15, 15, 1);
 
-			result.draw(shape);
-			result.applyFilter(result,new Rectangle(0,0,100,200),new Point(0,0),filter2);
-			result.applyFilter(result,new Rectangle(0,0,100,200),new Point(0,0),filter3);
+			bBox.width +=40;
+			bBox.height +=40;
+
+			result.draw(shape,  new Matrix(1,0,0,1,-bBox2.x + 10,-bBox2.y + 10), null, null, bBox, true);
+			result.applyFilter(result, bBox, new Point(0, 0), filter2);
+			result.applyFilter(result, bBox, new Point(0, 0), filter3);
 			var tex:Texture = Texture.fromBitmapData(result);
 			img = new Image(tex);
-			super(name, {view: img});
-
+			img.pivotX = -w/2;
+			img.pivotY = -h/2;
+			view = img;
 			_material = new Material(0.8,1.0,1.4,1.5,0.01); 
 		}
 	}

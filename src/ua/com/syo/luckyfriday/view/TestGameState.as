@@ -16,6 +16,7 @@ package ua.com.syo.luckyfriday.view {
 	import nape.callbacks.InteractionType;
 	import nape.geom.Vec2;
 	import nape.phys.Body;
+	import nape.phys.BodyType;
 	import nape.shape.Circle;
 	import nape.shape.Shape;
 	import nape.util.ShapeDebug;
@@ -84,7 +85,7 @@ package ua.com.syo.luckyfriday.view {
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY,
 
 				function OnCollision(e:InteractionCallback):void {
-					log("Body type: " + e.int2.castBody.type.toString() + " Collision Normal: " + e.int2.castBody.arbiters.at(0).collisionArbiter.normal.toString());
+				//log("Body type: " + e.int2.castBody.type.toString() + " Collision Normal: " + e.int2.castBody.arbiters.at(0).collisionArbiter.normal.toString());
 				}
 
 				));
@@ -112,13 +113,9 @@ package ua.com.syo.luckyfriday.view {
 		private function parseJsonDrawings():void {
 			var json:String = new LevelJSON();
 
-			//var space:Space = loadSpaceFromRUBE(JSON.parse(json), 1, 1);
-			var drawings:Vector.<DrawingPhysicsObject> = BodyParser.parseDrawing(JSON.parse(json), this);
+			BodyParser.parseDrawing(JSON.parse(json).rocks, this, "r", BodyType.DYNAMIC);
+			BodyParser.parseDrawing(JSON.parse(json).platforms, this, "p", BodyType.STATIC);
 
-		/*for (var i:int = 0; i < drawings.length; i++) {
-			//var dr:DrawingPhysicsObject = drawings[i];
-			add(drawings[i]);
-		}*/
 		}
 
 		/**
@@ -155,9 +152,12 @@ package ua.com.syo.luckyfriday.view {
 			}
 			shipHero.update(timeDelta);
 
-			debug.clear();
-			//debug.draw(napeWorld.space);
-			debug.flush();
+			if (Globals.isDebugMode)
+			{
+				debug.clear();
+				debug.draw(napeWorld.space);
+				debug.flush();
+			}
 
 		}
 	}
