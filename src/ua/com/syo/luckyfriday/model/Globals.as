@@ -4,7 +4,7 @@ package ua.com.syo.luckyfriday.model
 
 	public class Globals
 	{
-		public static var isDebugMode:Boolean = false;
+		public static var isDebugMode:Boolean = true;
 
 		public static var gravity:Number = 1;
 		public static var rotateImpulse:Number = 55;
@@ -55,7 +55,6 @@ package ua.com.syo.luckyfriday.model
 					p.x = flipX - p.x;
 				}
 			}
-
 
 			return vertices;
 		}

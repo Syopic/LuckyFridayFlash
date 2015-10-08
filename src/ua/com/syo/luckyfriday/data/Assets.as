@@ -22,13 +22,12 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source="/../assets/img/platform.png")]
 		public static const PlatformC:Class;
 
-		/*[Embed(source="/../assets/anim/shipKren.png")]
-		private var ShipKrenC:Class;
-
-		[Embed(source="/../assets/anim/shipKren.xml",mimeType="application/octet-stream")]
-		private var ShipKrenXMLC:Class;*/
+		[Embed(source = '/../assets/json/cave.json', mimeType = 'application/octet-stream')]
+		private static const LevelJSON:Class;
 
 		private static var gameTextures:Dictionary = new Dictionary();
+
+		private static var levelJSON:Object;
 
 		public static function getTexture(name:String):Texture {
 			if (gameTextures[name] == undefined) {
@@ -36,6 +35,12 @@ package ua.com.syo.luckyfriday.data {
 				gameTextures[name] = Texture.fromBitmap(bitmap);
 			}
 			return gameTextures[name];
+		}
+
+		public static function get levelData():Object {
+			if (levelJSON == null)
+				levelJSON = JSON.parse(new LevelJSON());;
+			return levelJSON;
 		}
 	}
 }

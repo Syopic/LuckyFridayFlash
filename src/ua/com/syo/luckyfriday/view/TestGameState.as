@@ -4,7 +4,6 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
-	import citrus.objects.NapePhysicsObject;
 	import citrus.physics.nape.Nape;
 
 	import justpinegames.Logi.Console;
@@ -15,18 +14,15 @@ package ua.com.syo.luckyfriday.view {
 	import nape.callbacks.InteractionListener;
 	import nape.callbacks.InteractionType;
 	import nape.geom.Vec2;
-	import nape.phys.Body;
 	import nape.phys.BodyType;
-	import nape.shape.Circle;
-	import nape.shape.Shape;
 	import nape.util.ShapeDebug;
 
 	import starling.core.Starling;
 	import starling.display.Image;
 
 	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
-	import ua.com.syo.luckyfriday.utils.BodyParser;
 
 	/**
 	 *
@@ -41,9 +37,6 @@ package ua.com.syo.luckyfriday.view {
 
 		private var isDebug:Boolean = false;
 
-		[Embed(source = '/../assets/json/cave.json', mimeType = 'application/octet-stream')]
-		private static const LevelJSON:Class;
-
 		public function TestGameState() {
 			super();
 		}
@@ -56,34 +49,24 @@ package ua.com.syo.luckyfriday.view {
 			add(napeWorld);
 			//napeWorld.visible = true;
 			initDebugLayer();
-			parseJsonBodies();
 
 			// add background
 			add(new CitrusSprite("backgroud", {view: new Image(Assets.getTexture("BackgroundC"))}));
 			add(new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))}));
 
-			// platform
-			//add(new Platform("platformBot", {x: 490, y: 400, width: 150, height: 10}));
-
-			//add(new Platform("platformBot2", {x: 650, y: 595, width: 150, height: 10}));
-
-			// terrain from image
-			//terrainView = new TerrainView(napeWorld.space);
+			LevelData.addShapes(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
+			LevelData.addShapes(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
+			LevelData.addShapes(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
 			add(shipHero);
 			shipHero.body.position.setxy(300, 380);
 
-			parseJsonDrawings()
-			// add ship hero
-
-
 
 			initKeyboardActions();
 
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY,
-
 				function OnCollision(e:InteractionCallback):void {
 				//log("Body type: " + e.int2.castBody.type.toString() + " Collision Normal: " + e.int2.castBody.arbiters.at(0).collisionArbiter.normal.toString());
 				}
@@ -91,32 +74,6 @@ package ua.com.syo.luckyfriday.view {
 				));
 		}
 
-		/**
-		 * Load geometry from JSON
-		 */
-		private function parseJsonBodies():void {
-			var json:String = new LevelJSON();
-
-			//var space:Space = loadSpaceFromRUBE(JSON.parse(json), 1, 1);
-			var bodies:Vector.<Body> = BodyParser.parse(JSON.parse(json));
-
-			for (var i:int = 0; i < bodies.length; i++) {
-				var body:Body = bodies[i];
-				napeWorld.space.bodies.push(body);
-
-			}
-		}
-
-		/**
-		 * Load geometry from JSON
-		 */
-		private function parseJsonDrawings():void {
-			var json:String = new LevelJSON();
-
-			BodyParser.parseDrawing(JSON.parse(json).rocks, this, "r", BodyType.DYNAMIC);
-			BodyParser.parseDrawing(JSON.parse(json).platforms, this, "p", BodyType.STATIC);
-
-		}
 
 		/**
 		 * Init debug layer
@@ -152,8 +109,7 @@ package ua.com.syo.luckyfriday.view {
 			}
 			shipHero.update(timeDelta);
 
-			if (Globals.isDebugMode)
-			{
+			if (Globals.isDebugMode) {
 				debug.clear();
 				debug.draw(napeWorld.space);
 				debug.flush();

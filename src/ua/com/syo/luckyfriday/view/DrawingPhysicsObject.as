@@ -1,23 +1,20 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.BitmapData;
-	import flash.display.Shape;
 	import flash.display.Sprite;
-	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
 	import flash.filters.GlowFilter;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	import citrus.objects.CitrusSprite;
 	import citrus.objects.NapePhysicsObject;
-	import citrus.view.starlingview.StarlingArt;
-	import citrus.view.starlingview.StarlingView;
 
 	import nape.phys.Material;
 
 	import starling.display.Image;
 	import starling.textures.Texture;
+
+	import ua.com.syo.luckyfriday.data.LevelData;
 
 
 
@@ -26,29 +23,15 @@ package ua.com.syo.luckyfriday.view {
 		private var img:Image;
 
 		public function DrawingPhysicsObject(name:String, params:Object = null) {
-
 			points = params as Array;
 			super(name);
-
-			//_material = new Material(0.8, 1.0, 1.4, 1.5, 0.01);
 		}
 
 		public function drawShape(strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void
 		{
-			var xMin:Number = Infinity;
-			var yMin:Number = Infinity;
-			var xMax:Number = -Infinity;
-			var yMax:Number = -Infinity;
-			for (var j:int = 0; j < points.length; j++) 
-			{
-				xMin = Math.min(xMin, points[j].x);
-				yMin = Math.min(yMin, points[j].y);
-				xMax = Math.max(xMax, points[j].x);
-				yMax = Math.max(yMax, points[j].y);
-			}
-			var w:Number = xMax - xMin;
-			var h:Number = yMax - yMin;
-			var bBox:Rectangle = new Rectangle(xMin, yMin, w, h);
+			var bBox:Rectangle = LevelData.getBoundingBox(points);
+			var w:Number = bBox.width;
+			var h:Number = bBox.height;
 
 			var shape:Sprite = new flash.display.Sprite();
 

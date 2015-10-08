@@ -37,12 +37,13 @@ package ua.com.syo.luckyfriday.view {
 			super(name, {view: shipSeq});
 
 			_material = new Material(0.8,1.0,1.4,1.5,0.01); 
-			//StarlingArt.setLoopAnimations(["kren"]);
+
 			this.initKeyboardActions();
 		}
 
 		override protected function createShape():void
 		{
+
 			points = Globals.createShipGeom();
 			super.createShape();
 		}
@@ -66,7 +67,7 @@ package ua.com.syo.luckyfriday.view {
 				super.createShape();
 				direction = dir;
 			} else {
-				log("RETURN OLD");
+				//log("RETURN OLD");
 				body.position = oldPosition;
 				body.rotation = oldRotation;
 				body.velocity = oldVelocity;
@@ -88,7 +89,7 @@ package ua.com.syo.luckyfriday.view {
 			super.createShape();
 			//body.space.step(1 / 300.0);
 
-			log("ARBITERS: " + body.arbiters.length);
+			//log("ARBITERS: " + body.arbiters.length);
 			if (body.arbiters.length > 0) {
 				result = false;
 				body.shapes.clear();
