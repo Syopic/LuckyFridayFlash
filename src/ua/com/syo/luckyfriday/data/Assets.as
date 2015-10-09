@@ -5,6 +5,7 @@ package ua.com.syo.luckyfriday.data {
 
 	import starling.textures.Texture;
 
+
 	public class Assets
 	{
 		[Embed(source="/../assets/img/back2.png")]

@@ -10,7 +10,7 @@ package ua.com.syo.luckyfriday
 
 	import ua.com.syo.luckyfriday.view.TestGameState;
 
-	[SWF(frameRate = "60", width = "1280", height = "720", backgroundColor = "0x999999")]
+	[SWF(frameRate = "120", width = "1280", height = "720", backgroundColor = "0x000410")]
 	public class LuckyFriday extends StarlingCitrusEngine
 	{
 		// entry point

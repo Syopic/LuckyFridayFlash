@@ -69,7 +69,7 @@ package ua.com.syo.luckyfriday.view {
 			shipHero.body.position.setxy(500, 300);
 
 			camera = view.camera as StarlingCamera;
-			camera.setUp(shipHero, new Rectangle(0, 0, 1920, 1080), new Point(.5, .5));
+			camera.setUp(shipHero, new Rectangle(0, 0, 4096, 4096), new Point(.5, .5));
 			camera.allowZoom = true;
 			camera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
 
