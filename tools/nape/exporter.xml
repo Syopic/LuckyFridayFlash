@@ -1,0 +1,31 @@
+<exporter>
+	<name>nape-json</name>
+	<displayName>NAPE (JSON)</displayName>
+	<description>Exporter for Nape, JSON</description>
+	<version>1.0</version>
+	<yAxisDirection>down</yAxisDirection>
+	<physicsEngine>box2d</physicsEngine>
+	<template>nape.json</template>
+	<fileExtension>json</fileExtension>
+	<anchorPoint>
+		<enabled>no</enabled>
+	</anchorPoint>
+	<origin>
+		<type>fixed</type>
+		<relX>0.0</relX>
+		<relY>1.0</relY>
+	</origin>
+	<body>
+	</body>
+  <global>
+    <parameter>
+      <name>level_name</name>
+      <displayName>Level #</displayName>
+      <description>Level name in list</description>
+      <shortDescription>Collision mask</shortDescription>
+      <type>int</type>
+      <default>1</default>
+    </parameter>
+  </global>
+</exporter>
+
