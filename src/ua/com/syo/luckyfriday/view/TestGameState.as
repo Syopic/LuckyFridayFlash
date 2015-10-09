@@ -5,6 +5,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
+	import citrus.math.MathUtils;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
 	import citrus.view.ACitrusCamera;
@@ -23,6 +24,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.utils.MathUtil;
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.LevelData;
@@ -41,6 +43,9 @@ package ua.com.syo.luckyfriday.view {
 
 		private var isDebug:Boolean = false;
 		private var camera:StarlingCamera;
+		private var mcDebug:flash.display.MovieClip;
+
+		private var caveSprite:CitrusSprite;
 
 		public function TestGameState() {
 			super();
@@ -57,7 +62,8 @@ package ua.com.syo.luckyfriday.view {
 
 			// add background
 			add(new CitrusSprite("backgroud", {parallax:0.01, view: new Image(Assets.getTexture("BackgroundC"))}));
-			add(new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))}));
+			caveSprite = new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))});
+			add(caveSprite);
 
 			LevelData.addShapes(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
 			LevelData.addShapes(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
@@ -69,9 +75,12 @@ package ua.com.syo.luckyfriday.view {
 			shipHero.body.position.setxy(500, 300);
 
 			camera = view.camera as StarlingCamera;
-			camera.setUp(shipHero, new Rectangle(0, 0, 4096, 4096), new Point(.5, .5));
+			camera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
 			camera.allowZoom = true;
+			camera.allowRotation = true;
 			camera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
+			camera.zoom(0.7);
+			//camera.setRotation(Math.PI / 2);
 
 
 
@@ -90,13 +99,13 @@ package ua.com.syo.luckyfriday.view {
 		 * Init debug layer
 		 */
 		private function initDebugLayer():void {
-			debug = new ShapeDebug(1920, 1080);
+			debug = new ShapeDebug(3840, 1080);
 			debug.drawBodies = true;
 			debug.drawCollisionArbiters = true;
 			debug.drawConstraints = true;
 			//debug.drawShapeDetail = true;
 
-			var mcDebug:flash.display.MovieClip = new flash.display.MovieClip();
+			mcDebug = new flash.display.MovieClip();
 			mcDebug.addChild(debug.display);
 			Starling.current.nativeOverlay.addChild(mcDebug);
 		}
@@ -124,6 +133,8 @@ package ua.com.syo.luckyfriday.view {
 				debug.clear();
 				debug.draw(napeWorld.space);
 				debug.flush();
+				mcDebug.x = -camera.camPos.x + 512;
+				mcDebug.y = -camera.camPos.y + 300;
 			}
 
 		}

@@ -9,6 +9,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import citrus.objects.NapePhysicsObject;
 
+	import nape.geom.Vec2;
 	import nape.phys.Material;
 
 	import starling.display.Image;
@@ -26,7 +27,7 @@ package ua.com.syo.luckyfriday.view {
 			super(name);
 		}
 
-		public function drawShape(strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void
+		public function drawShape(anchor:Vec2, strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void
 		{
 			var bBox:Rectangle = LevelData.getBoundingBox(points);
 			var w:Number = bBox.width;
@@ -61,8 +62,8 @@ package ua.com.syo.luckyfriday.view {
 			result.applyFilter(result, bBox, new Point(0, 0), filter3);
 			var tex:Texture = Texture.fromBitmapData(result);
 			img = new Image(tex);
-			img.pivotX = -w/2;
-			img.pivotY = -h/2;
+			img.pivotX = -w/2 - anchor.x;
+			img.pivotY = -h/2 - anchor.y;
 			view = img;
 			_material = new Material(0.8,1.0,1.4,1.5,0.01); 
 		}

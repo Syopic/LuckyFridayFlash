@@ -23,7 +23,7 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source="/../assets/img/platform.png")]
 		public static const PlatformC:Class;
 
-		[Embed(source = '/../assets/json/cave2.json', mimeType = 'application/octet-stream')]
+		[Embed(source = '/../assets/json/cave.json', mimeType = 'application/octet-stream')]
 		private static const LevelJSON:Class;
 
 		private static var gameTextures:Dictionary = new Dictionary();

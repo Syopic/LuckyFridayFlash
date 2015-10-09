@@ -5,6 +5,7 @@ package ua.com.syo.luckyfriday.data
 
 	import citrus.core.starling.StarlingState;
 
+	import nape.geom.Vec2;
 	import nape.phys.BodyType;
 
 	import ua.com.syo.luckyfriday.view.DrawingPhysicsObject;
@@ -36,11 +37,19 @@ package ua.com.syo.luckyfriday.data
 				var dr:DrawingPhysicsObject = new DrawingPhysicsObject(bodyType + i, points);
 				state.add(dr);
 
+				var anchor:Vec2 = new Vec2(0,0);
+				if (shapeType == ROCK_SHAPES)
+				{
+					//dr.body.align();
+					anchor = dr.body.localCOM.mul(-1);
+					dr.body.translateShapes(anchor);
+				}
+
 				if (shapeType != CAVE_SHAPES)
 				{
-					dr.drawShape();
+					dr.drawShape(anchor);
 				}
-				dr.body.position.setxy(bBox.x, bBox.y);
+				dr.body.position.setxy(bBox.x - anchor.x, bBox.y - anchor.y);
 
 				dr.body.type = bodyType;
 				drawingObj.push(dr);
