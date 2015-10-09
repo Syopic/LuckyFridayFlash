@@ -1,7 +1,6 @@
 package ua.com.syo.luckyfriday
 {
 	import flash.display.StageQuality;
-	import flash.display.StageScaleMode;
 
 	import citrus.core.starling.StarlingCitrusEngine;
 	import citrus.input.controllers.Keyboard;
@@ -11,7 +10,7 @@ package ua.com.syo.luckyfriday
 
 	import ua.com.syo.luckyfriday.view.TestGameState;
 
-	[SWF(frameRate = "60", width = "1024", height = "600", backgroundColor = "0x999999")]
+	[SWF(frameRate = "60", width = "1280", height = "720", backgroundColor = "0x999999")]
 	public class LuckyFriday extends StarlingCitrusEngine
 	{
 		// entry point
@@ -19,7 +18,7 @@ package ua.com.syo.luckyfriday
 		{
 			setUpStarling(true);
 			console.openKey = Keyboard.ENTER;
-			stage.quality = StageQuality.HIGH;
+			stage.quality = StageQuality.LOW;
 		}
 
 		override public function handleStarlingReady():void {

@@ -1,10 +1,14 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.MovieClip;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
+	import citrus.view.ACitrusCamera;
+	import citrus.view.starlingview.StarlingCamera;
 
 	import justpinegames.Logi.Console;
 
@@ -36,6 +40,7 @@ package ua.com.syo.luckyfriday.view {
 		private var napeWorld:Nape;
 
 		private var isDebug:Boolean = false;
+		private var camera:StarlingCamera;
 
 		public function TestGameState() {
 			super();
@@ -51,7 +56,7 @@ package ua.com.syo.luckyfriday.view {
 			initDebugLayer();
 
 			// add background
-			add(new CitrusSprite("backgroud", {view: new Image(Assets.getTexture("BackgroundC"))}));
+			add(new CitrusSprite("backgroud", {parallax:0.01, view: new Image(Assets.getTexture("BackgroundC"))}));
 			add(new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))}));
 
 			LevelData.addShapes(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
@@ -61,7 +66,13 @@ package ua.com.syo.luckyfriday.view {
 			// add ship hero
 			shipHero = new ShipHero("ship");
 			add(shipHero);
-			shipHero.body.position.setxy(300, 380);
+			shipHero.body.position.setxy(500, 300);
+
+			camera = view.camera as StarlingCamera;
+			camera.setUp(shipHero, new Rectangle(0, 0, 1920, 1080), new Point(.5, .5));
+			camera.allowZoom = true;
+			camera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
+
 
 
 			initKeyboardActions();
@@ -79,7 +90,7 @@ package ua.com.syo.luckyfriday.view {
 		 * Init debug layer
 		 */
 		private function initDebugLayer():void {
-			debug = new ShapeDebug(1024, 600);
+			debug = new ShapeDebug(1920, 1080);
 			debug.drawBodies = true;
 			debug.drawCollisionArbiters = true;
 			debug.drawConstraints = true;

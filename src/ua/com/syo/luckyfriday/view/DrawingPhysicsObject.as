@@ -17,7 +17,6 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.data.LevelData;
 
 
-
 	public class DrawingPhysicsObject extends NapePhysicsObject {
 
 		private var img:Image;

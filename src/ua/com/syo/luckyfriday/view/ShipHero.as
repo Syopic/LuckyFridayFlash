@@ -30,7 +30,6 @@ package ua.com.syo.luckyfriday.view {
 
 		private var direction:uint = 1;
 
-
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
 			var shipSeq:AnimationSequence = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 30);
@@ -44,7 +43,7 @@ package ua.com.syo.luckyfriday.view {
 		override protected function createShape():void
 		{
 
-			points = Globals.createShipGeom();
+			points = Globals.getShipGeom();
 			super.createShape();
 		}
 
@@ -57,12 +56,12 @@ package ua.com.syo.luckyfriday.view {
 				body.shapes.clear();
 				if (dir == 1)
 				{
-					points = Globals.createShipGeom();
+					points = Globals.getShipGeom();
 					animation = "rrotater";
 				} else
 				{
 					animation = "rotate";
-					points = Globals.createShipGeom(true);
+					points = Globals.getShipGeom(true);
 				}
 				super.createShape();
 				direction = dir;
@@ -80,10 +79,10 @@ package ua.com.syo.luckyfriday.view {
 			body.shapes.clear();
 			if (dir == 1)
 			{
-				points = Globals.createShipGeom();
+				points = Globals.getShipGeom();
 			} else
 			{
-				points = Globals.createShipGeom(true);
+				points = Globals.getShipGeom(true);
 			}
 
 			super.createShape();
@@ -96,10 +95,10 @@ package ua.com.syo.luckyfriday.view {
 				dir = -dir;
 				if (dir == 1)
 				{
-					points = Globals.createShipGeom();
+					points = Globals.getShipGeom();
 				} else
 				{
-					points = Globals.createShipGeom(true);
+					points = Globals.getShipGeom(true);
 				}
 
 				super.createShape();

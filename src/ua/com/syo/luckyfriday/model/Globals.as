@@ -4,27 +4,61 @@ package ua.com.syo.luckyfriday.model
 
 	public class Globals
 	{
-		public static var isDebugMode:Boolean = true;
+		public static var isDebugMode:Boolean = false;
 
-		public static var gravity:Number = 1;
+		public static var gravity:Number = 0.2;
 		public static var rotateImpulse:Number = 55;
-		public static var moveUpImpulse:Number = 0.75;
-		public static var moveDownImpulse:Number = 0.75;
-		public static var moveForwardImpulse:Number = 1.8;
-		public static var moveBackwardImpulse:Number = 0.7;
+		public static var moveUpImpulse:Number = 1.75;
+		public static var moveDownImpulse:Number = 1.75;
+		public static var moveForwardImpulse:Number = 3.8;
+		public static var moveBackwardImpulse:Number = 1.7;
 
 		public static var isReverceLock:Boolean = true;
+
+		public static var shipRightPoints:Array;
+		public static var shipLeftPoints:Array;
 
 		// in miliseconds
 		public static var doubleTapDelay:int = 300;
 
-		static public function createShipGeom(isMirror:Boolean = false):Array {
+		static public function getShipGeom(isMirror:Boolean = false):Array {
 			var vertices:Array = [];
+			if (!isMirror)
+			{
+				if (!shipRightPoints)
+				{
 
+					vertices = getShipPoints();
+					shipRightPoints = vertices;
+				} else
+				{
+					vertices = shipRightPoints;
+				}
+			}
+			else
+			{
+				if (!shipLeftPoints)
+				{
+					vertices = getShipPoints();
+					for (var i:int = 0; i < vertices.length; i++) 
+					{
+						var p:Point = vertices[i] as Point;
+						p.x = - p.x;
+					}
+					shipLeftPoints = vertices;
+				} else {
+					vertices = shipLeftPoints;
+				}
+			}
+
+			return vertices;
+		}
+
+
+		static private function getShipPoints():Array {
+			var vertices:Array = [];
 			var dx:int = -103;
 			var dy:int = -42;
-
-			var flipX:int = 0;
 
 			vertices.push(new Point(15 + dx, 15 + dy));
 			vertices.push(new Point(22 + dx, 16 + dy));
@@ -47,17 +81,9 @@ package ua.com.syo.luckyfriday.model
 			vertices.push(new Point(7 + dx, 59 + dy));
 			vertices.push(new Point(7 + dx, 26 + dy));
 
-			if (isMirror)
-			{
-				for (var i:int = 0; i < vertices.length; i++) 
-				{
-					var p:Point = vertices[i] as Point;
-					p.x = flipX - p.x;
-				}
-			}
-
 			return vertices;
 		}
+
 
 	}
 }
