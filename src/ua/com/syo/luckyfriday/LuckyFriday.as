@@ -27,6 +27,7 @@ package ua.com.syo.luckyfriday
 			var settings:ConsoleSettings = new ConsoleSettings();
 			var logConsole:Console = new Console(settings);
 			this.starling.stage.addChild(logConsole).y = -7;
+
 		}
 	}
 }

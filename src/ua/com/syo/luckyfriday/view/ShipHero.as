@@ -28,7 +28,7 @@ package ua.com.syo.luckyfriday.view {
 		private var dt:Number = 0;
 		private var prevButton:String;
 
-		private var direction:uint = 1;
+		public var direction:int = 1;
 
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
@@ -47,7 +47,7 @@ package ua.com.syo.luckyfriday.view {
 			super.createShape();
 		}
 
-		private function flip(dir):void
+		private function flip(dir = 1):void
 		{
 			var oldPosition:Vec2 = body.position;
 			var oldRotation:Number = body.rotation;

@@ -3,9 +3,10 @@ package ua.com.syo.luckyfriday.view {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
+	import mx.core.mx_internal;
+
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
-	import citrus.math.MathUtils;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
 	import citrus.view.ACitrusCamera;
@@ -24,7 +25,6 @@ package ua.com.syo.luckyfriday.view {
 
 	import starling.core.Starling;
 	import starling.display.Image;
-	import starling.utils.MathUtil;
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.LevelData;
@@ -47,6 +47,9 @@ package ua.com.syo.luckyfriday.view {
 
 		private var caveSprite:CitrusSprite;
 
+		private var particles:Demo;
+		private var flame:CitrusSprite;
+
 		public function TestGameState() {
 			super();
 		}
@@ -62,6 +65,11 @@ package ua.com.syo.luckyfriday.view {
 
 			// add background
 			add(new CitrusSprite("backgroud", {parallax:0.01, view: new Image(Assets.getTexture("BackgroundC"))}));
+			//addChild(new Demo());
+			particles = new Demo();
+
+			flame = new CitrusSprite("flame", {view:particles});
+			add(flame);
 			caveSprite = new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))});
 			add(caveSprite);
 
@@ -74,12 +82,14 @@ package ua.com.syo.luckyfriday.view {
 			add(shipHero);
 			shipHero.body.position.setxy(500, 300);
 
+
+
 			camera = view.camera as StarlingCamera;
 			camera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
 			camera.allowZoom = true;
 			camera.allowRotation = true;
 			camera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
-			camera.zoom(0.7);
+			//camera.zoom(0.7);
 			//camera.setRotation(Math.PI / 2);
 
 
@@ -110,6 +120,20 @@ package ua.com.syo.luckyfriday.view {
 			Starling.current.nativeOverlay.addChild(mcDebug);
 		}
 
+		private function moveEmiter():void
+		{
+			//flame.x = shipHero.body.position.x;
+			//flame.y = shipHero.body.position.y;
+
+			//update particle trail
+			var offset:Vec2 = new Vec2(100, 0);
+			offset.angle = shipHero.body.rotation;
+			particles.mParticleSystem.emitterX = shipHero.body.position.x-offset.x*shipHero.direction;
+			particles.mParticleSystem.emitterY = shipHero.body.position.y-offset.y*shipHero.direction;
+			particles.mParticleSystem.speed = 100*shipHero.direction;
+			particles.mParticleSystem.emitAngle = -(Math.PI -shipHero.body.rotation);
+		}
+
 
 		/**
 		 * Get the keyboard, and add actions
@@ -127,7 +151,15 @@ package ua.com.syo.luckyfriday.view {
 				var console:Console = Console.getMainConsoleInstance();
 				console.isShown = !console.isShown;
 			}
+
+			if (_ce.input.isDoing("forward") && shipHero.direction == 1 || _ce.input.isDoing("backward") && shipHero.direction == -1) {
+				particles.mParticleSystem.start();
+			} else {
+				particles.mParticleSystem.stop();
+			}
+
 			shipHero.update(timeDelta);
+			moveEmiter();
 
 			if (Globals.isDebugMode) {
 				debug.clear();
@@ -136,7 +168,6 @@ package ua.com.syo.luckyfriday.view {
 				mcDebug.x = -camera.camPos.x + 512;
 				mcDebug.y = -camera.camPos.y + 300;
 			}
-
 		}
 	}
 }
