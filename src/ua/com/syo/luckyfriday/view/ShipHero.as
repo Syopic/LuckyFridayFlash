@@ -1,6 +1,8 @@
 package ua.com.syo.luckyfriday.view {
+	import flash.geom.Point;
 	import flash.utils.getTimer;
 
+	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.NapePhysicsObject;
 	import citrus.view.starlingview.AnimationSequence;
@@ -31,12 +33,15 @@ package ua.com.syo.luckyfriday.view {
 		private var dt:Number = 0;
 		private var prevButton:String;
 		private var engines:Sprite;
-		private var engine1:Image;
+		public var engine1:Image;
 		private var engine2:Image;
 		private var engine3:Image;
 		private var engine4:Image;
 
 		public var direction:int = 1;
+
+		public var particles:Demo;
+		public var state:TestGameState;
 
 		public function ShipHero(name:String, params:Object = null) {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ShipAnimC()), XML(new ShipAnimXMLC()));
@@ -49,8 +54,8 @@ package ua.com.syo.luckyfriday.view {
 			engines.addChild(engine3);
 			engines.addChild(engine4);
 			shipSeq.addChild(engines);
-			shipSeq.pivotX += 2;
-			shipSeq.pivotY -= 8;
+			//shipSeq.pivotX += 2;
+			//shipSeq.pivotY -= 8;
 			super(name, {view: shipSeq});
 
 			_material = new Material(0.8, 1.0, 1.4, 1.5, 0.01);
@@ -64,8 +69,8 @@ package ua.com.syo.luckyfriday.view {
 			engine3 = new Image(Assets.getTexture("EngineC"));
 			engine4 = new Image(Assets.getTexture("EngineC"));
 
-			engine1.pivotX = engine2.pivotX = engine3.pivotX = engine4.pivotX = 4;
-			engine1.pivotY = engine2.pivotY = engine3.pivotY = engine4.pivotY = 26;
+			//engine1.pivotX = engine2.pivotX = engine3.pivotX = engine4.pivotX = 4;
+			//engine1.pivotY = engine2.pivotY = engine3.pivotY = engine4.pivotY = 26;
 
 
 			engine1.x = 20;
@@ -101,6 +106,44 @@ package ua.com.syo.luckyfriday.view {
 			direction == -1 ? engines.x = 210 : engines.x = 0;
 			engines.scaleX = direction;
 
+		}
+
+		public function moveEmiter():void {
+			//flame.x = shipHero.body.position.x;
+			//flame.y = shipHero.body.position.y;
+
+			//update particle trail
+			var offset:Vec2 = new Vec2(100, 0);
+			offset.angle = body.rotation;
+			particles.mParticleSystem.emitterX = body.position.x - offset.x * direction;
+			particles.mParticleSystem.emitterY = body.position.y - offset.y * direction;
+			particles.mParticleSystem.speed = 100 * direction;
+			particles.mParticleSystem.emitAngle = -(Math.PI - body.rotation);
+
+
+			var p:Point = engine1.localToGlobal(new Point(0, 0));
+			particles.e1PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
+			particles.e1PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
+			particles.e1PS.speed = 200  * direction;
+			particles.e1PS.emitAngle = -(Math.PI - body.rotation) + engine1.rotation + Math.PI/2;
+
+			p = engine2.localToGlobal(new Point(0, 0));
+			particles.e2PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
+			particles.e2PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
+			particles.e2PS.speed = 200  * direction;
+			particles.e2PS.emitAngle = -(Math.PI - body.rotation) + engine2.rotation + Math.PI/2;
+
+			p = engine3.localToGlobal(new Point(0, 0));
+			particles.e3PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
+			particles.e3PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
+			particles.e3PS.speed = 200  * direction;
+			particles.e3PS.emitAngle = -(Math.PI - body.rotation) + engine3.rotation + Math.PI/2;
+
+			p = engine4.localToGlobal(new Point(0, 0));
+			particles.e4PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
+			particles.e4PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
+			particles.e4PS.speed = 200  * direction;
+			particles.e4PS.emitAngle = -(Math.PI - body.rotation) + engine4.rotation + Math.PI/2;
 		}
 
 
@@ -181,24 +224,23 @@ package ua.com.syo.luckyfriday.view {
 			//
 			e1Angle = -Math.PI / 4;
 			e2Angle = Math.PI / 4;
-			e3Angle = -Math.PI / 4 - Math.PI/2;
-			e4Angle = Math.PI / 4 + Math.PI/2;
+			e3Angle = -Math.PI / 4 - Math.PI / 2;
+			e4Angle = Math.PI / 4 + Math.PI / 2;
 
 			engine1.visible = engine2.visible = engine3.visible = engine4.visible = false;
+
 
 			//user input
 			if (_ce.input.isDoing("rotateCW")) {
 				body.applyAngularImpulse(-Globals.rotateImpulse);
 
-				if (direction > 0)
-				{
+				if (direction > 0) {
 					e1Angle = 0;
 					e4Angle = Math.PI;
 
 					engine1.visible = true;
 					engine4.visible = true;
-				} else
-				{
+				} else {
 					e2Angle = 0;
 					e3Angle = -Math.PI;
 
@@ -210,15 +252,13 @@ package ua.com.syo.luckyfriday.view {
 			if (_ce.input.isDoing("rotateCCW")) {
 				body.applyAngularImpulse(Globals.rotateImpulse);
 
-				if (direction > 0)
-				{
+				if (direction > 0) {
 					e2Angle = 0;
 					e3Angle = -Math.PI;
 
 					engine2.visible = true;
 					engine3.visible = true;
-				} else
-				{
+				} else {
 					e1Angle = 0;
 					e4Angle = Math.PI;
 
@@ -234,16 +274,13 @@ package ua.com.syo.luckyfriday.view {
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse, body.position);
 
-				if (direction > 0)
-				{
+				if (direction > 0) {
 					e1Angle = -Math.PI / 2;
 					e3Angle = -Math.PI / 2;
 
 					engine1.visible = true;
 					engine3.visible = true;
-				}
-				else
-				{
+				} else {
 					e2Angle = Math.PI / 2;
 					e4Angle = Math.PI / 2;
 
@@ -258,16 +295,13 @@ package ua.com.syo.luckyfriday.view {
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.reflect(impulse), body.position);
 
-				if (direction > 0)
-				{
+				if (direction > 0) {
 					e2Angle = Math.PI / 2;
 					e4Angle = Math.PI / 2;
 
 					engine2.visible = true;
 					engine4.visible = true;
-				}
-				else
-				{
+				} else {
 					e1Angle = -Math.PI / 2;
 					e3Angle = -Math.PI / 2;
 
@@ -290,15 +324,13 @@ package ua.com.syo.luckyfriday.view {
 				engine3.visible = true;
 				engine4.visible = true;
 
-				if (_ce.input.isDoing("forward"))
-				{
-					e3Angle = -Math.PI / 4 - Math.PI/2;
+				if (_ce.input.isDoing("forward")) {
+					e3Angle = -Math.PI / 4 - Math.PI / 2;
 
 				}
 
-				if (_ce.input.isDoing("backward"))
-				{
-					e4Angle = Math.PI / 4 + Math.PI/2;
+				if (_ce.input.isDoing("backward")) {
+					e4Angle = Math.PI / 4 + Math.PI / 2;
 				}
 			}
 
@@ -314,14 +346,12 @@ package ua.com.syo.luckyfriday.view {
 				engine1.visible = true;
 				engine2.visible = true;
 
-				if (_ce.input.isDoing("forward"))
-				{
+				if (_ce.input.isDoing("forward")) {
 					e1Angle = -Math.PI / 4;
 
 				}
 
-				if (_ce.input.isDoing("backward"))
-				{
+				if (_ce.input.isDoing("backward")) {
 					e2Angle = Math.PI / 4;
 				}
 			}
@@ -345,6 +375,20 @@ package ua.com.syo.luckyfriday.view {
 					prevButton = "left";
 				}
 			}
+
+			if (_ce.input.isDoing("forward") && direction == 1 || _ce.input.isDoing("backward") && direction == -1) {
+				particles.mParticleSystem.start();
+			} else {
+				particles.mParticleSystem.stop();
+			}
+
+			engine1.visible ? particles.e1PS.start() : particles.e1PS.stop();
+			engine2.visible ? particles.e2PS.start() : particles.e2PS.stop();
+			engine3.visible ? particles.e3PS.start() : particles.e3PS.stop();
+			engine4.visible ? particles.e4PS.start() : particles.e4PS.stop();
+
+			engine1.visible = engine2.visible = engine3.visible = engine4.visible = false;
+
 			oldX = body.position.x;
 			updateEngines();
 		}

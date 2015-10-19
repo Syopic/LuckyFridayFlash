@@ -46,6 +46,7 @@ package ua.com.syo.luckyfriday.view {
 			}
 			shape.graphics.endFill();
 
+
 			var bBox2:Rectangle = shape.getBounds(shape);
 
 			var bmd:BitmapData = new BitmapData(bBox2.width + 20, bBox2.height + 20, true, 0x00000000);

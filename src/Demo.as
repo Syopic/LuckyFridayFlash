@@ -1,101 +1,79 @@
-package
-{
-	import flash.ui.Keyboard;
-
+package {
 	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.events.KeyboardEvent;
-	import starling.events.Touch;
-	import starling.events.TouchEvent;
-	import starling.events.TouchPhase;
+	import starling.extensions.particles.ColorArgb;
 	import starling.extensions.particles.PDParticleSystem;
 	import starling.extensions.particles.ParticleSystem;
 	import starling.textures.Texture;
 
-	public class Demo extends Sprite
-	{
+	public class Demo extends Sprite {
 		// particle designer configurations
 
 
-		[Embed(source="/../assets/particles/particle.pex", mimeType="application/octet-stream")]
+		[Embed(source = "/../assets/particles/particle.pex", mimeType = "application/octet-stream")]
 		private static const FireConfig:Class;
 
 		// particle textures
-		[Embed(source="/../assets/particles/texture.png")]
+		[Embed(source = "/../assets/particles/texture.png")]
 		private static const FireParticle:Class;
+
+		[Embed(source = "/../assets/particles/small_particle.png")]
+		private static const SmallParticle:Class;
 
 		// member variables
 
-		private var mParticleSystems:Vector.<PDParticleSystem>;
 		public var mParticleSystem:PDParticleSystem;
 
-		public function Demo()
-		{
-			ParticleSystem
-				var fireConfig:XML = XML(new FireConfig());
+		public var e1PS:PDParticleSystem;
+		public var e2PS:PDParticleSystem;
+		public var e3PS:PDParticleSystem;
+		public var e4PS:PDParticleSystem;
+
+		public function Demo() {
+			var fireConfig:XML = XML(new FireConfig());
 			var fireTexture:Texture = Texture.fromEmbeddedAsset(FireParticle);
 
+			var smallTexture:Texture = Texture.fromEmbeddedAsset(SmallParticle);
 
-			mParticleSystems = new <PDParticleSystem>[
-				new PDParticleSystem(fireConfig, fireTexture),
-				];
+
+			mParticleSystem = new PDParticleSystem(fireConfig, fireTexture);
+			e1PS = new PDParticleSystem(fireConfig, smallTexture);
+			e2PS = new PDParticleSystem(fireConfig, smallTexture);
+			e3PS = new PDParticleSystem(fireConfig, smallTexture);
+			e4PS = new PDParticleSystem(fireConfig, smallTexture);
+
+			//e1PS.startColor = ColorArgb.fromRgb(0xff0000);
+			//e1PS.maxRadius = e2PS.maxRadius = e3PS.maxRadius = e4PS.maxRadius = 1;
 
 			// add event handlers for touch and keyboard
 
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}
 
-		private function startNextParticleSystem():void
-		{
-			if (mParticleSystem)
-			{
-				mParticleSystem.stop();
-				mParticleSystem.removeFromParent();
-				Starling.juggler.remove(mParticleSystem);
-			}
+		private function inittParticleSystem():void {
 
-			mParticleSystem = mParticleSystems.shift();
-			mParticleSystems.push(mParticleSystem);
-
-			//mParticleSystem.emitterX = 320;
-			//mParticleSystem.emitterY = 240;
-			mParticleSystem.start();
-
+			//mParticleSystem.start();
 			addChild(mParticleSystem);
 			Starling.juggler.add(mParticleSystem);
+
+			addChild(e1PS);
+			Starling.juggler.add(e1PS);
+
+			addChild(e2PS);
+			Starling.juggler.add(e2PS);
+
+			addChild(e3PS);
+			Starling.juggler.add(e3PS);
+
+			addChild(e4PS);
+			Starling.juggler.add(e4PS);
 		}
 
-		private function onAddedToStage(event:Event):void
-		{
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKey);
-			stage.addEventListener(TouchEvent.TOUCH, onTouch);
-
-			startNextParticleSystem();
+		private function onAddedToStage(event:Event):void {
+			inittParticleSystem();
 		}
 
-		private function onRemovedFromStage(event:Event):void
-		{
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKey);
-			stage.removeEventListener(TouchEvent.TOUCH, onTouch);
-		}
-
-		private function onKey(event:Event, keyCode:uint):void
-		{
-			if (keyCode == Keyboard.SPACE)
-				startNextParticleSystem();
-		}
-
-		private function onTouch(event:TouchEvent):void
-		{
-			var touch:Touch = event.getTouch(stage);
-			if (touch && touch.phase != TouchPhase.HOVER)
-			{
-				mParticleSystem.emitterX = touch.globalX;
-				mParticleSystem.emitterY = touch.globalY;
-			}
-		}
 	}
 }
 
