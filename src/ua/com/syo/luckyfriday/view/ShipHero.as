@@ -49,6 +49,8 @@ package ua.com.syo.luckyfriday.view {
 			engines.addChild(engine3);
 			engines.addChild(engine4);
 			shipSeq.addChild(engines);
+			shipSeq.pivotX += 2;
+			shipSeq.pivotY -= 8;
 			super(name, {view: shipSeq});
 
 			_material = new Material(0.8, 1.0, 1.4, 1.5, 0.01);
