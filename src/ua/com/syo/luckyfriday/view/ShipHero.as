@@ -117,6 +117,7 @@ package ua.com.syo.luckyfriday.view {
 			offset.angle = body.rotation;
 			particles.mParticleSystem.emitterX = body.position.x - offset.x * direction;
 			particles.mParticleSystem.emitterY = body.position.y - offset.y * direction;
+			particles.mParticleSystem.startSize = 80;
 			particles.mParticleSystem.speed = 100 * direction;
 			particles.mParticleSystem.emitAngle = -(Math.PI - body.rotation);
 
@@ -124,25 +125,25 @@ package ua.com.syo.luckyfriday.view {
 			var p:Point = engine1.localToGlobal(new Point(0, 0));
 			particles.e1PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e1PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
-			particles.e1PS.speed = 200  * direction;
+			particles.e1PS.speed = 300  * direction;
 			particles.e1PS.emitAngle = -(Math.PI - body.rotation) + engine1.rotation + Math.PI/2;
 
 			p = engine2.localToGlobal(new Point(0, 0));
 			particles.e2PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e2PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
-			particles.e2PS.speed = 200  * direction;
+			particles.e2PS.speed = 300  * direction;
 			particles.e2PS.emitAngle = -(Math.PI - body.rotation) + engine2.rotation + Math.PI/2;
 
 			p = engine3.localToGlobal(new Point(0, 0));
 			particles.e3PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e3PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
-			particles.e3PS.speed = 200  * direction;
+			particles.e3PS.speed = 300  * direction;
 			particles.e3PS.emitAngle = -(Math.PI - body.rotation) + engine3.rotation + Math.PI/2;
 
 			p = engine4.localToGlobal(new Point(0, 0));
 			particles.e4PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e4PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
-			particles.e4PS.speed = 200  * direction;
+			particles.e4PS.speed = 300  * direction;
 			particles.e4PS.emitAngle = -(Math.PI - body.rotation) + engine4.rotation + Math.PI/2;
 		}
 
