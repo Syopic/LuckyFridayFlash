@@ -23,6 +23,9 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source="/../assets/img/platform.png")]
 		public static const PlatformC:Class;
 
+		[Embed(source="/../assets/img/engine.png")]
+		public static const EngineC:Class;
+
 		[Embed(source = '/../assets/json/cave.json', mimeType = 'application/octet-stream')]
 		private static const LevelJSON:Class;
 
