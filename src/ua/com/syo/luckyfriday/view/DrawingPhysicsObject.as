@@ -15,8 +15,12 @@ package ua.com.syo.luckyfriday.view {
 	import starling.display.Image;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.LevelData;
+	import ua.com.syo.luckyfriday.utils.ProjectUtils;
 
+	/**
+	 * Physics object with drawing shape
+	 * TODO - optimize draw calls
+	 */
 
 	public class DrawingPhysicsObject extends NapePhysicsObject {
 
@@ -27,9 +31,8 @@ package ua.com.syo.luckyfriday.view {
 			super(name);
 		}
 
-		public function drawShape(anchor:Vec2, strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void
-		{
-			var bBox:Rectangle = LevelData.getBoundingBox(points);
+		public function drawShape(anchor:Vec2, strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void {
+			var bBox:Rectangle = ProjectUtils.getBoundingBox(points);
 			var w:Number = bBox.width;
 			var h:Number = bBox.height;
 
@@ -39,9 +42,9 @@ package ua.com.syo.luckyfriday.view {
 			shape.graphics.beginFill(fillColor, 1);
 			for (var i:int = 0; i < points.length; i++) {
 				if (i == 0) {
-					shape.graphics.moveTo(points[i].x + w/2, points[i].y + h/2);
+					shape.graphics.moveTo(points[i].x + w / 2, points[i].y + h / 2);
 				} else {
-					shape.graphics.lineTo(points[i].x + w/2, points[i].y + h/2);
+					shape.graphics.lineTo(points[i].x + w / 2, points[i].y + h / 2);
 				}
 			}
 			shape.graphics.endFill();
@@ -55,18 +58,18 @@ package ua.com.syo.luckyfriday.view {
 			var filter2:BlurFilter = new BlurFilter(1, 1, 2);
 			var filter3:GlowFilter = new GlowFilter(0xa78d04, 1, 15, 15, 1);
 
-			bBox.width +=40;
-			bBox.height +=40;
+			bBox.width += 40;
+			bBox.height += 40;
 
-			result.draw(shape,  new Matrix(1,0,0,1,-bBox2.x + 10,-bBox2.y + 10), null, null, bBox, true);
+			result.draw(shape, new Matrix(1, 0, 0, 1, -bBox2.x + 10, -bBox2.y + 10), null, null, bBox, true);
 			result.applyFilter(result, bBox, new Point(0, 0), filter2);
 			result.applyFilter(result, bBox, new Point(0, 0), filter3);
 			var tex:Texture = Texture.fromBitmapData(result);
 			img = new Image(tex);
-			img.pivotX = -w/2 - anchor.x;
-			img.pivotY = -h/2 - anchor.y;
+			img.pivotX = -w / 2 - anchor.x;
+			img.pivotY = -h / 2 - anchor.y;
 			view = img;
-			_material = new Material(0.8,1.0,1.4,1.5,0.01); 
+			_material = new Material(0.8, 1.0, 1.4, 1.5, 0.01);
 		}
 	}
 }

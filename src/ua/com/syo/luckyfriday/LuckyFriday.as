@@ -8,7 +8,7 @@ package ua.com.syo.luckyfriday
 	import justpinegames.Logi.Console;
 	import justpinegames.Logi.ConsoleSettings;
 
-	import ua.com.syo.luckyfriday.view.TestGameState;
+	import ua.com.syo.luckyfriday.view.GameState;
 
 	[SWF(frameRate = "120", width = "1024", height = "600", backgroundColor = "0x000410")]
 	public class LuckyFriday extends StarlingCitrusEngine
@@ -22,7 +22,7 @@ package ua.com.syo.luckyfriday
 		}
 
 		override public function handleStarlingReady():void {
-			state = new TestGameState();
+			state = GameState.instance;
 
 			var settings:ConsoleSettings = new ConsoleSettings();
 			var logConsole:Console = new Console(settings);

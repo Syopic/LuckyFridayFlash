@@ -8,19 +8,29 @@ package ua.com.syo.luckyfriday.data
 	import nape.geom.Vec2;
 	import nape.phys.BodyType;
 
+	import ua.com.syo.luckyfriday.utils.ProjectUtils;
 	import ua.com.syo.luckyfriday.view.DrawingPhysicsObject;
 
 	public class LevelData
 	{
+		/**
+		 * Object types
+		 */
 		public static const CAVE_SHAPES:String = "cave";
 		public static const ROCK_SHAPES:String = "rocks";
 		public static const PLATFORM_SHAPES:String = "platforms";
 		public static const SHIP_SHAPES:String = "platform";
 
-		public static function addShapes(state:StarlingState, shapeType:String, bodyType:BodyType):Vector.<DrawingPhysicsObject> 
+		private static var shipRightPoints:Array;
+		private static var shipLeftPoints:Array;
+
+		/**
+		 * Create objects from level data by type
+		 */
+		public static function getObjectsByType(state:StarlingState, shapeType:String, bodyType:BodyType):Vector.<DrawingPhysicsObject> 
 		{
 			var drawingObj:Vector.<DrawingPhysicsObject> = new Vector.<DrawingPhysicsObject>();
-			var shapes:Array = Assets.levelData[shapeType];
+			var shapes:Array = Assets.levelObjects[shapeType];
 			var shapePoints:Array;
 			var points:Array;
 			var i:int, j:int;
@@ -29,7 +39,7 @@ package ua.com.syo.luckyfriday.data
 				shapePoints = shapes[i].shape;
 				points = new Array();
 
-				var bBox:Rectangle = getBoundingBox(shapePoints);
+				var bBox:Rectangle = ProjectUtils.getBoundingBox(shapePoints);
 				for (j = 0; j < shapePoints.length; j += 2) {
 					points.push(new Point(shapePoints[j] - bBox.x, shapePoints[j + 1] - bBox.y));
 				}
@@ -58,55 +68,72 @@ package ua.com.syo.luckyfriday.data
 			return drawingObj;
 		}
 
-		public static function getBoundingBox(points:Array):Rectangle
-		{
-			var xMin:Number = Infinity;
-			var yMin:Number = Infinity;
-			var xMax:Number = -Infinity;
-			var yMax:Number = -Infinity;
-			var j:int;
-			if (points[0] is Point) {
-				for (j = 0; j < points.length; j++) 
+		/**
+		 * Ship geometry
+		 */
+		static public function getShipGeom(isMirror:Boolean = false):Array {
+			var vertices:Array = [];
+			if (!isMirror)
+			{
+				if (!shipRightPoints)
 				{
-					xMin = Math.min(xMin, points[j].x);
-					yMin = Math.min(yMin, points[j].y);
-					xMax = Math.max(xMax, points[j].x);
-					yMax = Math.max(yMax, points[j].y);
-				}
-			} else {
-				for (j = 0; j < points.length; j += 2) {
-					xMin = Math.min(xMin, points[j]);
-					yMin = Math.min(yMin, points[j + 1]);
-					xMax = Math.max(xMin, points[j]);
-					yMax = Math.max(yMin, points[j + 1]);
+
+					vertices = getShipPoints();
+					shipRightPoints = vertices;
+				} else
+				{
+					vertices = shipRightPoints;
 				}
 			}
-			var w:Number = xMax - xMin;
-			var h:Number = yMax - yMin;
-			var result:Rectangle = new Rectangle(xMin, yMin, w, h);
+			else
+			{
+				if (!shipLeftPoints)
+				{
+					vertices = getShipPoints();
+					for (var i:int = 0; i < vertices.length; i++) 
+					{
+						var p:Point = vertices[i] as Point;
+						p.x = - p.x;
+					}
+					shipLeftPoints = vertices;
+				} else {
+					vertices = shipLeftPoints;
+				}
+			}
 
-			return result;
+			return vertices;
+		}
+
+
+		static private function getShipPoints():Array {
+			var vertices:Array = [];
+			var dx:int = -103;
+			var dy:int = -42;
+
+			vertices.push(new Point(15 + dx, 15 + dy));
+			vertices.push(new Point(22 + dx, 16 + dy));
+			vertices.push(new Point(22 + dx, 12 + dy));
+			vertices.push(new Point(51 + dx, 19 + dy));
+			vertices.push(new Point(106 + dx, 18 + dy));
+			vertices.push(new Point(117 + dx, 21 + dy));
+			vertices.push(new Point(144 + dx, 13 + dy));
+			vertices.push(new Point(140 + dx, 7 + dy));
+			vertices.push(new Point(184 + dx, 10 + dy));
+			vertices.push(new Point(196 + dx, 21 + dy));
+			vertices.push(new Point(196 + dx, 27 + dy));
+			vertices.push(new Point(164 + dx, 48 + dy));
+			vertices.push(new Point(138 + dx, 77 + dy));
+			vertices.push(new Point(67 + dx, 77 + dy));
+			vertices.push(new Point(61 + dx, 64 + dy));
+			vertices.push(new Point(23 + dx, 72 + dy));
+			vertices.push(new Point(22 + dx, 68 + dy));
+			vertices.push(new Point(15 + dx, 69 + dy));
+			vertices.push(new Point(7 + dx, 59 + dy));
+			vertices.push(new Point(7 + dx, 26 + dy));
+
+			return vertices;
 		}
 	}
 }
-/*
-{
-"level" : "{{global.level_name}}",{% for body in bodies %}{% if not forloop.first %}, {% endif %}
-"{{body.name}}": [{% for fixture in body.fixtures %}{% if not forloop.first %} ,{% endif %}{% if not forloop.first %}{% endif %}
-{"shape": [
-{% for point in fixture.hull %}{% if not forloop.first %}, {% endif %}({{point.x}}, {{point.y}}{% endfor %}
-]}
-{% endfor %}
-]{% endfor %}
-}
-*/
 
-/*
-{
-"level" : "{{global.level_name}}",{% for body in bodies %}{% if not forloop.first %}, {% endif %}
-"{{body.name}}": [{% for fixture in body.fixtures %}{% if not forloop.first %} ,{% endif %}{% for polygon in fixture.polygons %}{% if not forloop.first %},{% endif %}
-{"shape": [ {% for point in polygon %} {% if not forloop.first %}, {% endif %} {{point.x}}, {{point.y}} {% endfor %} ]}{% endfor %}{% endfor %}
-]{% endfor %}
-}
-*/
 

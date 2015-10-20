@@ -3,13 +3,10 @@ package ua.com.syo.luckyfriday.view {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	import mx.core.mx_internal;
-
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
-	import citrus.view.ACitrusCamera;
 	import citrus.view.starlingview.StarlingCamera;
 
 	import justpinegames.Logi.Console;
@@ -25,6 +22,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.LevelData;
@@ -34,10 +32,9 @@ package ua.com.syo.luckyfriday.view {
 	 *
 	 * @author Syo
 	 */
-	public class TestGameState extends StarlingState {
+	public class GameState extends StarlingState {
 
 		private var shipHero:ShipHero;
-		private var terrainView:TerrainView;
 		private var debug:ShapeDebug;
 		private var napeWorld:Nape;
 
@@ -47,10 +44,10 @@ package ua.com.syo.luckyfriday.view {
 
 		private var caveSprite:CitrusSprite;
 
-		private var particles:Demo;
+		public var particles:ParticlesView;
 		private var flame:CitrusSprite;
 
-		public function TestGameState() {
+		public function GameState() {
 			super();
 		}
 
@@ -60,26 +57,25 @@ package ua.com.syo.luckyfriday.view {
 			// init nape
 			napeWorld = new Nape("nape", {gravity: new Vec2(0, Globals.gravity)});
 			add(napeWorld);
-			//napeWorld.visible = true;
-			initDebugLayer();
+			if (Globals.isDebugMode) 
+				initDebugLayer();
 
 			// add background
-			add(new CitrusSprite("backgroud", {parallax:0.01, view: new Image(Assets.getTexture("BackgroundC"))}));
+			add(new CitrusSprite("backgroud", {parallax:0.01, view: new Image(Texture.fromEmbeddedAsset(Assets.BackgroundC))}));
 			//addChild(new Demo());
-			caveSprite = new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))});
+			caveSprite = new CitrusSprite("cave", {view: new Image(Texture.fromEmbeddedAsset(Assets.CaveC))});
 			add(caveSprite);
 
-			LevelData.addShapes(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
-			LevelData.addShapes(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			LevelData.addShapes(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			LevelData.getObjectsByType(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
+			LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
+			LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
-			particles = new Demo();
+			particles = new ParticlesView();
 			flame = new CitrusSprite("flame", {view:particles});
 			add(flame);
-			shipHero.particles = particles;
-			shipHero.state = this;
+			//shipHero.particles = particles;
 			add(shipHero);
 			shipHero.body.position.setxy(500, 300);
 
@@ -87,11 +83,12 @@ package ua.com.syo.luckyfriday.view {
 
 			mainCamera = view.camera as StarlingCamera;
 			mainCamera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
-			mainCamera.allowZoom = true;
-			mainCamera.allowRotation = true;
-			mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
+			//mainCamera.allowZoom = true;
+			//mainCamera.allowRotation = true;
+			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
 			//camera.zoom(0.7);
 			//camera.setRotation(Math.PI / 2);
+
 
 
 
@@ -104,7 +101,6 @@ package ua.com.syo.luckyfriday.view {
 
 				));
 		}
-
 
 		/**
 		 * Init debug layer
@@ -151,6 +147,14 @@ package ua.com.syo.luckyfriday.view {
 				mcDebug.x = -mainCamera.camPos.x + 512;
 				mcDebug.y = -mainCamera.camPos.y + 300;
 			}
+		}
+
+		private static var _instance:GameState;
+
+		public static function get instance():GameState
+		{
+			if (_instance == null) _instance = new GameState();
+			return _instance;
 		}
 	}
 }
