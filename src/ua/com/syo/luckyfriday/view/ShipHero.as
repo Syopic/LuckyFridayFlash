@@ -29,7 +29,7 @@ package ua.com.syo.luckyfriday.view {
 		 * Views
 		 */
 
-		private var shipView:Sprite;
+		private var thrustersView:Sprite;
 		private var animSeq:AnimationSequence;
 
 		private var thrusters:Vector.<ThrusterView> = new Vector.<ThrusterView>(4);
@@ -41,11 +41,12 @@ package ua.com.syo.luckyfriday.view {
 		private var dt:Number = 0;
 		private var prevButton:String;
 
-
 		public var direction:int = 1;
 
+		public var isAnimationRunning:Boolean = false;
+
 		public function ShipHero(name:String, params:Object = null) {
-			shipView = new Sprite();
+			thrustersView = new Sprite();
 
 			initAnimations();
 			initThrusters();
@@ -56,8 +57,14 @@ package ua.com.syo.luckyfriday.view {
 
 		private function initAnimations():void {
 			var ta:TextureAtlas = new TextureAtlas(Texture.fromEmbeddedAsset(ShipAnimC), XML(new ShipAnimXMLC()));
-			animSeq = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 30);
-			animSeq.addChild(shipView);
+			animSeq = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 140);
+			animSeq.addChild(thrustersView);
+			animSeq.onAnimationComplete.add(onAnimationOver);
+		}
+
+		protected function onAnimationOver(name:String):void
+		{
+			isAnimationRunning = false;
 		}
 
 		private function initThrusters():void {
@@ -68,32 +75,32 @@ package ua.com.syo.luckyfriday.view {
 				thrusters[i] = thruster;
 				thruster.x = thrustersPosition[i].x;
 				thruster.y = thrustersPosition[i].y;
-				shipView.addChild(thrusters[i]);
+				thrustersView.addChild(thrusters[i]);
 			}
+			thrustersView.x = 105;
+			thrustersView.pivotX = 105;
 		}
 
-		public function moveEmiter():void {
-			//flame.x = shipHero.body.position.x;
-			//flame.y = shipHero.body.position.y;
+		private function moveEmiter():void {
 
-			//update particle trail
-			var offset:Vec2 = new Vec2(100, 0);
-			offset.angle = body.rotation;
+			var offset:Vec2;
+			offset = new Vec2(100, 0);
+			offset.rotate(body.rotation);
 			GameState.instance.particles.mainEnginePS.emitterX = body.position.x - offset.x * direction;
 			GameState.instance.particles.mainEnginePS.emitterY = body.position.y - offset.y * direction;
-			GameState.instance.particles.mainEnginePS.startSize = 80;
-			GameState.instance.particles.mainEnginePS.speed = 120 * direction;
+			GameState.instance.particles.mainEnginePS.speed = 200 * direction;
 			GameState.instance.particles.mainEnginePS.emitAngle = -(Math.PI - body.rotation);
 
-			var p:Point;
+			var p:Point = new Point();
 			for (var i:int = 0; i < 4; i++) 
 			{
 				if (thrusters[i].isActive)
 				{
-					p = thrusters[i].localToGlobal(new Point(0, 0));
-					p.x += GameState.instance.mainCamera.camPos.x - 512;
-					p.y += GameState.instance.mainCamera.camPos.y - 300;
-					GameState.instance.particles.setThrusterPSParams(i, p, 300  * direction, -(Math.PI - body.rotation) + thrusters[i].angle + Math.PI/2);
+					offset = new Vec2(105-thrustersPosition[i].x, 45-thrustersPosition[i].y);
+					offset.rotate(body.rotation* direction);
+					p.x = body.position.x - offset.x * direction;
+					p.y = body.position.y - offset.y;
+					GameState.instance.particles.setThrusterPSParams(i, p, 300  * direction, body.rotation + (thrusters[i].angle - Math.PI/2) * direction );
 				}
 			}
 		}
@@ -121,13 +128,14 @@ package ua.com.syo.luckyfriday.view {
 				}
 				super.createShape();
 				direction = dir;
+					//isAnimationRunning = true;
 			} else {
 				//log("RETURN OLD");
 				body.position = oldPosition;
 				body.rotation = oldRotation;
 				body.velocity = oldVelocity;
 			}
-			//shipView.scaleX = -direction;
+			thrustersView.scaleX = direction;
 		}
 
 		private function testFlip(dir):Boolean {
@@ -175,7 +183,7 @@ package ua.com.syo.luckyfriday.view {
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
 
-			for (var i:int = 0; i < 4; i++) 
+			for (var i:int = 0; i < 4; i++)
 			{
 				thrusters[i].isActive = false;
 			}
@@ -214,7 +222,8 @@ package ua.com.syo.luckyfriday.view {
 				if (direction > 0) {
 					thrusters[0].angle = -Math.PI / 2;
 					thrusters[2].angle = -Math.PI / 2;
-					GameState.instance.particles.mainEnginePS.start();
+					if (!isAnimationRunning)
+						GameState.instance.particles.mainEnginePS.start();
 				} else {
 					thrusters[1].angle = Math.PI / 2;
 					thrusters[3].angle = Math.PI / 2;
@@ -223,7 +232,7 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.isDoing("backward")) {
 				impulse = new Vec2(-1, 0);
-				impulse.length = (direction == -1 ? Globals.moveBackwardImpulse : Globals.moveForwardImpulse);
+				impulse.length = (direction == -1 ? Globals.moveForwardImpulse : Globals.moveBackwardImpulse);
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.reflect(impulse), body.position);
 
@@ -234,7 +243,8 @@ package ua.com.syo.luckyfriday.view {
 				} else {
 					thrusters[0].angle = -Math.PI / 2;
 					thrusters[2].angle = -Math.PI / 2;
-					GameState.instance.particles.mainEnginePS.start();
+					if (!isAnimationRunning)
+						GameState.instance.particles.mainEnginePS.start();
 				}
 			}
 
@@ -298,7 +308,12 @@ package ua.com.syo.luckyfriday.view {
 			{
 				thrusters[i].update();
 				GameState.instance.particles.setThrusterPSActive(i, thrusters[i].isActive);
+
+				if (isAnimationRunning)
+					GameState.instance.particles.setThrusterPSActive(i, false);
 			}
+			thrustersView.visible = !isAnimationRunning;
+			moveEmiter();
 		}
 	}
 }

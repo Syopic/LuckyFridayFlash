@@ -7,7 +7,6 @@ package ua.com.syo.luckyfriday.view.ship
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.data.Assets;
-	import ua.com.syo.luckyfriday.view.GameState;
 
 	public class ThrusterView extends Sprite
 	{

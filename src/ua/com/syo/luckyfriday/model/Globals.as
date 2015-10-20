@@ -21,7 +21,7 @@ package ua.com.syo.luckyfriday.model
 		 * Ship params
 		 */
 		public static var rotateImpulse:Number = 70;
-		public static var moveUpImpulse:Number = 0.75;
+		public static var moveUpImpulse:Number = 1;
 		public static var moveDownImpulse:Number = 0.75;
 		public static var moveForwardImpulse:Number = 3.0;
 		public static var moveBackwardImpulse:Number = 0.7;

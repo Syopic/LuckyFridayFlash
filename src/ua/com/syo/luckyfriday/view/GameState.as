@@ -67,8 +67,8 @@ package ua.com.syo.luckyfriday.view {
 			add(caveSprite);
 
 			LevelData.getObjectsByType(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
-			LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			//LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
+			//LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
@@ -135,10 +135,7 @@ package ua.com.syo.luckyfriday.view {
 				console.isShown = !console.isShown;
 			}
 
-
-
 			shipHero.update(timeDelta);
-			shipHero.moveEmiter();
 
 			if (Globals.isDebugMode) {
 				debug.clear();
@@ -147,6 +144,8 @@ package ua.com.syo.luckyfriday.view {
 				mcDebug.x = -mainCamera.camPos.x + 512;
 				mcDebug.y = -mainCamera.camPos.y + 300;
 			}
+			//flame.x = -mainCamera.camPos.x;
+			//flame.y = -mainCamera.camPos.y;
 		}
 
 		private static var _instance:GameState;
