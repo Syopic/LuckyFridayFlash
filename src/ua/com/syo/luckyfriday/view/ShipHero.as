@@ -69,28 +69,27 @@ package ua.com.syo.luckyfriday.view {
 			engine3 = new Image(Assets.getTexture("EngineC"));
 			engine4 = new Image(Assets.getTexture("EngineC"));
 
-			//engine1.pivotX = engine2.pivotX = engine3.pivotX = engine4.pivotX = 4;
-			//engine1.pivotY = engine2.pivotY = engine3.pivotY = engine4.pivotY = 26;
+			engine1.pivotX = engine2.pivotX = engine3.pivotX = engine4.pivotX = 4;
+			engine1.pivotY = engine2.pivotY = engine3.pivotY = engine4.pivotY = 12;
 
 
 			engine1.x = 20;
-			engine1.y = 20;
+			engine1.y = 22;
 
-			engine2.x = 180;
+			engine2.x = 185;
 			engine2.y = 15;
 
 			engine3.x = 20;
-			engine3.y = 70;
+			engine3.y = 69;
 
-			engine4.x = 180;
-			engine4.y = 45;
+			engine4.x = 185;
+			engine4.y = 37;
 
 			engine1.rotation = 0;
 			engine2.rotation = 0;
 			engine3.rotation = Math.PI;
 			engine4.rotation = Math.PI;
 		}
-
 
 		private var e1Angle:Number = 0;
 		private var e2Angle:Number = 0;
@@ -122,30 +121,31 @@ package ua.com.syo.luckyfriday.view {
 			particles.mParticleSystem.emitAngle = -(Math.PI - body.rotation);
 
 
-			var p:Point = engine1.localToGlobal(new Point(0, 0));
+			var p:Point = engine1.localToGlobal(new Point(4, 4));
 			particles.e1PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e1PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
 			particles.e1PS.speed = 300  * direction;
 			particles.e1PS.emitAngle = -(Math.PI - body.rotation) + engine1.rotation + Math.PI/2;
 
-			p = engine2.localToGlobal(new Point(0, 0));
+			p = engine2.localToGlobal(new Point(4, 4));
 			particles.e2PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e2PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
 			particles.e2PS.speed = 300  * direction;
 			particles.e2PS.emitAngle = -(Math.PI - body.rotation) + engine2.rotation + Math.PI/2;
 
-			p = engine3.localToGlobal(new Point(0, 0));
+			p = engine3.localToGlobal(new Point(4, 4));
 			particles.e3PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e3PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
 			particles.e3PS.speed = 300  * direction;
 			particles.e3PS.emitAngle = -(Math.PI - body.rotation) + engine3.rotation + Math.PI/2;
 
-			p = engine4.localToGlobal(new Point(0, 0));
+			p = engine4.localToGlobal(new Point(4, 4));
 			particles.e4PS.emitterX = p.x + state.mainCamera.camPos.x - 512;
 			particles.e4PS.emitterY = p.y + state.mainCamera.camPos.y - 300;
 			particles.e4PS.speed = 300  * direction;
 			particles.e4PS.emitAngle = -(Math.PI - body.rotation) + engine4.rotation + Math.PI/2;
 		}
+
 
 
 		override protected function createShape():void {
@@ -383,12 +383,13 @@ package ua.com.syo.luckyfriday.view {
 				particles.mParticleSystem.stop();
 			}
 
+
 			engine1.visible ? particles.e1PS.start() : particles.e1PS.stop();
 			engine2.visible ? particles.e2PS.start() : particles.e2PS.stop();
 			engine3.visible ? particles.e3PS.start() : particles.e3PS.stop();
 			engine4.visible ? particles.e4PS.start() : particles.e4PS.stop();
 
-			engine1.visible = engine2.visible = engine3.visible = engine4.visible = false;
+			engine1.visible = engine2.visible = engine3.visible = engine4.visible = true;
 
 			oldX = body.position.x;
 			updateEngines();
