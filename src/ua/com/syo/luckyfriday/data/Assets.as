@@ -9,16 +9,18 @@ package ua.com.syo.luckyfriday.data {
 		/**
 		 * Level assets
 		 */
-		[Embed(source="/../assets/img/back2.png")]
+		[Embed(source="/../assets/levels/level1/bg.png")]
 		public static const BackgroundC:Class;
 
-		[Embed(source="/../assets/img/cave2.png")]
+		[Embed(source="/../assets/levels/level1/fg.png")]
 		public static const CaveC:Class;
 
+		/*
 		[Embed(source="/../assets/img/vignette.png")]
 		public static const VignetteC:Class;
+		*/
 
-		[Embed(source = '/../assets/json/cave.json', mimeType = 'application/octet-stream')]
+		[Embed(source = '/../assets/levels/level1/levelData.json', mimeType = 'application/octet-stream')]
 		private static const LevelJSON:Class;
 
 		/**

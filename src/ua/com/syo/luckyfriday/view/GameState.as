@@ -1,5 +1,6 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -16,7 +17,10 @@ package ua.com.syo.luckyfriday.view {
 	import nape.callbacks.InteractionCallback;
 	import nape.callbacks.InteractionListener;
 	import nape.callbacks.InteractionType;
+	import nape.dynamics.Arbiter;
 	import nape.geom.Vec2;
+	import nape.geom.Vec3;
+	import nape.phys.Body;
 	import nape.phys.BodyType;
 	import nape.util.ShapeDebug;
 
@@ -42,6 +46,7 @@ package ua.com.syo.luckyfriday.view {
 		public var mainCamera:StarlingCamera;
 		private var mcDebug:flash.display.MovieClip;
 
+		private var bgSprite:CitrusSprite;
 		private var caveSprite:CitrusSprite;
 
 		public var particles:ParticlesView;
@@ -61,14 +66,17 @@ package ua.com.syo.luckyfriday.view {
 				initDebugLayer();
 
 			// add background
-			add(new CitrusSprite("backgroud", {parallax:0.01, view: new Image(Texture.fromEmbeddedAsset(Assets.BackgroundC))}));
+			bgSprite = new CitrusSprite("backgroud", {view: new Image(Texture.fromEmbeddedAsset(Assets.BackgroundC))});
+			add(bgSprite);
+			bgSprite.parallaxX = 0.1;
+			bgSprite.parallaxY = 0.1;
 			//addChild(new Demo());
 			caveSprite = new CitrusSprite("cave", {view: new Image(Texture.fromEmbeddedAsset(Assets.CaveC))});
 			add(caveSprite);
 
 			LevelData.getObjectsByType(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
-			//LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			//LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
+			LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
@@ -83,10 +91,12 @@ package ua.com.syo.luckyfriday.view {
 
 			mainCamera = view.camera as StarlingCamera;
 			mainCamera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
-			//mainCamera.allowZoom = true;
+			mainCamera.allowZoom = true;
+
+
 			//mainCamera.allowRotation = true;
 			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
-			//camera.zoom(0.7);
+			camera.zoom(1.5);
 			//camera.setRotation(Math.PI / 2);
 
 
@@ -96,7 +106,14 @@ package ua.com.syo.luckyfriday.view {
 
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY,
 				function OnCollision(e:InteractionCallback):void {
-				//log("Body type: " + e.int2.castBody.type.toString() + " Collision Normal: " + e.int2.castBody.arbiters.at(0).collisionArbiter.normal.toString());
+					if (shipHero.body == e.int1 as Body || shipHero.body == e.int2 as Body)
+					{
+						//TODO
+						var v3:Vec3 = shipHero.body.normalImpulse();
+
+						cameraShake = Math.min(10, v3.length/1000);
+							//log(cameraShake);
+					}
 				}
 
 				));
@@ -144,8 +161,32 @@ package ua.com.syo.luckyfriday.view {
 				mcDebug.x = -mainCamera.camPos.x + 512;
 				mcDebug.y = -mainCamera.camPos.y + 300;
 			}
+
+
+			shakeAnimation(null);
 			//flame.x = -mainCamera.camPos.x;
 			//flame.y = -mainCamera.camPos.y;
+		}
+
+		private var cameraShake:Number = 0;
+		private function shakeAnimation(event:Event):void
+		{
+			// Animate quake effect, shaking the camera a little to the sides and up and down.
+			if (cameraShake > 0)
+			{
+				cameraShake -= 0.1;
+				// Shake left right randomly.
+				this.x = int(Math.random() * cameraShake - cameraShake * 0.5); 
+				// Shake up down randomly.
+				this.y = int(Math.random() * cameraShake - cameraShake * 0.5); 
+			}
+			else if (x != 0) 
+			{
+				// If the shake value is 0, reset the stage back to normal.
+				// Reset to initial position.
+				this.x = 0;
+				this.y = 0;
+			}
 		}
 
 		private static var _instance:GameState;
