@@ -134,13 +134,13 @@ package ua.com.syo.luckyfriday.view {
 
 		private function createPivotJoint(body1:Body, body2:Body):void
 		{
-			var anchorBody_1:Vec2 = new Vec2(body1.localCOM.x, body1.localCOM.y + 35);
-			var anchorBody_2:Vec2 = new Vec2(body2.localCOM.x, body2.localCOM.y - 20);
+			var anchorBody_1:Vec2 = new Vec2(body1.localCOM.x, body1.localCOM.y + 55);
+			var anchorBody_2:Vec2 = new Vec2(body2.localCOM.x, body2.localCOM.y);
 			pivotJoint = new PivotJoint(body1, body2, anchorBody_1, anchorBody_2);
 			//pivotJoint.ignore = true;
 			pivotJoint.stiff = false;
 			pivotJoint.maxError = 50;
-			pivotJoint.maxForce = 8000;
+			pivotJoint.maxForce = 4000;
 			pivotJoint.breakUnderError = true;
 			pivotJoint.breakUnderForce = true;
 			pivotJoint.space = napeWorld.space;
@@ -149,6 +149,8 @@ package ua.com.syo.luckyfriday.view {
 			t.addEventListener(TimerEvent.TIMER, deactivateJoint);
 			t.start();
 		}
+
+
 
 		private function deactivateJoint(event:TimerEvent):void
 		{
@@ -199,8 +201,15 @@ package ua.com.syo.luckyfriday.view {
 					pivotJoint.space = null;
 				else
 				{
-					createPivotJoint(shipHero.body, rocks[0].body);
-						//createPivotJoint(shipHero.body, rocks[1].body);
+					for (var i:int = 0; i < rocks.length; i++) 
+					{
+						if (Vec2.distance(shipHero.body.position, rocks[i].body.position) < 100)
+						{
+							createPivotJoint(shipHero.body, rocks[i].body);
+							break;
+						}
+
+					}
 				}
 			}
 
