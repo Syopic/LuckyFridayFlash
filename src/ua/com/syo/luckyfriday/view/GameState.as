@@ -1,8 +1,10 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.utils.Timer;
 
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
@@ -17,6 +19,7 @@ package ua.com.syo.luckyfriday.view {
 	import nape.callbacks.InteractionCallback;
 	import nape.callbacks.InteractionListener;
 	import nape.callbacks.InteractionType;
+	import nape.constraint.PivotJoint;
 	import nape.dynamics.Arbiter;
 	import nape.geom.Vec2;
 	import nape.geom.Vec3;
@@ -51,6 +54,7 @@ package ua.com.syo.luckyfriday.view {
 
 		public var particles:ParticlesView;
 		private var flame:CitrusSprite;
+		private var rocks:Vector.<DrawingPhysicsObject>;
 
 		public function GameState() {
 			super();
@@ -76,7 +80,7 @@ package ua.com.syo.luckyfriday.view {
 
 			LevelData.getObjectsByType(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
 			LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			rocks = LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
 			// add ship hero
 			shipHero = new ShipHero("ship");
@@ -96,27 +100,64 @@ package ua.com.syo.luckyfriday.view {
 
 			//mainCamera.allowRotation = true;
 			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
-			camera.zoom(1.5);
+			//camera.zoom(1.5);
 			//camera.setRotation(Math.PI / 2);
-
 
 
 
 			initKeyboardActions();
 
-			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY,
-				function OnCollision(e:InteractionCallback):void {
-					if (shipHero.body == e.int1 as Body || shipHero.body == e.int2 as Body)
-					{
-						//TODO
-						var v3:Vec3 = shipHero.body.normalImpulse();
+			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
+		}
 
-						cameraShake = Math.min(10, v3.length/1000);
-							//log(cameraShake);
+		private function OnCollision(e:InteractionCallback):void
+		{
+			if (shipHero.body == e.int1 as Body || shipHero.body == e.int2 as Body)
+			{
+				//TODO
+				var v3:Vec3 = shipHero.body.normalImpulse();
+
+				cameraShake = Math.min(10, v3.length/1000);
+				//log(cameraShake);
+				if (rocks[0].body == e.int1 as Body || rocks[0].body == e.int2 as Body)
+				{
+					if (!pivotJoint ||  pivotJoint && !pivotJoint.space)
+					{
+						//createPivotJoint(shipHero.body, rocks[0].body);
 					}
 				}
+			}
+		}
 
-				));
+		private var pivotJoint:PivotJoint;
+		private var t:Timer;
+
+		private function createPivotJoint(body1:Body, body2:Body):void
+		{
+			var anchorBody_1:Vec2 = new Vec2(body1.localCOM.x, body1.localCOM.y + 35);
+			var anchorBody_2:Vec2 = new Vec2(body2.localCOM.x, body2.localCOM.y - 20);
+			pivotJoint = new PivotJoint(body1, body2, anchorBody_1, anchorBody_2);
+			//pivotJoint.ignore = true;
+			pivotJoint.stiff = false;
+			pivotJoint.maxError = 50;
+			pivotJoint.maxForce = 8000;
+			pivotJoint.breakUnderError = true;
+			pivotJoint.breakUnderForce = true;
+			pivotJoint.space = napeWorld.space;
+			pivotJoint.removeOnBreak = true;
+			t = new Timer(1000, 1);
+			t.addEventListener(TimerEvent.TIMER, deactivateJoint);
+			t.start();
+		}
+
+		private function deactivateJoint(event:TimerEvent):void
+		{
+			//pivotJoint.active = !pivotJoint.active;
+			pivotJoint.maxError = 1;
+			pivotJoint.maxForce = 500;
+			pivotJoint.breakUnderError = true;
+			pivotJoint.breakUnderForce = true;
+			t.removeEventListener(TimerEvent.TIMER, deactivateJoint);
 		}
 
 		/**
@@ -141,6 +182,7 @@ package ua.com.syo.luckyfriday.view {
 		private function initKeyboardActions():void {
 			var kb:Keyboard = _ce.input.keyboard;
 			kb.addKeyAction("console", Keyboard.TAB);
+			kb.addKeyAction("break", Keyboard.SPACE);
 		}
 
 
@@ -150,6 +192,16 @@ package ua.com.syo.luckyfriday.view {
 			if (_ce.input.hasDone("console")) {
 				var console:Console = Console.getMainConsoleInstance();
 				console.isShown = !console.isShown;
+			}
+
+			if (_ce.input.hasDone("break")) {
+				if (pivotJoint && pivotJoint.space)
+					pivotJoint.space = null;
+				else
+				{
+					createPivotJoint(shipHero.body, rocks[0].body);
+						//createPivotJoint(shipHero.body, rocks[1].body);
+				}
 			}
 
 			shipHero.update(timeDelta);

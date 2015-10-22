@@ -5,12 +5,12 @@ package ua.com.syo.luckyfriday.model
 		/**
 		 * Dev params
 		 */
-		public static var isDebugMode:Boolean = false;
+		public static var isDebugMode:Boolean = true;
 
 		/**
 		 * Envirement params
 		 */
-		public static var gravity:Number = 0.2;
+		public static var gravity:Number = 0.3;
 
 		/**
 		 * Input params
@@ -21,10 +21,10 @@ package ua.com.syo.luckyfriday.model
 		 * Ship params
 		 */
 		public static var rotateImpulse:Number = 70;
-		public static var moveUpImpulse:Number = 1;
-		public static var moveDownImpulse:Number = 0.75;
+		public static var moveUpImpulse:Number = 2;
+		public static var moveDownImpulse:Number = 2;
 		public static var moveForwardImpulse:Number = 3.0;
-		public static var moveBackwardImpulse:Number = 0.7;
+		public static var moveBackwardImpulse:Number = 2;
 
 
 
