@@ -183,6 +183,7 @@ package ua.com.syo.luckyfriday.view {
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
 
+			var thrustersVolume:Number = 0;
 			for (var i:int = 0; i < 4; i++)
 			{
 				thrusters[i].isActive = false;
@@ -222,13 +223,17 @@ package ua.com.syo.luckyfriday.view {
 				if (direction > 0) {
 					thrusters[0].angle = -Math.PI / 2;
 					thrusters[2].angle = -Math.PI / 2;
-					if (!isAnimationRunning)
+					if (!isAnimationRunning) {
 						GameState.instance.particles.mainEnginePS.start();
+						thrustersVolume = 0.2;
+					}
 				} else {
 					thrusters[1].angle = Math.PI / 2;
 					thrusters[3].angle = Math.PI / 2;
 				}
+
 			}
+
 
 			if (_ce.input.isDoing("backward")) {
 				impulse = new Vec2(-1, 0);
@@ -244,7 +249,10 @@ package ua.com.syo.luckyfriday.view {
 					thrusters[0].angle = -Math.PI / 2;
 					thrusters[2].angle = -Math.PI / 2;
 					if (!isAnimationRunning)
+					{
+						thrustersVolume = 0.2;
 						GameState.instance.particles.mainEnginePS.start();
+					}
 				}
 			}
 
@@ -304,14 +312,27 @@ package ua.com.syo.luckyfriday.view {
 				}
 			}
 
+
 			for (i = 0; i < 4; i++) 
 			{
 				thrusters[i].update();
 				GameState.instance.particles.setThrusterPSActive(i, thrusters[i].isActive);
 
+				if (thrusters[i].isActive) thrustersVolume += 0.1;
+
 				if (isAnimationRunning)
 					GameState.instance.particles.setThrusterPSActive(i, false);
 			}
+			if (thrustersVolume > 0) {
+				GameState.instance.soundManager.resumeSound("engine");
+				GameState.instance.soundManager.setVolume("engine", thrustersVolume);
+			}
+			else
+			{
+				GameState.instance.soundManager.pauseSound("engine");
+			}
+
+
 			thrustersView.visible = !isAnimationRunning;
 			moveEmiter();
 		}

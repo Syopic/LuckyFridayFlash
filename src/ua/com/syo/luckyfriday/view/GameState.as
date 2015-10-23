@@ -10,6 +10,7 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
+	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.StarlingCamera;
 
 	import justpinegames.Logi.Console;
@@ -20,7 +21,6 @@ package ua.com.syo.luckyfriday.view {
 	import nape.callbacks.InteractionListener;
 	import nape.callbacks.InteractionType;
 	import nape.constraint.PivotJoint;
-	import nape.dynamics.Arbiter;
 	import nape.geom.Vec2;
 	import nape.geom.Vec3;
 	import nape.phys.Body;
@@ -55,6 +55,7 @@ package ua.com.syo.luckyfriday.view {
 		public var particles:ParticlesView;
 		private var flame:CitrusSprite;
 		private var rocks:Vector.<DrawingPhysicsObject>;
+		public var soundManager:SoundManager;
 
 		public function GameState() {
 			super();
@@ -108,7 +109,10 @@ package ua.com.syo.luckyfriday.view {
 			initKeyboardActions();
 
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
+
+			initSounds();
 		}
+
 
 		private function OnCollision(e:InteractionCallback):void
 		{
@@ -118,14 +122,7 @@ package ua.com.syo.luckyfriday.view {
 				var v3:Vec3 = shipHero.body.normalImpulse();
 
 				cameraShake = Math.min(10, v3.length/1000);
-				//log(cameraShake);
-				if (rocks[0].body == e.int1 as Body || rocks[0].body == e.int2 as Body)
-				{
-					if (!pivotJoint ||  pivotJoint && !pivotJoint.space)
-					{
-						//createPivotJoint(shipHero.body, rocks[0].body);
-					}
-				}
+					//soundManager.playSound("disconnect");
 			}
 		}
 
@@ -198,7 +195,10 @@ package ua.com.syo.luckyfriday.view {
 
 			if (_ce.input.hasDone("break")) {
 				if (pivotJoint && pivotJoint.space)
+				{
 					pivotJoint.space = null;
+					soundManager.playSound("disconnect");
+				}
 				else
 				{
 					for (var i:int = 0; i < rocks.length; i++) 
@@ -206,6 +206,7 @@ package ua.com.syo.luckyfriday.view {
 						if (Vec2.distance(shipHero.body.position, rocks[i].body.position) < 100)
 						{
 							createPivotJoint(shipHero.body, rocks[i].body);
+							soundManager.playSound("connect");
 							break;
 						}
 
@@ -248,6 +249,20 @@ package ua.com.syo.luckyfriday.view {
 				this.x = 0;
 				this.y = 0;
 			}
+		}
+
+		private function initSounds():void
+		{
+			soundManager = new SoundManager();
+			soundManager.addSound("loop", { sound:Assets.LoopSoundC, loops:-1, volume:0.01});
+			soundManager.addSound("engine", { sound:Assets.EngineSoundC, loops:100000, volume:0.3});
+
+			soundManager.addSound("connect", { sound:Assets.ConnectSoundC, volume:0.5});
+			soundManager.addSound("disconnect", { sound:Assets.DisconnectSoundC, volume:0.1});
+
+			soundManager.playSound("loop");
+			soundManager.playSound("engine");
+
 		}
 
 		private static var _instance:GameState;

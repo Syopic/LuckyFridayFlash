@@ -15,11 +15,6 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source="/../assets/levels/level1/fg.png")]
 		public static const CaveC:Class;
 
-		/*
-		[Embed(source="/../assets/img/vignette.png")]
-		public static const VignetteC:Class;
-		*/
-
 		[Embed(source = '/../assets/levels/level1/levelData.json', mimeType = 'application/octet-stream')]
 		private static const LevelJSON:Class;
 
@@ -51,6 +46,22 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/particles/small_particle.png")]
 		public static const SmallParticle:Class;
+
+		/**
+		 * Sounds
+		 */
+
+		[Embed(source = "/../assets/sounds/space.mp3")]
+		public static const LoopSoundC:Class;
+
+		[Embed(source = "/../assets/sounds/engine.mp3")]
+		public static const EngineSoundC:Class;
+
+		[Embed(source = "/../assets/sounds/connect.mp3")]
+		public static const ConnectSoundC:Class;
+
+		[Embed(source = "/../assets/sounds/disconnect.mp3")]
+		public static const DisconnectSoundC:Class;
 
 
 		/**
