@@ -9,8 +9,9 @@ package ua.com.syo.luckyfriday
 	import justpinegames.Logi.ConsoleSettings;
 
 	import ua.com.syo.luckyfriday.view.GameState;
+	import ua.com.syo.luckyfriday.view.HUDView;
 
-	[SWF(frameRate = "60", width = "1024", height = "600", backgroundColor = "0x000410")]
+	[SWF(frameRate = "60", width = "1280", height = "720", backgroundColor = "0x000410")]
 	public class LuckyFriday extends StarlingCitrusEngine
 	{
 		// entry point
@@ -27,6 +28,8 @@ package ua.com.syo.luckyfriday
 			var settings:ConsoleSettings = new ConsoleSettings();
 			var logConsole:Console = new Console(settings);
 			this.starling.stage.addChild(logConsole).y = -7;
+
+
 
 		}
 	}

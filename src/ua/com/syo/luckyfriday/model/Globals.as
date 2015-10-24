@@ -5,7 +5,7 @@ package ua.com.syo.luckyfriday.model
 		/**
 		 * Dev params
 		 */
-		public static var isDebugMode:Boolean = true;
+		public static var isDebugMode:Boolean = false;
 
 		/**
 		 * Envirement params

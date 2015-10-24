@@ -12,6 +12,7 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.physics.nape.Nape;
 	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.StarlingCamera;
+	import citrus.view.starlingview.StarlingView;
 
 	import justpinegames.Logi.Console;
 
@@ -29,6 +30,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.display.Sprite;
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.data.Assets;
@@ -98,10 +100,10 @@ package ua.com.syo.luckyfriday.view {
 			mainCamera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
 			mainCamera.allowZoom = true;
 
-
+			mainCamera.zoomEasing = 0.001;
 			//mainCamera.allowRotation = true;
 			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
-			//camera.zoom(1.5);
+
 			//camera.setRotation(Math.PI / 2);
 
 
@@ -109,7 +111,11 @@ package ua.com.syo.luckyfriday.view {
 			initKeyboardActions();
 
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
+			HUDView.instance.init();
 
+			var stateContainer:Sprite = ((view as StarlingView).viewRoot as Sprite);
+			stateContainer.addChild(HUDView.instance);
+			//addChild(HUDView.instance);
 			initSounds();
 		}
 
@@ -220,15 +226,33 @@ package ua.com.syo.luckyfriday.view {
 				debug.clear();
 				debug.draw(napeWorld.space);
 				debug.flush();
-				mcDebug.x = -mainCamera.camPos.x + 512;
-				mcDebug.y = -mainCamera.camPos.y + 300;
+				mcDebug.x = -mainCamera.camPos.x + stage.stageWidth / 2;
+				mcDebug.y = -mainCamera.camPos.y + stage.stageHeight / 2;
 			}
 
-
+			if (Math.abs(3840 / 2 - mainCamera.camPos.x) < 300)
+			{
+				if (!isZoomIn)
+				{
+					camera.baseZoom = 1.5;
+					isZoomIn = true;
+				}
+			}
+			else
+			{
+				if (isZoomIn)
+				{
+					camera.baseZoom = 1;
+					isZoomIn = false;
+				}
+			}
+			log(camera.zoomEasing);
 			shakeAnimation(null);
 			//flame.x = -mainCamera.camPos.x;
 			//flame.y = -mainCamera.camPos.y;
 		}
+
+		private var isZoomIn:Boolean = false;
 
 		private var cameraShake:Number = 0;
 		private function shakeAnimation(event:Event):void
