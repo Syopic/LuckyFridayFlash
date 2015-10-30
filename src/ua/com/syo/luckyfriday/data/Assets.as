@@ -3,6 +3,7 @@ package ua.com.syo.luckyfriday.data {
 	import flash.utils.Dictionary;
 
 	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
 
 	public class Assets
 	{
@@ -65,6 +66,17 @@ package ua.com.syo.luckyfriday.data {
 
 
 		/**
+		 * Atlases
+		 */
+
+		[Embed(source = "/../assets/anim/shipAnim.png")]
+		private static var ShipAnimC:Class;
+
+		[Embed(source = "/../assets/anim/shipAnim.xml", mimeType = "application/octet-stream")]
+		private static var ShipAnimXMLC:Class;
+
+
+		/**
 		 * ------------------
 		 * 		Helpers
 		 * ------------------
@@ -81,6 +93,23 @@ package ua.com.syo.luckyfriday.data {
 			}
 			return gameTextures[name];
 		}
+
+
+		/**
+		 * Cashing atlases
+		 */
+		private static var shipTextureAtlas:TextureAtlas;
+		public static function getShipHeroAtlas():TextureAtlas
+		{
+			if (shipTextureAtlas == null)
+			{
+				var texture:Texture = getTexture("ShipAnimC");
+				var xml:XML = XML(new ShipAnimXMLC());
+				shipTextureAtlas = new TextureAtlas(texture, xml);
+			}
+			return shipTextureAtlas;
+		}
+
 
 		/**
 		 * Cashing JSON object

@@ -4,6 +4,7 @@ package ua.com.syo.luckyfriday.view {
 
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.NapePhysicsObject;
+	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.AnimationSequence;
 
 	import nape.geom.Vec2;
@@ -12,6 +13,7 @@ package ua.com.syo.luckyfriday.view {
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
+	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
 	import ua.com.syo.luckyfriday.view.ship.ThrusterView;
@@ -19,11 +21,7 @@ package ua.com.syo.luckyfriday.view {
 
 	public class ShipHero extends NapePhysicsObject {
 
-		[Embed(source = "/../assets/anim/shipAnim.png")]
-		private var ShipAnimC:Class;
 
-		[Embed(source = "/../assets/anim/shipAnim.xml", mimeType = "application/octet-stream")]
-		private var ShipAnimXMLC:Class;
 
 		/**
 		 * Views
@@ -56,7 +54,7 @@ package ua.com.syo.luckyfriday.view {
 		}
 
 		private function initAnimations():void {
-			var ta:TextureAtlas = new TextureAtlas(Texture.fromEmbeddedAsset(ShipAnimC), XML(new ShipAnimXMLC()));
+			var ta:TextureAtlas = Assets.getShipHeroAtlas();
 			animSeq = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 140);
 			animSeq.addChild(thrustersView);
 			animSeq.onAnimationComplete.add(onAnimationOver);
@@ -104,8 +102,6 @@ package ua.com.syo.luckyfriday.view {
 				}
 			}
 		}
-
-
 
 		override protected function createShape():void {
 
@@ -324,12 +320,12 @@ package ua.com.syo.luckyfriday.view {
 					GameState.instance.particles.setThrusterPSActive(i, false);
 			}
 			if (thrustersVolume > 0) {
-				GameState.instance.soundManager.resumeSound("engine");
-				GameState.instance.soundManager.setVolume("engine", thrustersVolume);
+				SoundManager.getInstance().resumeSound("engine");
+				SoundManager.getInstance().setVolume("engine", thrustersVolume);
 			}
 			else
 			{
-				GameState.instance.soundManager.pauseSound("engine");
+				SoundManager.getInstance().pauseSound("engine");
 			}
 
 

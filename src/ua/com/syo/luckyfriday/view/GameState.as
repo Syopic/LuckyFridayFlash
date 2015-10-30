@@ -5,7 +5,9 @@ package ua.com.syo.luckyfriday.view {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Timer;
+	import flash.utils.getTimer;
 
+	import citrus.core.starling.StarlingCitrusEngine;
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.objects.CitrusSprite;
@@ -33,6 +35,7 @@ package ua.com.syo.luckyfriday.view {
 	import starling.display.Sprite;
 	import starling.textures.Texture;
 
+	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
@@ -43,7 +46,7 @@ package ua.com.syo.luckyfriday.view {
 	 */
 	public class GameState extends StarlingState {
 
-		private var shipHero:ShipHero;
+		public var shipHero:ShipHero;
 		private var debug:ShapeDebug;
 		private var napeWorld:Nape;
 
@@ -57,7 +60,7 @@ package ua.com.syo.luckyfriday.view {
 		public var particles:ParticlesView;
 		private var flame:CitrusSprite;
 		private var rocks:Vector.<DrawingPhysicsObject>;
-		public var soundManager:SoundManager;
+		private var hudView:HUDView;
 
 		public function GameState() {
 			super();
@@ -73,12 +76,12 @@ package ua.com.syo.luckyfriday.view {
 				initDebugLayer();
 
 			// add background
-			bgSprite = new CitrusSprite("backgroud", {view: new Image(Texture.fromEmbeddedAsset(Assets.BackgroundC))});
+			bgSprite = new CitrusSprite("backgroud", {view: new Image(Assets.getTexture("BackgroundC"))});
 			add(bgSprite);
 			bgSprite.parallaxX = 0.1;
 			bgSprite.parallaxY = 0.1;
 			//addChild(new Demo());
-			caveSprite = new CitrusSprite("cave", {view: new Image(Texture.fromEmbeddedAsset(Assets.CaveC))});
+			caveSprite = new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))});
 			add(caveSprite);
 
 			LevelData.getObjectsByType(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
@@ -111,10 +114,8 @@ package ua.com.syo.luckyfriday.view {
 			initKeyboardActions();
 
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
-			HUDView.instance.init();
-
-			var stateContainer:Sprite = ((view as StarlingView).viewRoot as Sprite);
-			stateContainer.addChild(HUDView.instance);
+			hudView = new HUDView();
+			addChild(hudView);
 			//addChild(HUDView.instance);
 			initSounds();
 		}
@@ -188,22 +189,25 @@ package ua.com.syo.luckyfriday.view {
 			var kb:Keyboard = _ce.input.keyboard;
 			kb.addKeyAction("console", Keyboard.TAB);
 			kb.addKeyAction("break", Keyboard.SPACE);
+			kb.addKeyAction("menu", Keyboard.ESCAPE);
 		}
-
 
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
-
+			hudView.updateTimeLabel(getTimer());
 			if (_ce.input.hasDone("console")) {
 				var console:Console = Console.getMainConsoleInstance();
 				console.isShown = !console.isShown;
+			}
+			if (_ce.input.hasDone("menu")) {
+				LuckyFriday(_ce).changeState(MenuState.newInstance);  
 			}
 
 			if (_ce.input.hasDone("break")) {
 				if (pivotJoint && pivotJoint.space)
 				{
 					pivotJoint.space = null;
-					soundManager.playSound("disconnect");
+					SoundManager.getInstance().playSound("disconnect");
 				}
 				else
 				{
@@ -212,7 +216,7 @@ package ua.com.syo.luckyfriday.view {
 						if (Vec2.distance(shipHero.body.position, rocks[i].body.position) < 100)
 						{
 							createPivotJoint(shipHero.body, rocks[i].body);
-							soundManager.playSound("connect");
+							SoundManager.getInstance().playSound("connect");
 							break;
 						}
 
@@ -277,16 +281,19 @@ package ua.com.syo.luckyfriday.view {
 
 		private function initSounds():void
 		{
-			soundManager = new SoundManager();
-			soundManager.addSound("loop", { sound:Assets.LoopSoundC, loops:-1, volume:0.01});
-			soundManager.addSound("engine", { sound:Assets.EngineSoundC, loops:100000, volume:0.3});
+			SoundManager.getInstance().addSound("loop", { sound:Assets.LoopSoundC, loops:-1, volume:0.01});
+			SoundManager.getInstance().addSound("engine", { sound:Assets.EngineSoundC, loops:100000, volume:0.3});
 
-			soundManager.addSound("connect", { sound:Assets.ConnectSoundC, volume:0.5});
-			soundManager.addSound("disconnect", { sound:Assets.DisconnectSoundC, volume:0.1});
+			SoundManager.getInstance().addSound("connect", { sound:Assets.ConnectSoundC, volume:0.5});
+			SoundManager.getInstance().addSound("disconnect", { sound:Assets.DisconnectSoundC, volume:0.1});
 
-			soundManager.playSound("loop");
-			soundManager.playSound("engine");
+			SoundManager.getInstance().playSound("loop");
+			SoundManager.getInstance().playSound("engine");
+		}
 
+		public function getCE():StarlingCitrusEngine
+		{
+			return _ce;
 		}
 
 		private static var _instance:GameState;
@@ -294,6 +301,12 @@ package ua.com.syo.luckyfriday.view {
 		public static function get instance():GameState
 		{
 			if (_instance == null) _instance = new GameState();
+			return _instance;
+		}
+
+		public static function get newInstance():GameState
+		{
+			_instance = new GameState();
 			return _instance;
 		}
 	}

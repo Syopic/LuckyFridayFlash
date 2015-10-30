@@ -48,10 +48,10 @@ package ua.com.syo.luckyfriday.view {
 		}
 
 		private function onAddedToStage(event:Event):void {
-			inittParticleSystem();
+			initParticleSystem();
 		}
 
-		private function inittParticleSystem():void {
+		private function initParticleSystem():void {
 
 			addChild(mainEnginePS);
 			Starling.juggler.add(mainEnginePS);
@@ -61,6 +61,14 @@ package ua.com.syo.luckyfriday.view {
 				addChild(thrusterPS[i] );
 				Starling.juggler.add(thrusterPS[i] );
 			}
+		}
+
+		private static var _instance:ParticlesView;
+
+		public static function get instance():ParticlesView
+		{
+			if (_instance == null) _instance = new ParticlesView();
+			return _instance;
 		}
 
 	}

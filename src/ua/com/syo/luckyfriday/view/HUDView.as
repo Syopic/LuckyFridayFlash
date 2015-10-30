@@ -7,11 +7,20 @@ package ua.com.syo.luckyfriday.view
 	public class HUDView extends Sprite
 	{
 
-		public function init():void
+		private var timerLabel:Label = new Label();
+
+		public function HUDView():void
 		{
-			var label:Label = new Label();
-			label.text = "Hi There";
-			addChild(label).x = 200;
+			timerLabel = new Label();
+			timerLabel.text = "";
+			addChild(timerLabel);
+			timerLabel. x = 20;
+			timerLabel.y = 30;
+		}
+
+		public function updateTimeLabel(time:int):void
+		{
+			timerLabel.text = "time: " + Math.round(time / 1000);
 		}
 
 		private static var _instance:HUDView;
