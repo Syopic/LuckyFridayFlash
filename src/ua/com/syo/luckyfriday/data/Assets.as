@@ -32,6 +32,19 @@ package ua.com.syo.luckyfriday.data {
 		public static const EngineC:Class;
 
 		/**
+		 * Icons
+		 */
+
+		[Embed(source="/../assets/img/icons/gear-outline.png")]
+		public static const GearIconC:Class;
+
+		[Embed(source="/../assets/img/icons/settings.png")]
+		public static const SettingsIconC:Class;
+
+		[Embed(source="/../assets/img/icons/power.png")]
+		public static const PowerIconC:Class;
+
+		/**
 		 * Particles
 		 */
 

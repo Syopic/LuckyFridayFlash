@@ -11,9 +11,11 @@ package ua.com.syo.luckyfriday.view
 	import feathers.layout.VerticalLayout;
 	import feathers.themes.MetalWorksDesktopTheme;
 
+	import starling.display.Image;
 	import starling.events.Event;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
+	import ua.com.syo.luckyfriday.data.Assets;
 
 	public class MenuState extends StarlingState
 	{
@@ -76,18 +78,18 @@ package ua.com.syo.luckyfriday.view
 
 			// exit
 			exitBtn = new Button();
-			exitBtn.label = "E";
 			exitBtn.width = 75;
 			exitBtn.height = 75;
 			exitBtn.layoutData = new AnchorLayoutData(NaN, NaN, 20, 20);
+			exitBtn.defaultIcon = new Image(Assets.getTexture("PowerIconC"));
 			container.addChild(exitBtn);
 
 			// settings
 			settingsBtn = new Button();
-			settingsBtn.label = "S";
 			settingsBtn.width = 75;
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
+			settingsBtn.defaultIcon = new Image(Assets.getTexture("SettingsIconC"));
 			container.addChild(settingsBtn);
 		}
 
