@@ -1,5 +1,6 @@
 package ua.com.syo.luckyfriday
 {
+	import flash.desktop.NativeApplication;
 	import flash.display.StageQuality;
 
 	import citrus.core.CitrusEngine;
@@ -40,7 +41,12 @@ package ua.com.syo.luckyfriday
 			//CitrusEngine.getInstance().destroy();
 			SoundManager.getInstance().stopAllPlayingSounds();
 			state = nextState;    
-		}    
+		}
+
+		public static function exitApplication():void    
+		{    
+			NativeApplication.nativeApplication.exit();
+		}
 	}
 }
 

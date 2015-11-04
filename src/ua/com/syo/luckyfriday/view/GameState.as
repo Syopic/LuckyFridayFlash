@@ -39,6 +39,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
+	import ua.com.syo.luckyfriday.view.ui.HUDView;
 
 	/**
 	 *

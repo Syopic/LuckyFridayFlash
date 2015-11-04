@@ -1,10 +1,16 @@
 package ua.com.syo.luckyfriday.view
 {
+	import flash.desktop.NativeApplication;
+	import flash.display.Sprite;
+
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 
+	import feathers.controls.Alert;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
+	import feathers.core.PopUpManager;
+	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
@@ -16,6 +22,7 @@ package ua.com.syo.luckyfriday.view
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
 	public class MenuState extends StarlingState
 	{
@@ -29,6 +36,8 @@ package ua.com.syo.luckyfriday.view
 		private var profileBtn:Button;
 		private var settingsBtn:Button;
 		private var exitBtn:Button;
+
+		private var settingsView:SettingsView;
 
 		override public function initialize():void   
 		{   
@@ -66,6 +75,7 @@ package ua.com.syo.luckyfriday.view
 			helpBtn.width = 75;
 			helpBtn.height = 75;
 			helpBtn.layoutData = new AnchorLayoutData(20, NaN, NaN, 20);
+			helpBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(helpBtn);
 
 			// profile
@@ -82,6 +92,7 @@ package ua.com.syo.luckyfriday.view
 			exitBtn.height = 75;
 			exitBtn.layoutData = new AnchorLayoutData(NaN, NaN, 20, 20);
 			exitBtn.defaultIcon = new Image(Assets.getTexture("PowerIconC"));
+			exitBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(exitBtn);
 
 			// settings
@@ -90,7 +101,11 @@ package ua.com.syo.luckyfriday.view
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
 			settingsBtn.defaultIcon = new Image(Assets.getTexture("SettingsIconC"));
+			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
+
+			settingsView = new SettingsView();
+			PopUpManager.addPopUp(settingsView);
 		}
 
 
@@ -112,8 +127,39 @@ package ua.com.syo.luckyfriday.view
 
 		private function buttonClicked(event:Event):void   
 		{   
-			LuckyFriday(_ce).changeState(GameState.newInstance);   
+			switch (event.currentTarget as Button)
+			{
+				case playBtn: 
+					LuckyFriday(_ce).changeState(GameState.newInstance);   
+					break;
+				case settingsBtn: 
+					if (!settingsView)
+					{
+						settingsView = new SettingsView();
+					}
+					PopUpManager.addPopUp(settingsView);
+					break;
+				case exitBtn: 
+
+					var alert:Alert = Alert.show( "Do you want to exit?", "Exit to system", new ListCollection(
+						[
+						{ label: "OK", triggered: alertCloseHandler(event, exitBtn) },
+						{ label: "Cancel", triggered: buttonClicked }
+						]) );
+					alert.addEventListener( Event.CLOSE, alertCloseHandler );
+					break;
+			}
+
 		}   
+
+		private function alertCloseHandler(event:Event, data:Object):void
+		{
+			if( data.label == "OK" )
+			{
+				LuckyFriday.exitApplication();
+			}
+		}
+
 
 		private static var _instance:MenuState;
 
