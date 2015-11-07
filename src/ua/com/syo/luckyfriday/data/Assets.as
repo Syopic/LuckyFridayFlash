@@ -20,6 +20,12 @@ package ua.com.syo.luckyfriday.data {
 		private static const LevelJSON:Class;
 
 		/**
+		 * Logo assets
+		 */
+		[Embed(source="/../assets/img/Logo.png")]
+		public static const LogoC:Class;
+		
+		/**
 		 * Ship hero assets
 		 */
 		[Embed(source="/../assets/img/ship.png")]

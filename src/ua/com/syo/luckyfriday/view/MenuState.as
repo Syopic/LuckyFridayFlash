@@ -23,6 +23,7 @@ package ua.com.syo.luckyfriday.view
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
+	import ua.com.syo.luckyfriday.view.ui.AboutView;
 
 	public class MenuState extends StarlingState
 	{
@@ -38,6 +39,7 @@ package ua.com.syo.luckyfriday.view
 		private var exitBtn:Button;
 
 		private var settingsView:SettingsView;
+		private var aboutView:AboutView;
 
 		override public function initialize():void   
 		{   
@@ -138,6 +140,13 @@ package ua.com.syo.luckyfriday.view
 						settingsView = new SettingsView();
 					}
 					PopUpManager.addPopUp(settingsView);
+					break;
+				case helpBtn: 
+					if (!aboutView)
+					{
+						aboutView = new AboutView();
+					}
+					PopUpManager.addPopUp(aboutView);
 					break;
 				case exitBtn: 
 
