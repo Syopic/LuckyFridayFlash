@@ -6,7 +6,6 @@ package ua.com.syo.luckyfriday.view.ui
 
 	public class HUDView extends Sprite
 	{
-
 		private var timerLabel:Label = new Label();
 
 		public function HUDView():void

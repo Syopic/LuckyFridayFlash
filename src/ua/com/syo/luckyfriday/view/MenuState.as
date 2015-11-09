@@ -1,8 +1,5 @@
 package ua.com.syo.luckyfriday.view
 {
-	import flash.desktop.NativeApplication;
-	import flash.display.Sprite;
-
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 
@@ -13,8 +10,6 @@ package ua.com.syo.luckyfriday.view
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.HorizontalLayout;
-	import feathers.layout.VerticalLayout;
 	import feathers.themes.MetalWorksDesktopTheme;
 
 	import starling.display.Image;
@@ -22,8 +17,8 @@ package ua.com.syo.luckyfriday.view
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
-	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
+	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
 	public class MenuState extends StarlingState
 	{
@@ -37,6 +32,7 @@ package ua.com.syo.luckyfriday.view
 		private var profileBtn:Button;
 		private var settingsBtn:Button;
 		private var exitBtn:Button;
+		private var container:LayoutGroup;
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
@@ -56,8 +52,7 @@ package ua.com.syo.luckyfriday.view
 		 */
 		private function initButtons():void {
 
-			var container:LayoutGroup = new LayoutGroup();
-			container.setSize(stage.stageWidth, stage.stageHeight);
+			container = new LayoutGroup();
 			container.layout = new AnchorLayout();
 			container.autoSizeMode = LayoutGroup.AUTO_SIZE_MODE_STAGE;
 			this.addChild(container);
@@ -106,6 +101,8 @@ package ua.com.syo.luckyfriday.view
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 
+
+			// MOCK
 			settingsView = new SettingsView();
 			PopUpManager.addPopUp(settingsView);
 		}
@@ -163,13 +160,16 @@ package ua.com.syo.luckyfriday.view
 
 		private function alertCloseHandler(event:Event, data:Object):void
 		{
-			if( data.label == "OK" )
+			if(data.label == "OK")
 			{
 				LuckyFriday.exitApplication();
 			}
 		}
 
 
+		/**
+		 * Singleton
+		 */
 		private static var _instance:MenuState;
 
 		public static function get instance():MenuState
@@ -178,6 +178,11 @@ package ua.com.syo.luckyfriday.view
 			return _instance;
 		}
 
+		/**
+		 * Reinstance for changeState
+		 * @return
+		 *
+		 */
 		public static function get newInstance():MenuState
 		{
 			_instance = new MenuState();

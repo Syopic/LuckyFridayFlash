@@ -25,11 +25,6 @@ package ua.com.syo.luckyfriday.model
 		public static var moveDownImpulse:Number = 2;
 		public static var moveForwardImpulse:Number = 3.0;
 		public static var moveBackwardImpulse:Number = 2;
-
-
-
-
-
 	}
 }
 

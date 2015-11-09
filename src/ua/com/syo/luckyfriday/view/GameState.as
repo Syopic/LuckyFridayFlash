@@ -14,7 +14,6 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.physics.nape.Nape;
 	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.StarlingCamera;
-	import citrus.view.starlingview.StarlingView;
 
 	import justpinegames.Logi.Console;
 
@@ -32,8 +31,6 @@ package ua.com.syo.luckyfriday.view {
 
 	import starling.core.Starling;
 	import starling.display.Image;
-	import starling.display.Sprite;
-	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
