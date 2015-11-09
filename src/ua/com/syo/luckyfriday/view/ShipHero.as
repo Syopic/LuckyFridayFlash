@@ -3,6 +3,9 @@ package ua.com.syo.luckyfriday.view {
 	import flash.utils.getTimer;
 
 	import citrus.input.controllers.Keyboard;
+	import citrus.input.controllers.gamepad.GamePadManager;
+	import citrus.input.controllers.gamepad.Gamepad;
+	import citrus.input.controllers.gamepad.maps.GamePadMap;
 	import citrus.objects.NapePhysicsObject;
 	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.AnimationSequence;
@@ -10,7 +13,6 @@ package ua.com.syo.luckyfriday.view {
 	import nape.geom.Vec2;
 
 	import starling.display.Sprite;
-	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
 	import ua.com.syo.luckyfriday.data.Assets;
@@ -20,8 +22,6 @@ package ua.com.syo.luckyfriday.view {
 
 
 	public class ShipHero extends NapePhysicsObject {
-
-
 
 		/**
 		 * Views
@@ -51,6 +51,7 @@ package ua.com.syo.luckyfriday.view {
 
 			super(name, {view: animSeq});
 			initKeyboardActions();
+			initGamePad();
 		}
 
 		private function initAnimations():void {
@@ -174,6 +175,23 @@ package ua.com.syo.luckyfriday.view {
 
 			kb.addKeyAction("rotateCW", Keyboard.A);
 			kb.addKeyAction("rotateCCW", Keyboard.D);
+		}
+
+		protected function initGamePad():void
+		{
+			var gamePadManager:GamePadManager = new GamePadManager(1);
+			gamePadManager.onControllerAdded.add(addGamePad);
+
+		}
+
+		protected function addGamePad(gamepad:Gamepad):void {
+
+			gamepad.setStickActions(GamePadMap.STICK_LEFT, "up", "rotateCCW", "down", "rotateCW");
+			gamepad.setStickActions(GamePadMap.STICK_RIGHT, "up", "forward", "down", "backward");
+			gamepad.setButtonAction(GamePadMap.START, "play");
+			gamepad.setButtonAction(GamePadMap.SELECT, "menu");
+			gamepad.setButtonAction(GamePadMap.L1, "break");
+			gamepad.setButtonAction(GamePadMap.R1, "break");
 		}
 
 		override public function update(timeDelta:Number):void {

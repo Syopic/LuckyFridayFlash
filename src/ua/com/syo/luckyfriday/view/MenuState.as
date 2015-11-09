@@ -103,8 +103,8 @@ package ua.com.syo.luckyfriday.view
 
 
 			// MOCK
-			settingsView = new SettingsView();
-			PopUpManager.addPopUp(settingsView);
+			//settingsView = new SettingsView();
+			//PopUpManager.addPopUp(settingsView);
 		}
 
 
