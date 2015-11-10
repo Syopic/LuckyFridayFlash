@@ -4,10 +4,10 @@ package ua.com.syo.luckyfriday
 	import flash.display.StageQuality;
 
 	import citrus.core.starling.StarlingCitrusEngine;
-	import citrus.core.starling.StarlingState;
-	import citrus.sounds.SoundManager;
+	import citrus.input.controllers.Keyboard;
 
 	import ua.com.syo.luckyfriday.view.MenuState;
+	import ua.com.syo.luckyfriday.view.UIManager;
 
 	[SWF(frameRate = "60", width = "1280", height = "720", backgroundColor = "0x000410")]
 	public class LuckyFriday extends StarlingCitrusEngine
@@ -19,23 +19,13 @@ package ua.com.syo.luckyfriday
 		{
 			setUpStarling(true);
 			stage.quality = StageQuality.LOW;
+			console.openKey = Keyboard.ENTER;
 		}
-
 
 		override public function handleStarlingReady():void {
+			UIManager.instance.init();
 			// TODO add loading state
-			changeState(MenuState.newInstance);
-		}
-
-		/**
-		 * Change state
-		 * @param nextState new instance of new state
-		 */
-		public function changeState(nextState:StarlingState):void    
-		{    
-			// stop all sounds TODO: change sounds by state
-			SoundManager.getInstance().stopAllPlayingSounds();
-			state = nextState;    
+			UIManager.instance.changeState(MenuState.newInstance);
 		}
 
 		/**

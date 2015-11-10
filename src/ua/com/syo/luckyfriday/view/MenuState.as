@@ -1,12 +1,10 @@
 package ua.com.syo.luckyfriday.view
 {
 	import citrus.core.starling.StarlingState;
-	import citrus.input.controllers.Keyboard;
 
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
-	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -17,8 +15,7 @@ package ua.com.syo.luckyfriday.view
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
-	import ua.com.syo.luckyfriday.view.ui.AboutView;
-	import ua.com.syo.luckyfriday.view.ui.SettingsView;
+	import ua.com.syo.luckyfriday.data.Constants;
 
 	public class MenuState extends StarlingState
 	{
@@ -34,14 +31,9 @@ package ua.com.syo.luckyfriday.view
 		private var exitBtn:Button;
 		private var container:LayoutGroup;
 
-		private var settingsView:SettingsView;
-		private var aboutView:AboutView;
-
 		override public function initialize():void   
 		{   
 			super.initialize(); 
-
-			initKeyboardActions();
 
 			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
 			initButtons();
@@ -103,24 +95,15 @@ package ua.com.syo.luckyfriday.view
 
 
 			// MOCK
-			//settingsView = new SettingsView();
-			//PopUpManager.addPopUp(settingsView);
+			UIManager.instance.showSettings();
 		}
 
-
-		/**
-		 * Get the keyboard, and add actions
-		 */
-		private function initKeyboardActions():void {
-			var kb:Keyboard = _ce.input.keyboard;
-			kb.addKeyAction("play", Keyboard.P);
-		}
 
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
 
-			if (_ce.input.hasDone("play")) {
-				LuckyFriday(_ce).changeState(GameState.newInstance);
+			if (_ce.input.hasDone(Constants.PLAY_ACTION)) {
+				UIManager.instance.changeState(GameState.newInstance);
 			}
 		}
 
@@ -129,21 +112,13 @@ package ua.com.syo.luckyfriday.view
 			switch (event.currentTarget as Button)
 			{
 				case playBtn: 
-					LuckyFriday(_ce).changeState(GameState.newInstance);   
+					UIManager.instance.changeState(GameState.newInstance);   
 					break;
 				case settingsBtn: 
-					if (!settingsView)
-					{
-						settingsView = new SettingsView();
-					}
-					PopUpManager.addPopUp(settingsView);
+					UIManager.instance.showSettings();
 					break;
 				case helpBtn: 
-					if (!aboutView)
-					{
-						aboutView = new AboutView();
-					}
-					PopUpManager.addPopUp(aboutView);
+					UIManager.instance.showAbout();
 					break;
 				case exitBtn: 
 

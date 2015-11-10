@@ -7,7 +7,6 @@ package ua.com.syo.luckyfriday.view.ui
 	import feathers.controls.Panel;
 	import feathers.controls.PickerList;
 	import feathers.controls.Slider;
-	import feathers.controls.ToggleSwitch;
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
@@ -32,7 +31,6 @@ package ua.com.syo.luckyfriday.view.ui
 			width = panelWidth;
 			height = panelHeight;
 			title = "Settings";
-
 
 			this.layout = new AnchorLayout();
 
@@ -66,7 +64,12 @@ package ua.com.syo.luckyfriday.view.ui
 			addSlider(controlsContainer);
 			addPickerList(controlsContainer);
 			addCheckBox(controlsContainer);
-			addButton("→", controlsContainer);
+
+			var button:Button = new Button();
+			button.label = "→";
+			button.width = 70;
+			button.height = 42;
+			controlsContainer.addChild(button);
 
 
 			// back
@@ -145,28 +148,6 @@ package ua.com.syo.luckyfriday.view.ui
 			pList.listProperties.@itemRendererProperties.labelField = "text";
 			pList.labelField = "text";
 			container.addChild(pList);
-		}
-
-		private function addButton(label:String, container:LayoutGroup):void
-		{
-			var button:Button = new Button();
-			button.label = label;
-			button.width = 70;
-			button.height = 42;
-			container.addChild(button);
-		}
-
-		private function addToggleSwitch(container:LayoutGroup):void
-		{
-			var toggleSwitch:ToggleSwitch = new ToggleSwitch();
-			toggleSwitch.height = 30;
-			toggleSwitch.width = 120;
-			toggleSwitch.scaleX = 0.8;
-			toggleSwitch.scaleY = 0.8;
-			toggleSwitch.onTrackProperties = { height: 30 };
-			toggleSwitch.thumbProperties = { height: 28 };
-			toggleSwitch.isSelected = true;
-			container.addChild(toggleSwitch);
 		}
 	}
 }

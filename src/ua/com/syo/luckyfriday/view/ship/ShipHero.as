@@ -1,11 +1,7 @@
-package ua.com.syo.luckyfriday.view {
+package ua.com.syo.luckyfriday.view.ship {
 	import flash.geom.Point;
 	import flash.utils.getTimer;
 
-	import citrus.input.controllers.Keyboard;
-	import citrus.input.controllers.gamepad.GamePadManager;
-	import citrus.input.controllers.gamepad.Gamepad;
-	import citrus.input.controllers.gamepad.maps.GamePadMap;
 	import citrus.objects.NapePhysicsObject;
 	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.AnimationSequence;
@@ -16,16 +12,13 @@ package ua.com.syo.luckyfriday.view {
 	import starling.textures.TextureAtlas;
 
 	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
-	import ua.com.syo.luckyfriday.view.ship.ThrusterView;
+	import ua.com.syo.luckyfriday.view.GameState;
 
 
 	public class ShipHero extends NapePhysicsObject {
-
-		/**
-		 * Views
-		 */
 
 		private var thrustersView:Sprite;
 		private var animSeq:AnimationSequence;
@@ -50,13 +43,11 @@ package ua.com.syo.luckyfriday.view {
 			initThrusters();
 
 			super(name, {view: animSeq});
-			initKeyboardActions();
-			initGamePad();
 		}
 
 		private function initAnimations():void {
 			var ta:TextureAtlas = Assets.getShipHeroAtlas();
-			animSeq = new AnimationSequence(ta, ["idleright", "idleleft", "kren", "rotate", "rrotater"], "idleright", 140);
+			animSeq = new AnimationSequence(ta, [Constants.IDLE_RIGHT_ANIMATION, Constants.IDLE_LEFT_ANIMATION, Constants.KREN_ANIMATION, Constants.ROTATE_ANIMATION, Constants.RROTATER_ANIMATION], Constants.IDLE_RIGHT_ANIMATION, 80);
 			animSeq.addChild(thrustersView);
 			animSeq.onAnimationComplete.add(onAnimationOver);
 		}
@@ -118,9 +109,9 @@ package ua.com.syo.luckyfriday.view {
 				body.shapes.clear();
 				if (dir == 1) {
 					points = LevelData.getShipGeom();
-					animation = "rrotater";
+					animation = Constants.RROTATER_ANIMATION;
 				} else {
-					animation = "rotate";
+					animation = Constants.ROTATE_ANIMATION;
 					points = LevelData.getShipGeom(true);
 				}
 				super.createShape();
@@ -164,36 +155,6 @@ package ua.com.syo.luckyfriday.view {
 			return result;
 		}
 
-
-		public function initKeyboardActions():void {
-			var kb:Keyboard = _ce.input.keyboard;
-
-			kb.addKeyAction("forward", Keyboard.RIGHT);
-			kb.addKeyAction("backward", Keyboard.LEFT);
-			kb.addKeyAction("up", Keyboard.W);
-			kb.addKeyAction("down", Keyboard.S);
-
-			kb.addKeyAction("rotateCW", Keyboard.A);
-			kb.addKeyAction("rotateCCW", Keyboard.D);
-		}
-
-		protected function initGamePad():void
-		{
-			var gamePadManager:GamePadManager = new GamePadManager(1);
-			gamePadManager.onControllerAdded.add(addGamePad);
-
-		}
-
-		protected function addGamePad(gamepad:Gamepad):void {
-
-			gamepad.setStickActions(GamePadMap.STICK_LEFT, "up", "rotateCCW", "down", "rotateCW");
-			gamepad.setStickActions(GamePadMap.STICK_RIGHT, "up", "forward", "down", "backward");
-			gamepad.setButtonAction(GamePadMap.START, "play");
-			gamepad.setButtonAction(GamePadMap.SELECT, "menu");
-			gamepad.setButtonAction(GamePadMap.L1, "break");
-			gamepad.setButtonAction(GamePadMap.R1, "break");
-		}
-
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
 
@@ -205,7 +166,7 @@ package ua.com.syo.luckyfriday.view {
 			GameState.instance.particles.mainEnginePS.stop();
 
 			//user input
-			if (_ce.input.isDoing("rotateCW")) {
+			if (_ce.input.isDoing(Constants.ROTATECW_ACTION)) {
 				body.applyAngularImpulse(-Globals.rotateImpulse);
 
 				if (direction > 0) {
@@ -217,7 +178,7 @@ package ua.com.syo.luckyfriday.view {
 				}
 			}
 
-			if (_ce.input.isDoing("rotateCCW")) {
+			if (_ce.input.isDoing(Constants.ROTATECCW_ACTION)) {
 				body.applyAngularImpulse(Globals.rotateImpulse);
 				if (direction > 0) {
 					thrusters[1].angle = 0;
@@ -228,7 +189,7 @@ package ua.com.syo.luckyfriday.view {
 				}
 			}
 
-			if (_ce.input.isDoing("forward")) {
+			if (_ce.input.isDoing(Constants.FORWARD_ACTION)) {
 				impulse = new Vec2(1, 0);
 				impulse.length = (direction == 1 ? Globals.moveForwardImpulse : Globals.moveBackwardImpulse);
 				impulse.angle = body.rotation;
@@ -248,8 +209,7 @@ package ua.com.syo.luckyfriday.view {
 
 			}
 
-
-			if (_ce.input.isDoing("backward")) {
+			if (_ce.input.isDoing(Constants.BACKWARD_ACTION)) {
 				impulse = new Vec2(-1, 0);
 				impulse.length = (direction == -1 ? Globals.moveForwardImpulse : Globals.moveBackwardImpulse);
 				impulse.angle = body.rotation;
@@ -270,59 +230,59 @@ package ua.com.syo.luckyfriday.view {
 				}
 			}
 
-			if (_ce.input.isDoing("up")) {
+			if (_ce.input.isDoing(Constants.UP_ACTION)) {
 				impulse = new Vec2(0, 1);
 				impulse.length = Globals.moveUpImpulse;
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.reflect(impulse).perp(), body.position);
 
-				if (_ce.input.isDoing("forward"))
+				if (_ce.input.isDoing(Constants.FORWARD_ACTION))
 					thrusters[2].angle = -Math.PI / 4 - Math.PI / 2;
 				else
 					thrusters[2].angle = -Math.PI;
 
-				if (_ce.input.isDoing("backward"))
+				if (_ce.input.isDoing(Constants.BACKWARD_ACTION))
 					thrusters[3].angle = Math.PI / 4 + Math.PI / 2;
 				else
 					thrusters[3].angle = Math.PI;
 
 			}
 
-			if (_ce.input.isDoing("down")) {
+			if (_ce.input.isDoing(Constants.DOWN_ACTION)) {
 				impulse = new Vec2(0, 1);
 				impulse.length = Globals.moveDownImpulse;
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.perp(), body.position);
 
 
-				if (_ce.input.isDoing("forward"))
+				if (_ce.input.isDoing(Constants.FORWARD_ACTION))
 					thrusters[0].angle = -Math.PI / 4;
 				else
 					thrusters[0].angle = 0;
 
-				if (_ce.input.isDoing("backward"))
+				if (_ce.input.isDoing(Constants.BACKWARD_ACTION))
 					thrusters[1].angle = Math.PI / 4;
 				else
 					thrusters[1].angle = 0;
 			}
 
-			if (_ce.input.hasDone("right")) {
+			if (_ce.input.hasDone(Constants.RIGHT_ACTION)) {
 				// double tap
-				if (prevButton == "right" && (getTimer() - dt) < Globals.doubleTapDelay) {
+				if (prevButton == Constants.RIGHT_ACTION && (getTimer() - dt) < Globals.doubleTapDelay) {
 					flip(1);
 				} else {
 					dt = getTimer();
-					prevButton = "right";
+					prevButton = Constants.RIGHT_ACTION;
 				}
 			}
 
-			if (_ce.input.hasDone("left")) {
+			if (_ce.input.hasDone(Constants.LEFT_ACTION)) {
 				// double tap
-				if (prevButton == "left" && (getTimer() - dt) < Globals.doubleTapDelay) {
+				if (prevButton == Constants.LEFT_ACTION && (getTimer() - dt) < Globals.doubleTapDelay) {
 					flip(-1);
 				} else {
 					dt = getTimer();
-					prevButton = "left";
+					prevButton = Constants.LEFT_ACTION;
 				}
 			}
 
@@ -338,12 +298,12 @@ package ua.com.syo.luckyfriday.view {
 					GameState.instance.particles.setThrusterPSActive(i, false);
 			}
 			if (thrustersVolume > 0) {
-				SoundManager.getInstance().resumeSound("engine");
-				SoundManager.getInstance().setVolume("engine", thrustersVolume);
+				SoundManager.getInstance().resumeSound(Constants.ENGINE_SFX);
+				SoundManager.getInstance().setVolume(Constants.ENGINE_SFX, thrustersVolume);
 			}
 			else
 			{
-				SoundManager.getInstance().pauseSound("engine");
+				SoundManager.getInstance().pauseSound(Constants.ENGINE_SFX);
 			}
 
 
