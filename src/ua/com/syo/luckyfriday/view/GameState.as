@@ -7,7 +7,6 @@ package ua.com.syo.luckyfriday.view {
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
 
-	import citrus.core.Console;
 	import citrus.core.starling.StarlingState;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
@@ -110,6 +109,10 @@ package ua.com.syo.luckyfriday.view {
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
 			hudView = new HUDView();
 			addChild(hudView);
+
+
+			SoundManager.getInstance().playSound(Constants.LOOP_EMBIENT);
+			SoundManager.getInstance().playSound(Constants.ENGINE_SFX);
 		}
 
 
@@ -183,7 +186,7 @@ package ua.com.syo.luckyfriday.view {
 				UIManager.instance.changeState(MenuState.newInstance);  
 			}
 
-			if (_ce.input.hasDone(Constants..BREAK_ACTION)) {
+			if (_ce.input.hasDone(Constants.BREAK_ACTION)) {
 				if (pivotJoint && pivotJoint.space)
 				{
 					pivotJoint.space = null;

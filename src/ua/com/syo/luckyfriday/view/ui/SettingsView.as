@@ -1,5 +1,8 @@
 package ua.com.syo.luckyfriday.view.ui
 {
+	import flash.display.StageDisplayState;
+	import flash.geom.Rectangle;
+
 	import feathers.controls.Button;
 	import feathers.controls.Check;
 	import feathers.controls.Label;
@@ -16,6 +19,8 @@ package ua.com.syo.luckyfriday.view.ui
 
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.view.UIManager;
+
 	public class SettingsView extends Panel
 	{
 		private var backBtn:Button;
@@ -25,6 +30,8 @@ package ua.com.syo.luckyfriday.view.ui
 		private var panelHeight:int = 470;
 
 		private var slider1:Slider, slider2:Slider;
+
+		private var windowledCheckBox:Check;
 
 		public function SettingsView()
 		{
@@ -63,7 +70,13 @@ package ua.com.syo.luckyfriday.view.ui
 			addSlider(controlsContainer, 40);
 			addSlider(controlsContainer);
 			addPickerList(controlsContainer);
-			addCheckBox(controlsContainer);
+
+			windowledCheckBox = new Check();
+			windowledCheckBox.height = 28;
+			windowledCheckBox.width = 36;
+			windowledCheckBox.isSelected = true;
+			controlsContainer.addChild(windowledCheckBox);
+			windowledCheckBox.addEventListener( Event.CHANGE, checkBoxChanged );
 
 			var button:Button = new Button();
 			button.label = "→";
@@ -106,6 +119,22 @@ package ua.com.syo.luckyfriday.view.ui
 
 		}
 
+		private function checkBoxChanged(event:Event):void   
+		{   
+			if ((event.currentTarget as Check).isSelected)
+			{	
+				UIManager.instance.ce.stage.displayState = StageDisplayState.NORMAL; 
+				UIManager.instance.ce.stage.stageWidth = 1920;
+				UIManager.instance.ce.stage.stageHeight = 1080;
+			} else
+			{
+				//UIManager.instance.ce.stage.stageWidth = 500;
+				//UIManager.instance.ce.stage.fullScreenSourceRect = new Rectangle(0, 0, 1280, 720);
+				UIManager.instance.ce.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE; 
+			}
+
+		}
+
 		private function addLabel(text:String, container:LayoutGroup):void
 		{
 			var label:Label = new Label();
@@ -124,15 +153,6 @@ package ua.com.syo.luckyfriday.view.ui
 			slider.value = 50;
 			slider.trackLayoutMode = "directional";
 			container.addChild(slider);
-		}
-
-		private function addCheckBox(container:LayoutGroup):void
-		{
-			var checkBox:Check = new Check();
-			checkBox.height = 28;
-			checkBox.width = 36;
-			checkBox.isSelected = true;
-			container.addChild(checkBox);
 		}
 
 		private function addPickerList(container:LayoutGroup):void

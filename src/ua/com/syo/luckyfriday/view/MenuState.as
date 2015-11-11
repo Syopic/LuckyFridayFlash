@@ -95,7 +95,7 @@ package ua.com.syo.luckyfriday.view
 
 
 			// MOCK
-			UIManager.instance.showSettings();
+			//UIManager.instance.showSettings();
 		}
 
 
@@ -127,6 +127,8 @@ package ua.com.syo.luckyfriday.view
 						{ label: "OK", triggered: alertCloseHandler(event, exitBtn) },
 						{ label: "Cancel", triggered: buttonClicked }
 						]) );
+					alert.width = 400;
+					alert.height = 200;
 					alert.addEventListener( Event.CLOSE, alertCloseHandler );
 					break;
 			}

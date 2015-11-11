@@ -1,11 +1,15 @@
 package ua.com.syo.luckyfriday
 {
 	import flash.desktop.NativeApplication;
+	import flash.display.NativeWindow;
+	import flash.display.NativeWindowResize;
+	import flash.display.StageDisplayState;
 	import flash.display.StageQuality;
 
 	import citrus.core.starling.StarlingCitrusEngine;
 	import citrus.input.controllers.Keyboard;
 
+	import ua.com.syo.luckyfriday.view.GameState;
 	import ua.com.syo.luckyfriday.view.MenuState;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
@@ -25,7 +29,9 @@ package ua.com.syo.luckyfriday
 		override public function handleStarlingReady():void {
 			UIManager.instance.init();
 			// TODO add loading state
-			UIManager.instance.changeState(MenuState.newInstance);
+			//UIManager.instance.changeState(MenuState.newInstance);
+			UIManager.instance.changeState(GameState.newInstance);
+
 		}
 
 		/**
@@ -34,6 +40,7 @@ package ua.com.syo.luckyfriday
 		public static function exitApplication():void    
 		{    
 			NativeApplication.nativeApplication.exit();
+			//NativeWindowResize.BOTTOM.length = 50;
 		}
 	}
 }

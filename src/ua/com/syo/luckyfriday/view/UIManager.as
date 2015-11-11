@@ -103,15 +103,12 @@ package ua.com.syo.luckyfriday.view {
 
 			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, { sound:Assets.ConnectSoundC, volume:0.5});
 			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, { sound:Assets.DisconnectSoundC, volume:0.1});
-
-			SoundManager.getInstance().playSound(Constants.LOOP_EMBIENT);
-			SoundManager.getInstance().playSound(Constants.ENGINE_SFX);
 		}
 
 		/**
 		 * CitrusEngine instance
 		 */
-		private function get ce():LuckyFriday {
+		public function get ce():LuckyFriday {
 			return LuckyFriday(CitrusEngine.getInstance());
 		}
 
