@@ -95,7 +95,7 @@ package ua.com.syo.luckyfriday.view
 
 
 			// MOCK
-			//UIManager.instance.showSettings();
+			UIManager.instance.showSettings();
 		}
 
 

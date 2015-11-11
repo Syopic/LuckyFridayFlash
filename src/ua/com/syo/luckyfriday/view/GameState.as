@@ -104,8 +104,6 @@ package ua.com.syo.luckyfriday.view {
 
 			//camera.setRotation(Math.PI / 2);
 
-
-
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
 			hudView = new HUDView();
 			addChild(hudView);

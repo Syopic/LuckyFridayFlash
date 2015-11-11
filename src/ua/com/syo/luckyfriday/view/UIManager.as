@@ -5,6 +5,7 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.input.controllers.gamepad.GamePadManager;
 	import citrus.input.controllers.gamepad.Gamepad;
 	import citrus.input.controllers.gamepad.maps.GamePadMap;
+	import citrus.sounds.CitrusSound;
 	import citrus.sounds.SoundManager;
 
 	import feathers.core.PopUpManager;
