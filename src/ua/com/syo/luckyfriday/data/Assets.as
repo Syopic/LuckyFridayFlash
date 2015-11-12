@@ -22,9 +22,19 @@ package ua.com.syo.luckyfriday.data {
 		/**
 		 * Logo assets
 		 */
+	
 		[Embed(source="/../assets/img/Logo.png")]
 		public static const LogoC:Class;
-
+		
+		
+		[Embed(source="/../assets/img/LogoBtn.png")]
+		public static const LogobtnC:Class;
+		
+		[Embed(source="/../assets/img/LogoBtnOver.png")]
+		public static const ButtonOverC:Class;
+		
+		[Embed(source="/../assets/img/LogoBtnDown.png")]
+		public static const ButtonDownC:Class;
 		/**
 		 * Ship hero assets
 		 */
