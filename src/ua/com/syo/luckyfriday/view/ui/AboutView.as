@@ -194,8 +194,7 @@ package ua.com.syo.luckyfriday.view.ui
 			container.addChild(label);
 		}
 		
-		
-		
+		//
 		
 		private function addButton(label:String, container:LayoutGroup):void
 		{
