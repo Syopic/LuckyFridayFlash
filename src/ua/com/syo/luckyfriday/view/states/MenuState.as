@@ -1,11 +1,9 @@
-package ua.com.syo.luckyfriday.view
+package ua.com.syo.luckyfriday.view.states
 {
 	import citrus.core.starling.StarlingState;
 
-	import feathers.controls.Alert;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
-	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.themes.MetalWorksDesktopTheme;
@@ -13,9 +11,9 @@ package ua.com.syo.luckyfriday.view
 	import starling.display.Image;
 	import starling.events.Event;
 
-	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class MenuState extends StarlingState
 	{
@@ -95,7 +93,7 @@ package ua.com.syo.luckyfriday.view
 
 
 			// MOCK
-			UIManager.instance.showSettings();
+			//UIManager.instance.showSettings();
 		}
 
 
@@ -121,11 +119,9 @@ package ua.com.syo.luckyfriday.view
 					UIManager.instance.showAbout();
 					break;
 				case exitBtn: 
-
 					UIManager.instance.showExitAlert();
 					break;
 			}
-
 		}   
 
 		/**

@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view {
+package ua.com.syo.luckyfriday.view.states {
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -32,8 +32,11 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
-	import ua.com.syo.luckyfriday.view.ship.ShipHero;
+	import ua.com.syo.luckyfriday.view.game.ShipHero;
 	import ua.com.syo.luckyfriday.view.ui.HUDView;
+	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
+	import ua.com.syo.luckyfriday.view.game.ParticlesView;
+	import ua.com.syo.luckyfriday.view.UIManager;
 
 	/**
 	 *
@@ -108,9 +111,12 @@ package ua.com.syo.luckyfriday.view {
 			hudView = new HUDView();
 			addChild(hudView);
 
-
-			SoundManager.getInstance().playSound(Constants.LOOP_EMBIENT);
+			SoundManager.getInstance().playSound(Constants.LOOP_MUSIC);
+			SoundManager.getInstance().playSound(Constants.LOOP_ENVIRONMENT);
 			SoundManager.getInstance().playSound(Constants.ENGINE_SFX);
+			SoundManager.getInstance().pauseSound(Constants.ENGINE_SFX);
+
+			UIManager.instance.showSettings();
 		}
 
 

@@ -2,6 +2,9 @@ package ua.com.syo.luckyfriday.view.ui
 {
 	import flash.display.StageDisplayState;
 
+	import citrus.sounds.CitrusSoundGroup;
+	import citrus.sounds.SoundManager;
+
 	import feathers.controls.Button;
 	import feathers.controls.Check;
 	import feathers.controls.Label;
@@ -64,24 +67,22 @@ package ua.com.syo.luckyfriday.view.ui
 
 			musicSlider = new Slider();
 			sfxSlider = new Slider();
-			addSlider(musicSlider, controlsContainer, SaveData.instance.readData(Constants.MUSIC_VOLUME_SO) == null ? 50 : int(SaveData.instance.readData(Constants.MUSIC_VOLUME_SO)), 39);
-			addSlider(sfxSlider, controlsContainer, SaveData.instance.readData(Constants.SFX_VOLUME_SO) == null ? 50 : int(SaveData.instance.readData(Constants.SFX_VOLUME_SO)));
+			addSlider(musicSlider, controlsContainer, SoundManager.getInstance().getGroup(CitrusSoundGroup.BGM).volume * 100, 39);
+			addSlider(sfxSlider, controlsContainer, SoundManager.getInstance().getGroup(CitrusSoundGroup.SFX).volume * 100);
 
 			windowledCheckBox = new Check();
-			windowledCheckBox.isSelected = SaveData.instance.readData(Constants.WINDOWLED_SO) == null ? 50 : Boolean(SaveData.instance.readData(Constants.WINDOWLED_SO));
-			UIManager.instance.ce.stage.displayState = windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
+			windowledCheckBox.isSelected = SaveData.instance.readData(Constants.WINDOWLED_SO) == null ? true : Boolean(SaveData.instance.readData(Constants.WINDOWLED_SO));
 			controlsContainer.addChild(windowledCheckBox);
 			windowledCheckBox.addEventListener( Event.CHANGE, checkBoxChanged );
 
 			// back
 			backBtn = new Button();
-			backBtn.label = "Back";
+			backBtn.label = "Ok";
 			backBtn.width = 130;
 			backBtn.height = 50;
 			backBtn.layoutData = new AnchorLayoutData(NaN, NaN, 12, NaN, 0);
 			backBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			this.addChild(backBtn);
-
 		}
 
 		private function buttonClicked(event:Event):void   
@@ -90,6 +91,7 @@ package ua.com.syo.luckyfriday.view.ui
 			{
 				case backBtn: 
 					PopUpManager.removePopUp(this);
+					//UIManager.instance.ce.playing = true;
 					break;
 			}
 		}
@@ -97,7 +99,7 @@ package ua.com.syo.luckyfriday.view.ui
 		private function checkBoxChanged(event:Event):void   
 		{   
 			SaveData.instance.writeData(Constants.WINDOWLED_SO, (event.currentTarget as Check).isSelected);
-			UIManager.instance.ce.stage.displayState = windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
+			UIManager.instance.ce.stage.displayState = !windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
 		}
 
 		private function sliderChanged(event:Event):void   
@@ -106,10 +108,12 @@ package ua.com.syo.luckyfriday.view.ui
 			switch (slider)
 			{
 				case musicSlider: 
-					SaveData.instance.writeData(Constants.MUSIC_VOLUME_SO, Math.round(slider.value));
+					SoundManager.getInstance().setVolume(Constants.LOOP_MUSIC, musicSlider.value / 100);
+					SaveData.instance.writeData(Constants.MUSIC_VOLUME_SO, Math.round(musicSlider.value));
 					break;
 				case sfxSlider: 
-					SaveData.instance.writeData(Constants.SFX_VOLUME_SO, Math.round(slider.value));
+					SoundManager.getInstance().getGroup(CitrusSoundGroup.SFX).volume = sfxSlider.value / 100;
+					SaveData.instance.writeData(Constants.SFX_VOLUME_SO, Math.round(sfxSlider.value));
 					break;
 			}
 		}

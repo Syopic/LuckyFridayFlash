@@ -7,7 +7,7 @@ package ua.com.syo.luckyfriday
 	import citrus.core.starling.StarlingCitrusEngine;
 	import citrus.input.controllers.Keyboard;
 
-	import ua.com.syo.luckyfriday.view.MenuState;
+	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	[SWF(frameRate = "60", width = "1024", height = "600", backgroundColor = "0x000410")]
@@ -37,7 +37,6 @@ package ua.com.syo.luckyfriday
 			// TODO add loading state
 			UIManager.instance.changeState(MenuState.newInstance);
 			//UIManager.instance.changeState(GameState.newInstance);
-
 		}
 
 		/**

@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view.terrain
+package ua.com.syo.luckyfriday.view.game
 {
 
 	/**

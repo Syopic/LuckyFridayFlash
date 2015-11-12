@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view {
+package ua.com.syo.luckyfriday.view.game {
 	import flash.geom.Point;
 
 	import nape.geom.Vec2;

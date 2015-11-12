@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view {
+package ua.com.syo.luckyfriday.view.game {
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.filters.BlurFilter;

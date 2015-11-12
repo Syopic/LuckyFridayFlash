@@ -1,11 +1,13 @@
 package ua.com.syo.luckyfriday.view {
+	import flash.display.StageDisplayState;
+
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
 	import citrus.input.controllers.gamepad.GamePadManager;
 	import citrus.input.controllers.gamepad.Gamepad;
 	import citrus.input.controllers.gamepad.maps.GamePadMap;
-	import citrus.sounds.CitrusSound;
+	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
 	import feathers.controls.Alert;
@@ -18,6 +20,8 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
+	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
@@ -28,12 +32,14 @@ package ua.com.syo.luckyfriday.view {
 		private var exitAlert:Alert;
 
 		public function init():void {
+
+			// update settings from saved data in SharedObjects
+			SoundManager.getInstance().getGroup(CitrusSoundGroup.BGM).volume = SaveData.instance.readData(Constants.MUSIC_VOLUME_SO) == null ? 0.5 : int(SaveData.instance.readData(Constants.MUSIC_VOLUME_SO)) / 100;
+			SoundManager.getInstance().getGroup(CitrusSoundGroup.SFX).volume = SaveData.instance.readData(Constants.SFX_VOLUME_SO) == null ? 0.5 : int(SaveData.instance.readData(Constants.SFX_VOLUME_SO)) / 100;
+			UIManager.instance.ce.stage.displayState = SaveData.instance.readData(Constants.WINDOWLED_SO) == null ? StageDisplayState.NORMAL : !Boolean(SaveData.instance.readData(Constants.WINDOWLED_SO)) ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
 			initKeyboardActions();
 			initGamePad();
 			initSounds();
-
-			SaveData.instance.writeData("propTest", 45);
-			SaveData.instance.readData("propTest");
 		}
 
 		/**
@@ -54,6 +60,7 @@ package ua.com.syo.luckyfriday.view {
 				settingsView = new SettingsView();
 			}
 			PopUpManager.addPopUp(settingsView);
+			//ce.playing = false;
 		}
 
 		/**
@@ -70,42 +77,34 @@ package ua.com.syo.luckyfriday.view {
 		 * ESC button pressed
 		 */
 		public function escPressed():void {
-			if (PopUpManager.isTopLevelPopUp(settingsView))
-			{
+			if (PopUpManager.isTopLevelPopUp(settingsView)) {
 				PopUpManager.removePopUp(settingsView);
+				//ce.playing = true;
 				return;
-			} else if (PopUpManager.isTopLevelPopUp(aboutView))
-			{
+			} else if (PopUpManager.isTopLevelPopUp(aboutView)) {
 				PopUpManager.removePopUp(aboutView);
 				return;
-			} else if (PopUpManager.isTopLevelPopUp(exitAlert))
-			{
+			} else if (PopUpManager.isTopLevelPopUp(exitAlert)) {
 				PopUpManager.removePopUp(exitAlert);
 				return;
-			}if (ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert))
-			{
+			} else if (ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert)) {
 				showExitAlert();
 				return;
+			} else if (ce.state == GameState.instance && !PopUpManager.isTopLevelPopUp(settingsView)) {
+				showSettings();
+				return;
 			}
-
 		}
 
-		public function showExitAlert():void
-		{
-			exitAlert = Alert.show( "Do you want to exit?", "Exit to system", new ListCollection(
-				[
-				{ label: "OK"},
-				{ label: "Cancel"}
-				]) );
+		public function showExitAlert():void {
+			exitAlert = Alert.show("Do you want to exit?", "Exit to system", new ListCollection([{label: "OK"}, {label: "Cancel"}]));
 			exitAlert.width = 400;
 			exitAlert.height = 200;
-			exitAlert.addEventListener( Event.CLOSE, alertCloseHandler );
+			exitAlert.addEventListener(Event.CLOSE, alertCloseHandler);
 		}
 
-		private function alertCloseHandler(event:Event, data:Object):void
-		{
-			if(data.label == "OK")
-			{
+		private function alertCloseHandler(event:Event, data:Object):void {
+			if (data.label == "OK") {
 				LuckyFriday.exitApplication();
 			}
 		}
@@ -119,7 +118,7 @@ package ua.com.syo.luckyfriday.view {
 
 			kb.addKeyAction(Constants.CONSOLE_ACTION, Keyboard.TAB);
 			kb.addKeyAction(Constants.BREAK_ACTION, Keyboard.SPACE);
-			kb.addKeyAction(Constants.MENU_ACTION, Keyboard.ESCAPE);
+			kb.addKeyAction(Constants.MENU_ACTION, Keyboard.BACKSPACE);
 
 			kb.addKeyAction(Constants.FORWARD_ACTION, Keyboard.RIGHT);
 			kb.addKeyAction(Constants.BACKWARD_ACTION, Keyboard.LEFT);
@@ -150,13 +149,13 @@ package ua.com.syo.luckyfriday.view {
 		/**
 		 * Init sounds
 		 */
-		protected function initSounds():void
-		{
-			SoundManager.getInstance().addSound(Constants.LOOP_EMBIENT, { sound:Assets.LoopSoundC, loops:-1, volume:0.01});
-			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, { sound:Assets.EngineSoundC, loops:100000, volume:0.3});
+		protected function initSounds():void {
+			SoundManager.getInstance().addSound(Constants.LOOP_MUSIC, {sound: Assets.ThemeSoundC, loops: -1, volume: 1, group: CitrusSoundGroup.BGM});
 
-			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, { sound:Assets.ConnectSoundC, volume:0.5});
-			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, { sound:Assets.DisconnectSoundC, volume:0.1});
+			SoundManager.getInstance().addSound(Constants.LOOP_ENVIRONMENT, {sound: Assets.EnvSoundC, loops: -1, volume: 0.1, permanent: true, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, {sound: Assets.EngineSoundC, loops: -1, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, {sound: Assets.ConnectSoundC, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: Assets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
 		}
 
 		/**

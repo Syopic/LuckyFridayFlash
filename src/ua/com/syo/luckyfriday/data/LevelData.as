@@ -9,7 +9,7 @@ package ua.com.syo.luckyfriday.data
 	import nape.phys.BodyType;
 
 	import ua.com.syo.luckyfriday.utils.ProjectUtils;
-	import ua.com.syo.luckyfriday.view.DrawingPhysicsObject;
+	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
 
 	public class LevelData
 	{

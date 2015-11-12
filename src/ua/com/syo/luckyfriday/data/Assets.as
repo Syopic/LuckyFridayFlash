@@ -24,7 +24,7 @@ package ua.com.syo.luckyfriday.data {
 		 */
 		[Embed(source="/../assets/img/Logo.png")]
 		public static const LogoC:Class;
-		
+
 		/**
 		 * Ship hero assets
 		 */
@@ -71,16 +71,19 @@ package ua.com.syo.luckyfriday.data {
 		 * Sounds
 		 */
 
-		[Embed(source = "/../assets/sounds/space.mp3")]
-		public static const LoopSoundC:Class;
+		[Embed(source = "/../assets/sounds/music/theme1.mp3")]
+		public static const ThemeSoundC:Class;
 
-		[Embed(source = "/../assets/sounds/engine.mp3")]
+		[Embed(source = "/../assets/sounds/env/space.mp3")]
+		public static const EnvSoundC:Class;
+
+		[Embed(source = "/../assets/sounds/sfx/engine.mp3")]
 		public static const EngineSoundC:Class;
 
-		[Embed(source = "/../assets/sounds/connect.mp3")]
+		[Embed(source = "/../assets/sounds/sfx/connect.mp3")]
 		public static const ConnectSoundC:Class;
 
-		[Embed(source = "/../assets/sounds/disconnect.mp3")]
+		[Embed(source = "/../assets/sounds/sfx/disconnect.mp3")]
 		public static const DisconnectSoundC:Class;
 
 

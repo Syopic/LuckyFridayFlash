@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view.ship {
+package ua.com.syo.luckyfriday.view.game {
 	import flash.geom.Point;
 	import flash.utils.getTimer;
 
@@ -15,7 +15,7 @@ package ua.com.syo.luckyfriday.view.ship {
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
-	import ua.com.syo.luckyfriday.view.GameState;
+	import ua.com.syo.luckyfriday.view.states.GameState;
 
 
 	public class ShipHero extends NapePhysicsObject {
@@ -200,7 +200,7 @@ package ua.com.syo.luckyfriday.view.ship {
 					thrusters[2].angle = -Math.PI / 2;
 					if (!isAnimationRunning) {
 						GameState.instance.particles.mainEnginePS.start();
-						thrustersVolume = 0.2;
+						thrustersVolume = 0.3;
 					}
 				} else {
 					thrusters[1].angle = Math.PI / 2;
@@ -224,7 +224,7 @@ package ua.com.syo.luckyfriday.view.ship {
 					thrusters[2].angle = -Math.PI / 2;
 					if (!isAnimationRunning)
 					{
-						thrustersVolume = 0.2;
+						thrustersVolume = 0.3;
 						GameState.instance.particles.mainEnginePS.start();
 					}
 				}
@@ -292,7 +292,7 @@ package ua.com.syo.luckyfriday.view.ship {
 				thrusters[i].update();
 				GameState.instance.particles.setThrusterPSActive(i, thrusters[i].isActive);
 
-				if (thrusters[i].isActive) thrustersVolume += 0.1;
+				if (thrusters[i].isActive) thrustersVolume += 0.2;
 
 				if (isAnimationRunning)
 					GameState.instance.particles.setThrusterPSActive(i, false);

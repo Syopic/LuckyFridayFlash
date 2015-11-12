@@ -27,13 +27,14 @@ package ua.com.syo.luckyfriday.data
 		public static const RROTATER_ANIMATION:String = "rrotater";
 
 		// music
-		public static const LOOP_MUSIC:String = "loop";
-		// embients
-		public static const LOOP_EMBIENT:String = "loop";
+		public static const LOOP_MUSIC:String = "musicLoop";
+		// environment
+		public static const LOOP_ENVIRONMENT:String = "environmentLoop";
 		// sfx
 		public static const ENGINE_SFX:String = "engine";
 		public static const CONNECT_SFX:String = "connect";
 		public static const DISCONNECT_SFX:String = "disconnect";
+		// ui
 
 		// sharedObjects
 		public static const NAME_SO:String = "lf";
