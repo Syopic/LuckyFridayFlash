@@ -122,27 +122,11 @@ package ua.com.syo.luckyfriday.view
 					break;
 				case exitBtn: 
 
-					var alert:Alert = Alert.show( "Do you want to exit?", "Exit to system", new ListCollection(
-						[
-						{ label: "OK", triggered: alertCloseHandler(event, exitBtn) },
-						{ label: "Cancel", triggered: buttonClicked }
-						]) );
-					alert.width = 400;
-					alert.height = 200;
-					alert.addEventListener( Event.CLOSE, alertCloseHandler );
+					UIManager.instance.showExitAlert();
 					break;
 			}
 
 		}   
-
-		private function alertCloseHandler(event:Event, data:Object):void
-		{
-			if(data.label == "OK")
-			{
-				LuckyFriday.exitApplication();
-			}
-		}
-
 
 		/**
 		 * Singleton

@@ -16,6 +16,8 @@ package ua.com.syo.luckyfriday.view.ui
 
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class SettingsView extends Panel
@@ -62,11 +64,12 @@ package ua.com.syo.luckyfriday.view.ui
 
 			musicSlider = new Slider();
 			sfxSlider = new Slider();
-			addSlider(musicSlider, controlsContainer, 39);
-			addSlider(sfxSlider, controlsContainer);
+			addSlider(musicSlider, controlsContainer, SaveData.instance.readData(Constants.MUSIC_VOLUME_SO) == null ? 50 : int(SaveData.instance.readData(Constants.MUSIC_VOLUME_SO)), 39);
+			addSlider(sfxSlider, controlsContainer, SaveData.instance.readData(Constants.SFX_VOLUME_SO) == null ? 50 : int(SaveData.instance.readData(Constants.SFX_VOLUME_SO)));
 
 			windowledCheckBox = new Check();
-			windowledCheckBox.isSelected = true;
+			windowledCheckBox.isSelected = SaveData.instance.readData(Constants.WINDOWLED_SO) == null ? 50 : Boolean(SaveData.instance.readData(Constants.WINDOWLED_SO));
+			UIManager.instance.ce.stage.displayState = windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
 			controlsContainer.addChild(windowledCheckBox);
 			windowledCheckBox.addEventListener( Event.CHANGE, checkBoxChanged );
 
@@ -93,13 +96,8 @@ package ua.com.syo.luckyfriday.view.ui
 
 		private function checkBoxChanged(event:Event):void   
 		{   
-			if ((event.currentTarget as Check).isSelected)
-			{	
-				UIManager.instance.ce.stage.displayState = StageDisplayState.NORMAL; 
-			} else
-			{
-				UIManager.instance.ce.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE; 
-			}
+			SaveData.instance.writeData(Constants.WINDOWLED_SO, (event.currentTarget as Check).isSelected);
+			UIManager.instance.ce.stage.displayState = windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
 		}
 
 		private function sliderChanged(event:Event):void   
@@ -108,10 +106,10 @@ package ua.com.syo.luckyfriday.view.ui
 			switch (slider)
 			{
 				case musicSlider: 
-					trace("music slider: " + slider.value);
+					SaveData.instance.writeData(Constants.MUSIC_VOLUME_SO, Math.round(slider.value));
 					break;
 				case sfxSlider: 
-					trace("sfx slider: " + slider.value);
+					SaveData.instance.writeData(Constants.SFX_VOLUME_SO, Math.round(slider.value));
 					break;
 			}
 		}
@@ -123,14 +121,14 @@ package ua.com.syo.luckyfriday.view.ui
 			container.addChild(label);
 		}
 
-		private function addSlider(slider:Slider, container:LayoutGroup, height:int = 28):void
+		private function addSlider(slider:Slider, container:LayoutGroup, value:Number, height:int = 28):void
 		{
 			slider.width = 180;
 			slider.height = height;
 			slider.x = 200;
 			slider.minimum = 0;
 			slider.maximum = 100;
-			slider.value = 50;
+			slider.value = value;
 			slider.trackLayoutMode = "directional";
 			slider.addEventListener( Event.CHANGE, sliderChanged);
 			container.addChild(slider);

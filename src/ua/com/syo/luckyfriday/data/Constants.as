@@ -34,6 +34,12 @@ package ua.com.syo.luckyfriday.data
 		public static const ENGINE_SFX:String = "engine";
 		public static const CONNECT_SFX:String = "connect";
 		public static const DISCONNECT_SFX:String = "disconnect";
+
+		// sharedObjects
+		public static const NAME_SO:String = "lf";
+		public static const MUSIC_VOLUME_SO:String = "musicVolume";
+		public static const SFX_VOLUME_SO:String = "sfxVolume";
+		public static const WINDOWLED_SO:String = "windowled";
 	}
 }
 

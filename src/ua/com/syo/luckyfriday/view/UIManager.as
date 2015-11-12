@@ -8,11 +8,16 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.sounds.CitrusSound;
 	import citrus.sounds.SoundManager;
 
+	import feathers.controls.Alert;
 	import feathers.core.PopUpManager;
+	import feathers.data.ListCollection;
+
+	import starling.events.Event;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
@@ -20,11 +25,15 @@ package ua.com.syo.luckyfriday.view {
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
+		private var exitAlert:Alert;
 
 		public function init():void {
 			initKeyboardActions();
 			initGamePad();
 			initSounds();
+
+			SaveData.instance.writeData("propTest", 45);
+			SaveData.instance.readData("propTest");
 		}
 
 		/**
@@ -55,6 +64,50 @@ package ua.com.syo.luckyfriday.view {
 				aboutView = new AboutView();
 			}
 			PopUpManager.addPopUp(aboutView);
+		}
+
+		/**
+		 * ESC button pressed
+		 */
+		public function escPressed():void {
+			if (PopUpManager.isTopLevelPopUp(settingsView))
+			{
+				PopUpManager.removePopUp(settingsView);
+				return;
+			} else if (PopUpManager.isTopLevelPopUp(aboutView))
+			{
+				PopUpManager.removePopUp(aboutView);
+				return;
+			} else if (PopUpManager.isTopLevelPopUp(exitAlert))
+			{
+				PopUpManager.removePopUp(exitAlert);
+				return;
+			}if (ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert))
+			{
+				showExitAlert();
+				return;
+			}
+
+		}
+
+		public function showExitAlert():void
+		{
+			exitAlert = Alert.show( "Do you want to exit?", "Exit to system", new ListCollection(
+				[
+				{ label: "OK"},
+				{ label: "Cancel"}
+				]) );
+			exitAlert.width = 400;
+			exitAlert.height = 200;
+			exitAlert.addEventListener( Event.CLOSE, alertCloseHandler );
+		}
+
+		private function alertCloseHandler(event:Event, data:Object):void
+		{
+			if(data.label == "OK")
+			{
+				LuckyFriday.exitApplication();
+			}
 		}
 
 		/**

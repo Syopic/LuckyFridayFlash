@@ -11,27 +11,22 @@ package ua.com.syo.luckyfriday.data
 				throw(new Error("SaveData.as: illegal reinstantiation!"));
 			_instance = this;
 			try{
-				getSharedObject();
+				so = SharedObject.getLocal(Constants.NAME_SO);
 			} catch (e:Object) { }
 		}
 
-		private function getSharedObject():void {
-			so = SharedObject.getLocal("lf");
+		public function writeData(propertyName:String, data:Object):void {
+			if (so) so.data[propertyName] = data;
 		}
 
-		public function writeData(name:String, data:Object):void {
-			if (so) so.data[name] = data;
-		}
-
-		public function readData(changeSettingFunction:Function):void {
+		public function readData(propertyName:String):Object {
 			if (so) {
-				for (var prop:Object in so.data) {
-					//trace(prop + ": " + so.data[prop]);
-					changeSettingFunction(prop, so.data[prop]);
-				}
-			} else {
-				//trace ("PROBLEM READING FROM SHARED OBJECT!!!");
+				//trace(propertyName + ": " + so.data[propertyName]);
+				return so.data[propertyName];
 			}
+
+			//trace ("Problem reading from shared object!");
+			return null;
 		}
 
 		public function clearSharedObject():void {
