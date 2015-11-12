@@ -116,7 +116,7 @@ package ua.com.syo.luckyfriday.view.states {
 			SoundManager.getInstance().playSound(Constants.ENGINE_SFX);
 			SoundManager.getInstance().pauseSound(Constants.ENGINE_SFX);
 
-			UIManager.instance.showSettings();
+			//UIManager.instance.showSettings();
 		}
 
 
