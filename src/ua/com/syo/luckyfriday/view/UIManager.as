@@ -24,12 +24,14 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
+	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
 
 	public class UIManager {
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
 		private var exitAlert:Alert;
+		private var ingameMenu:InGameMenu;
 
 		public function init():void {
 
@@ -71,6 +73,17 @@ package ua.com.syo.luckyfriday.view {
 				aboutView = new AboutView();
 			}
 			PopUpManager.addPopUp(aboutView);
+		}
+		
+			/**
+			 * Show InGameMenu popup
+			 */
+			public function showIngameMenu():void {
+				if (!ingameMenu) {
+					ingameMenu = new InGameMenu();
+				}
+				PopUpManager.addPopUp(ingameMenu);
+			
 		}
 
 		/**
