@@ -1,7 +1,6 @@
 package ua.com.syo.luckyfriday.view.ui
 {
 	import feathers.controls.Button;
-//import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.Panel;
 	import feathers.core.PopUpManager;
@@ -12,10 +11,14 @@ package ua.com.syo.luckyfriday.view.ui
 	
 	import starling.events.Event;
 	
-//	import ua.com.syo.luckyfriday.view.UIManager;
+	import ua.com.syo.luckyfriday.view.UIManager;
+	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.view.states.MenuState;
 	
 	public class InGameMenu extends Panel
 	{
+		
+		private var showSettings:UIManager;
 		private var resumeBtn:Button;
 		private var restartBtn:Button;
 		private var exitmisBtn:Button;
@@ -32,17 +35,7 @@ package ua.com.syo.luckyfriday.view.ui
 			
 			this.layout = new AnchorLayout();
 			
-			
-			var controlsVLayout:VerticalLayout = new VerticalLayout();
-			var controlsContainer:LayoutGroup = new LayoutGroup();
-			controlsVLayout.padding = 1;
-			controlsVLayout.horizontalAlign = HorizontalLayout.HORIZONTAL_ALIGN_LEFT;
-			controlsVLayout.gap = 25;
-			controlsContainer.width = 18;
-			controlsContainer.x = 210;
-			controlsContainer.layout = controlsVLayout;
-			this.addChild(controlsContainer);
-			
+		
 			/**
 			 * Add butons 
 			 */
@@ -87,8 +80,18 @@ package ua.com.syo.luckyfriday.view.ui
 			{
 				case resumeBtn: 
 					PopUpManager.removePopUp(this);
-					//UIManager.instance.ce.playing = true;
+					UIManager.instance.ce.playing = true;
 					break;
+				 case setingsBtn: 
+					 UIManager.instance.showSettings();
+					 UIManager.instance.ce.playing = false;
+					break;
+				 case exitmisBtn:
+					 UIManager.instance.changeState(MenuState.newInstance);
+					 
+					 PopUpManager.removePopUp(this);
+					break;
+				  
 			}
 		}
 	}
