@@ -32,7 +32,7 @@ package ua.com.syo.luckyfriday.view {
 		private var aboutView:AboutView;
 		private var exitAlert:Alert;
 		private var ingameMenu:InGameMenu;
-		private var flag:Boolean;
+		
 
 		public function init():void {
 
@@ -62,7 +62,7 @@ package ua.com.syo.luckyfriday.view {
 			if (!settingsView) {
 				settingsView = new SettingsView();
 			}
-			flag = true;
+			
 			PopUpManager.addPopUp(settingsView);
 			//ce.playing = false;
 		}
@@ -111,16 +111,11 @@ package ua.com.syo.luckyfriday.view {
 				showIngameMenu();
 				ce.playing = false;
 				return;
-			} else if (flag == true && PopUpManager.isTopLevelPopUp(ingameMenu)) {
+			} else if (PopUpManager.isTopLevelPopUp(ingameMenu)) {
 				PopUpManager.removePopUp(ingameMenu);
-				flag = false;
 				ce.playing = true;
 				return;
-			} else if (ce.state == GameState.instance && !PopUpManager.isTopLevelPopUp(settingsView)) {
-				showSettings();
-				flag = true;
-				return;
-			} 
+			}
 			
 		}
 
