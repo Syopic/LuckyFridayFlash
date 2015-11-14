@@ -1,6 +1,6 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.StageDisplayState;
-	
+
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
@@ -9,13 +9,13 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.input.controllers.gamepad.maps.GamePadMap;
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
-	
+
 	import feathers.controls.Alert;
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
-	
+	import feathers.themes.MetalWorksDesktopTheme;
 	import starling.events.Event;
-	
+
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
@@ -35,7 +35,8 @@ package ua.com.syo.luckyfriday.view {
 		
 
 		public function init():void {
-
+			// init ui theme
+			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
 			// update settings from saved data in SharedObjects
 			SoundManager.getInstance().getGroup(CitrusSoundGroup.BGM).volume = SaveData.instance.readData(Constants.MUSIC_VOLUME_SO) == null ? 0.5 : Number(SaveData.instance.readData(Constants.MUSIC_VOLUME_SO)) / 100;
 			SoundManager.getInstance().getGroup(CitrusSoundGroup.SFX).volume = SaveData.instance.readData(Constants.SFX_VOLUME_SO) == null ? 0.5 : Number(SaveData.instance.readData(Constants.SFX_VOLUME_SO)) / 100;
@@ -76,24 +77,24 @@ package ua.com.syo.luckyfriday.view {
 			}
 			PopUpManager.addPopUp(aboutView);
 		}
-		
-			/**
-			 * Show InGameMenu popup
-			 */
-			public function showIngameMenu():void {
-				if (!ingameMenu) {
-					ingameMenu = new InGameMenu();
-				}
-				PopUpManager.addPopUp(ingameMenu);
-			
+
+		/**
+		 * Show InGameMenu popup
+		 */
+		public function showIngameMenu():void {
+			if (!ingameMenu) {
+				ingameMenu = new InGameMenu();
+			}
+			PopUpManager.addPopUp(ingameMenu);
+
 		}
 
 		/**
 		 * ESC button pressed
 		 */
 		public function escPressed():void {
-			
-			
+
+
 			if (PopUpManager.isTopLevelPopUp(settingsView)) {
 				PopUpManager.removePopUp(settingsView);
 				//ce.playing = true;
@@ -115,8 +116,10 @@ package ua.com.syo.luckyfriday.view {
 				PopUpManager.removePopUp(ingameMenu);
 				ce.playing = true;
 				return;
+
 			}
-			
+
+
 		}
 
 		public function showExitAlert():void {
