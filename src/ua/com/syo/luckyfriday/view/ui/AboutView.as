@@ -81,7 +81,8 @@ package ua.com.syo.luckyfriday.view.ui
 			//add text
 			
 			s = new Sprite();
-			var legend:TextField = new TextField(180, 200, "Kryvosheya (Syo) Serhii               Myzika Slava               Gonhcar Urii          Kryvosheya Volodymyr    Kysliuk (Riks) Oleksii ", "Segoe Print", 14, 0xFFFFFF, true);
+			var legend:TextField = new TextField(180, 200, " ", "Segoe Print", 14, 0xFFFFFF, true);
+			legend.text = "\"Kryvosheya (Syo) Serhii\nMyzika Slava\nGonhcar Urii\nKryvosheya Volodymyr\nKysliuk (Riks) Oleksii";
 			s.addChild(legend);
 			s.x = 140;
 			s.y =110;
@@ -194,8 +195,7 @@ package ua.com.syo.luckyfriday.view.ui
 			container.addChild(label);
 		}
 		
-		
-		
+		//
 		
 		private function addButton(label:String, container:LayoutGroup):void
 		{

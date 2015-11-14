@@ -14,7 +14,6 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-
 	import starling.events.Event;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
@@ -24,6 +23,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
+	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
 	public class UIManager {
@@ -31,6 +31,8 @@ package ua.com.syo.luckyfriday.view {
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
 		private var exitAlert:Alert;
+		private var ingameMenu:InGameMenu;
+		private var flag:Boolean;
 
 		public function init():void {
 			// init ui theme
@@ -61,6 +63,7 @@ package ua.com.syo.luckyfriday.view {
 			if (!settingsView) {
 				settingsView = new SettingsView();
 			}
+			flag = true;
 			PopUpManager.addPopUp(settingsView);
 			//ce.playing = false;
 		}
@@ -76,9 +79,22 @@ package ua.com.syo.luckyfriday.view {
 		}
 
 		/**
+		 * Show InGameMenu popup
+		 */
+		public function showIngameMenu():void {
+			if (!ingameMenu) {
+				ingameMenu = new InGameMenu();
+			}
+			PopUpManager.addPopUp(ingameMenu);
+
+		}
+
+		/**
 		 * ESC button pressed
 		 */
 		public function escPressed():void {
+
+
 			if (PopUpManager.isTopLevelPopUp(settingsView)) {
 				PopUpManager.removePopUp(settingsView);
 				//ce.playing = true;
@@ -92,10 +108,21 @@ package ua.com.syo.luckyfriday.view {
 			} else if (ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert)) {
 				showExitAlert();
 				return;
+			} else if (ce.state == GameState.instance && !PopUpManager.isTopLevelPopUp(ingameMenu)) {
+				showIngameMenu();
+				ce.playing = false;
+				return;
+			} else if (flag == true && PopUpManager.isTopLevelPopUp(ingameMenu)) {
+				PopUpManager.removePopUp(ingameMenu);
+				flag = false;
+				ce.playing = true;
+				return;
 			} else if (ce.state == GameState.instance && !PopUpManager.isTopLevelPopUp(settingsView)) {
 				showSettings();
+				flag = true;
 				return;
-			}
+			} 
+
 		}
 
 		public function showExitAlert():void {
