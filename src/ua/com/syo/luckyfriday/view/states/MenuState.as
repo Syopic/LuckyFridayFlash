@@ -17,12 +17,8 @@ package ua.com.syo.luckyfriday.view.states
 
 	public class MenuState extends StarlingState
 	{
-		public function MenuState()
-		{
-			super();
-		}
-
 		private var playBtn:Button;
+		private var locationsBtn:Button;
 		private var helpBtn:Button;
 		private var profileBtn:Button;
 		private var settingsBtn:Button;
@@ -32,13 +28,11 @@ package ua.com.syo.luckyfriday.view.states
 		override public function initialize():void   
 		{   
 			super.initialize(); 
-
-			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
 			initButtons();
 		}
 
 		/**
-		 * Get the keyboard, and add actions
+		 * Init buttons
 		 */
 		private function initButtons():void {
 
@@ -55,6 +49,15 @@ package ua.com.syo.luckyfriday.view.states
 			playBtn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			playBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(playBtn);
+
+			// locations
+			locationsBtn = new Button();
+			locationsBtn.label = "LOCATIONS";
+			locationsBtn.width = 300;
+			locationsBtn.height = 100;
+			locationsBtn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 120);
+			locationsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			container.addChild(locationsBtn);
 
 			// help
 			helpBtn = new Button();
@@ -111,6 +114,9 @@ package ua.com.syo.luckyfriday.view.states
 			{
 				case playBtn: 
 					UIManager.instance.changeState(GameState.newInstance);   
+					break;
+				case locationsBtn: 
+					UIManager.instance.changeState(LocationsState.newInstance);   
 					break;
 				case settingsBtn: 
 					UIManager.instance.showSettings();

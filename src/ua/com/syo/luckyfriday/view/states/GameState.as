@@ -60,10 +60,6 @@ package ua.com.syo.luckyfriday.view.states {
 		private var rocks:Vector.<DrawingPhysicsObject>;
 		private var hudView:HUDView;
 
-		public function GameState() {
-			super();
-		}
-
 		override public function initialize():void {
 			super.initialize();
 
@@ -225,7 +221,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (!isZoomIn)
 				{
-					camera.baseZoom = 1.5;
+					camera.baseZoom = 3;
 					isZoomIn = true;
 				}
 			}
@@ -233,7 +229,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (isZoomIn)
 				{
-					camera.baseZoom = 1;
+					camera.baseZoom = 2;
 					isZoomIn = false;
 				}
 			}

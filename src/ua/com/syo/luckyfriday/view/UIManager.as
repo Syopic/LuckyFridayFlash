@@ -13,6 +13,7 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.controls.Alert;
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
+	import feathers.themes.MetalWorksDesktopTheme;
 
 	import starling.events.Event;
 
@@ -32,7 +33,8 @@ package ua.com.syo.luckyfriday.view {
 		private var exitAlert:Alert;
 
 		public function init():void {
-
+			// init ui theme
+			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
 			// update settings from saved data in SharedObjects
 			SoundManager.getInstance().getGroup(CitrusSoundGroup.BGM).volume = SaveData.instance.readData(Constants.MUSIC_VOLUME_SO) == null ? 0.5 : Number(SaveData.instance.readData(Constants.MUSIC_VOLUME_SO)) / 100;
 			SoundManager.getInstance().getGroup(CitrusSoundGroup.SFX).volume = SaveData.instance.readData(Constants.SFX_VOLUME_SO) == null ? 0.5 : Number(SaveData.instance.readData(Constants.SFX_VOLUME_SO)) / 100;
