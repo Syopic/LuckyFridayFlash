@@ -52,6 +52,7 @@ package ua.com.syo.luckyfriday.view {
 		 */
 		public function changeState(nextState:StarlingState):void {
 			// stop all sounds TODO: change sounds by state
+
 			SoundManager.getInstance().stopAllPlayingSounds();
 			ce.state = nextState;
 		}
@@ -86,7 +87,6 @@ package ua.com.syo.luckyfriday.view {
 				ingameMenu = new InGameMenu();
 			}
 			PopUpManager.addPopUp(ingameMenu);
-
 		}
 
 		/**

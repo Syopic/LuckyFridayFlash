@@ -44,12 +44,12 @@ package ua.com.syo.luckyfriday.view.states {
 	 */
 	public class GameState extends StarlingState {
 
-		public var shipHero:ShipHero;
+		private var shipHero:ShipHero;
 		private var debug:ShapeDebug;
 		private var napeWorld:Nape;
 
 		private var isDebug:Boolean = false;
-		public var mainCamera:StarlingCamera;
+		private var mainCamera:StarlingCamera;
 		private var mcDebug:flash.display.MovieClip;
 
 		private var bgSprite:CitrusSprite;
@@ -90,8 +90,6 @@ package ua.com.syo.luckyfriday.view.states {
 			//shipHero.particles = particles;
 			add(shipHero);
 			shipHero.body.position.setxy(500, 300);
-
-
 
 			mainCamera = view.camera as StarlingCamera;
 			mainCamera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
@@ -221,7 +219,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (!isZoomIn)
 				{
-					camera.baseZoom = 3;
+					camera.baseZoom = 2.5;
 					isZoomIn = true;
 				}
 			}
@@ -229,7 +227,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (isZoomIn)
 				{
-					camera.baseZoom = 2;
+					camera.baseZoom = 1.5;
 					isZoomIn = false;
 				}
 			}

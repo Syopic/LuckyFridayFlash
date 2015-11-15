@@ -2,7 +2,7 @@
   <texture name="texture.png"/>
   <sourcePosition x="300.00" y="300.00"/>
   <sourcePositionVariance x="0" y="0"/>
-  <speed value="40"/>
+  <speed value="20"/>
   <speedVariance value="0"/>
   <particleLifeSpan value="0.1"/>
   <particleLifespanVariance value="0.3000"/>
@@ -22,7 +22,7 @@
   <startParticleSizeVariance value="5"/>
   <finishParticleSize value="100.00"/>
   <FinishParticleSizeVariance value="5.00"/>
-  <duration value="-1.00"/>
+  <duration value="1.00"/>
   <emitterType value="0"/>
   <maxRadius value="20.00"/>
   <maxRadiusVariance value="0.00"/>
