@@ -20,7 +20,7 @@ package ua.com.syo.luckyfriday.model
 		/**
 		 * Ship params
 		 */
-		public static var rotateImpulse:Number = 100;
+		public static var rotateImpulse:Number = 75;
 		public static var moveUpImpulse:Number = 2;
 		public static var moveDownImpulse:Number = 2;
 		public static var moveForwardImpulse:Number = 3.0;

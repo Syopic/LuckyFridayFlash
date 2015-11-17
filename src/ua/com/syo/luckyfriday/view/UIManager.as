@@ -164,7 +164,11 @@ package ua.com.syo.luckyfriday.view {
 		}
 
 		protected function addGamePad(gamepad:Gamepad):void {
-			gamepad.setStickActions(GamePadMap.STICK_LEFT, Constants.UP_ACTION, Constants.ROTATECCW_ACTION, Constants.DOWN_ACTION, Constants.ROTATECW_ACTION);
+			gamepad.setButtonAction(GamePadMap.BUTTON_LEFT, Constants.BACKWARD_ACTION);
+			gamepad.setButtonAction(GamePadMap.DPAD_LEFT, Constants.ROTATECW_ACTION);
+			gamepad.setButtonAction(GamePadMap.BUTTON_RIGHT, Constants.FORWARD_ACTION);
+			gamepad.setButtonAction(GamePadMap.DPAD_RIGHT, Constants.ROTATECCW_ACTION);
+		    gamepad.setStickActions(GamePadMap.STICK_LEFT, Constants.UP_ACTION, Constants.ROTATECCW_ACTION, Constants.DOWN_ACTION, Constants.ROTATECW_ACTION);
 			gamepad.setStickActions(GamePadMap.STICK_RIGHT, Constants.UP_ACTION, Constants.FORWARD_ACTION, Constants.DOWN_ACTION, Constants.BACKWARD_ACTION);
 			gamepad.setButtonAction(GamePadMap.START, Constants.PLAY_ACTION);
 			gamepad.setButtonAction(GamePadMap.SELECT, Constants.MENU_ACTION);
