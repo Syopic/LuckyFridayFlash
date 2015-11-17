@@ -18,6 +18,8 @@ package ua.com.syo.luckyfriday.data
 		public static const ROTATECCW_ACTION:String = "rotateCCW";
 		public static const LEFT_ACTION:String = "left";
 		public static const RIGHT_ACTION:String = "right";
+		public static const LEFT_TURN_ACTION:String = "leftTurn";
+		public static const RIGHT_TURN_ACTION:String = "rightTurn";
 
 		// animations
 		public static const IDLE_RIGHT_ANIMATION:String = "idleright";

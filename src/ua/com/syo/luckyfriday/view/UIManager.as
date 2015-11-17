@@ -32,7 +32,7 @@ package ua.com.syo.luckyfriday.view {
 		private var aboutView:AboutView;
 		private var exitAlert:Alert;
 		private var ingameMenu:InGameMenu;
-		
+
 
 		public function init():void {
 			// init ui theme
@@ -64,7 +64,7 @@ package ua.com.syo.luckyfriday.view {
 			if (!settingsView) {
 				settingsView = new SettingsView();
 			}
-			
+
 			PopUpManager.addPopUp(settingsView);
 			//ce.playing = false;
 		}
@@ -153,6 +153,9 @@ package ua.com.syo.luckyfriday.view {
 
 			kb.addKeyAction(Constants.ROTATECW_ACTION, Keyboard.A);
 			kb.addKeyAction(Constants.ROTATECCW_ACTION, Keyboard.D);
+
+			kb.addKeyAction(Constants.LEFT_TURN_ACTION, Keyboard.Q);
+			kb.addKeyAction(Constants.RIGHT_TURN_ACTION, Keyboard.E);
 		}
 
 		/**
@@ -165,15 +168,20 @@ package ua.com.syo.luckyfriday.view {
 
 		protected function addGamePad(gamepad:Gamepad):void {
 			gamepad.setButtonAction(GamePadMap.BUTTON_LEFT, Constants.BACKWARD_ACTION);
-			gamepad.setButtonAction(GamePadMap.DPAD_LEFT, Constants.ROTATECW_ACTION);
 			gamepad.setButtonAction(GamePadMap.BUTTON_RIGHT, Constants.FORWARD_ACTION);
+			gamepad.setButtonAction(GamePadMap.BUTTON_TOP, Constants.UP_ACTION);
+			gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, Constants.DOWN_ACTION);
+
+			gamepad.setButtonAction(GamePadMap.DPAD_LEFT, Constants.ROTATECW_ACTION);
 			gamepad.setButtonAction(GamePadMap.DPAD_RIGHT, Constants.ROTATECCW_ACTION);
-		    gamepad.setStickActions(GamePadMap.STICK_LEFT, Constants.UP_ACTION, Constants.ROTATECCW_ACTION, Constants.DOWN_ACTION, Constants.ROTATECW_ACTION);
+			gamepad.setStickActions(GamePadMap.STICK_LEFT, Constants.UP_ACTION, Constants.ROTATECCW_ACTION, Constants.DOWN_ACTION, Constants.ROTATECW_ACTION);
 			gamepad.setStickActions(GamePadMap.STICK_RIGHT, Constants.UP_ACTION, Constants.FORWARD_ACTION, Constants.DOWN_ACTION, Constants.BACKWARD_ACTION);
 			gamepad.setButtonAction(GamePadMap.START, Constants.PLAY_ACTION);
 			gamepad.setButtonAction(GamePadMap.SELECT, Constants.MENU_ACTION);
-			gamepad.setButtonAction(GamePadMap.L1, Constants.BREAK_ACTION);
-			gamepad.setButtonAction(GamePadMap.R1, Constants.BREAK_ACTION);
+			gamepad.setButtonAction(GamePadMap.L1, Constants.LEFT_TURN_ACTION);
+			gamepad.setButtonAction(GamePadMap.R1, Constants.RIGHT_TURN_ACTION);
+			gamepad.setButtonAction(GamePadMap.L2, Constants.BREAK_ACTION);
+			gamepad.setButtonAction(GamePadMap.R2, Constants.BREAK_ACTION);
 		}
 
 		/**

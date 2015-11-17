@@ -206,7 +206,6 @@ package ua.com.syo.luckyfriday.view.game {
 					thrusters[1].angle = Math.PI / 2;
 					thrusters[3].angle = Math.PI / 2;
 				}
-
 			}
 
 			if (_ce.input.isDoing(Constants.BACKWARD_ACTION)) {
@@ -245,7 +244,6 @@ package ua.com.syo.luckyfriday.view.game {
 					thrusters[3].angle = Math.PI / 4 + Math.PI / 2;
 				else
 					thrusters[3].angle = Math.PI;
-
 			}
 
 			if (_ce.input.isDoing(Constants.DOWN_ACTION)) {
@@ -266,7 +264,7 @@ package ua.com.syo.luckyfriday.view.game {
 					thrusters[1].angle = 0;
 			}
 
-			if (_ce.input.hasDone(Constants.RIGHT_ACTION)) {
+			/*if (_ce.input.hasDone(Constants.RIGHT_ACTION)) {
 				// double tap
 				if (prevButton == Constants.RIGHT_ACTION && (getTimer() - dt) < Globals.doubleTapDelay) {
 					flip(1);
@@ -284,6 +282,14 @@ package ua.com.syo.luckyfriday.view.game {
 					dt = getTimer();
 					prevButton = Constants.LEFT_ACTION;
 				}
+			}*/
+
+			if (_ce.input.hasDone(Constants.RIGHT_TURN_ACTION)) {
+				flip(1);
+			}
+
+			if (_ce.input.hasDone(Constants.LEFT_TURN_ACTION)) {
+				flip(-1);
 			}
 
 
