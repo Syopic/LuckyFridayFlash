@@ -25,6 +25,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
 	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
+	import ua.com.syo.luckyfriday.view.states.MissionsState;
 
 	public class UIManager {
 
@@ -87,6 +88,7 @@ package ua.com.syo.luckyfriday.view {
 				ingameMenu = new InGameMenu();
 			}
 			PopUpManager.addPopUp(ingameMenu);
+			ingameMenu.arrange();
 		}
 
 		/**
@@ -105,6 +107,9 @@ package ua.com.syo.luckyfriday.view {
 			} else if (PopUpManager.isTopLevelPopUp(exitAlert)) {
 				PopUpManager.removePopUp(exitAlert);
 				return;
+			} else if (ce.state == MissionsState.instance && !PopUpManager.isTopLevelPopUp(ingameMenu)) {
+				showIngameMenu();
+				return;
 			} else if (ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert)) {
 				showExitAlert();
 				return;
@@ -112,7 +117,8 @@ package ua.com.syo.luckyfriday.view {
 				showIngameMenu();
 				ce.playing = false;
 				return;
-			} else if (PopUpManager.isTopLevelPopUp(ingameMenu)) {
+			} 
+			else if (PopUpManager.isTopLevelPopUp(ingameMenu)) {
 				PopUpManager.removePopUp(ingameMenu);
 				ce.playing = true;
 				return;

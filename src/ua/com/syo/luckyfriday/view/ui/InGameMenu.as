@@ -1,79 +1,112 @@
 package ua.com.syo.luckyfriday.view.ui
 {
-	import flash.utils.setTimeout;
-
+	import citrus.core.starling.StarlingState;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.Panel;
 	import feathers.core.PopUpManager;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.HorizontalLayout;
-	import feathers.layout.VerticalLayout;
-
 	import starling.events.Event;
-
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.view.states.MissionsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
-
+	
 	public class InGameMenu extends Panel
 	{
-
+		private var container:LayoutGroup;
 		private var showSettings:UIManager;
 		private var resumeBtn:Button;
-		private var restartBtn:Button;
-		private var exitmisBtn:Button;
-		private var setingsBtn:Button;
+		private var aBtn:Button;
+		private var bBtn:Button;
+		private var cBtn:Button;
 		private var panelWidth:int = 280;
-		private var panelHeight:int = 360;
-
+		private var panelHeight:int;
+		private var currentState:StarlingState;
+		public var btLabelA:String;
+		public var btLabelB:String;
+		public var btLabelC:String;
+		public var viBtC:Boolean;
+		
+		
 		public function InGameMenu()
 		{
+			
+			
+			
 			width = panelWidth;
 			height = panelHeight;
 			title = "Game Menu";
 
-			this.layout = new AnchorLayout();
-
+		
+			
+			
 			/**
-			 * Add butons
+			 * Add butons 
 			 */
+			
+			initButtons()
+			
 			resumeBtn = new Button();
 			resumeBtn.label = "Resume";
-			resumeBtn.width = 230;
-			resumeBtn.height = 50;
-			resumeBtn.layoutData = new AnchorLayoutData(12, 12, NaN, 12);
+			resumeBtn.layoutData = new AnchorLayoutData(12, 12, NaN, 15);
 			resumeBtn.addEventListener(Event.TRIGGERED, buttonClicked);
-			this.addChild(resumeBtn);
-
-			restartBtn = new Button();
-			restartBtn.label = "Restart Misson";
-			restartBtn.width = 230;
-			restartBtn.height = 50;
-			restartBtn.layoutData = new AnchorLayoutData(74, 12, NaN, 12);
-			restartBtn.addEventListener(Event.TRIGGERED, buttonClicked);
-			this.addChild(restartBtn);
-
-
-			exitmisBtn = new Button();
-			exitmisBtn.label = "Exit Misson";
-			exitmisBtn.width = 230;
-			exitmisBtn.height = 50;
-			exitmisBtn.layoutData = new AnchorLayoutData(136, 12, NaN, 12);
-			exitmisBtn.addEventListener(Event.TRIGGERED, buttonClicked);
-			this.addChild(exitmisBtn);
-
-
-			setingsBtn = new Button();
-			setingsBtn.label = "Setings";
-			setingsBtn.width = 230;
-			setingsBtn.height = 50;
-			setingsBtn.layoutData = new AnchorLayoutData(198, 12, NaN, 12);
-			setingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
-			this.addChild(setingsBtn);
+			container.addChild(resumeBtn);
+			
+			aBtn = new Button();
+			aBtn.layoutData = new AnchorLayoutData(74, 12, NaN, 15);
+			aBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			container.addChild(aBtn);
+			
+			
+			bBtn = new Button();
+			bBtn.layoutData = new AnchorLayoutData(136, 12, NaN, 15);
+			bBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			container.addChild(bBtn);
+			
+			
+			cBtn = new Button();
+			cBtn.layoutData = new AnchorLayoutData(198, 12, NaN, 15);
+			cBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			container.addChild(cBtn);
+			
+			
+			arrange();
 		}
-
+		/**
+		 * add layout group
+		 */
+		
+		private function initButtons():void {
+			container = new LayoutGroup();
+			container.layout = new AnchorLayout();
+			container.autoSizeMode = LayoutGroup.AUTO_SIZE_MODE_CONTENT;
+			this.addChild(container);
+		}
+		
+		/**
+		 * arrange buttons
+		 */
+		public function	arrange():void
+		{
+			if (UIManager.instance.ce.state == GameState.instance){
+				aBtn.label = "Restart Misson";
+				bBtn.label = "Exit Misson";
+				cBtn.label = "Setings";
+				cBtn.visible = true;
+				panelHeight = 360;
+				
+			} else {
+				aBtn.label = "Settings";
+				bBtn.label = "Main Menu";
+				cBtn.visible = false;
+				panelHeight = 290;
+				
+			}
+			height = panelHeight;
+			
+		}
 		private function buttonClicked(event:Event):void   
 		{   
 			switch (event.currentTarget as Button)
@@ -82,18 +115,36 @@ package ua.com.syo.luckyfriday.view.ui
 					PopUpManager.removePopUp(this);
 					UIManager.instance.ce.playing = true;
 					break;
-				case setingsBtn: 
-					UIManager.instance.showSettings();
-					UIManager.instance.ce.playing = false;
+				case cBtn: 
+					if (UIManager.instance.ce.state == GameState.instance){
+						UIManager.instance.showSettings();
+						UIManager.instance.ce.playing = false;
 					break;
-				case exitmisBtn:
-					UIManager.instance.changeState(MenuState.newInstance);
-					UIManager.instance.ce.playing = true;
-					PopUpManager.removePopUp(this);
+					}else {
+					}
+				case bBtn:
+					if (UIManager.instance.ce.state == GameState.instance){
+						UIManager.instance.changeState(MissionsState.newInstance);
+						PopUpManager.removePopUp(this);
+						UIManager.instance.ce.playing = true;
 					break;
-
+					}else{
+						UIManager.instance.changeState(MenuState.newInstance);
+						PopUpManager.removePopUp(this);
+						UIManager.instance.ce.playing = true;
+						break;
+					}
+				case aBtn:
+					if (UIManager.instance.ce.state == GameState.instance){
+						UIManager.instance.changeState(GameState.newInstance);
+						PopUpManager.removePopUp(this);
+						UIManager.instance.ce.playing = true;
+					break;
+					}else{
+						UIManager.instance.showSettings();
+						break;
+					}
 			}
 		}
 	}
 }
-
