@@ -11,6 +11,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
 	import citrus.sounds.SoundManager;
+	import citrus.view.spriteview.SpriteArt;
 	import citrus.view.starlingview.StarlingCamera;
 
 	import nape.callbacks.CbEvent;
@@ -26,17 +27,24 @@ package ua.com.syo.luckyfriday.view.states {
 	import nape.util.ShapeDebug;
 
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.display.Image;
+	import starling.display.Quad;
+	import starling.display.Sprite;
+	import starling.extensions.lighting.core.LightLayer;
+	import starling.extensions.lighting.core.ShadowGeometry;
+	import starling.extensions.lighting.geometry.QuadShadowGeometry;
+	import starling.extensions.lighting.lights.PointLight;
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.LevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
-	import ua.com.syo.luckyfriday.view.game.ShipHero;
-	import ua.com.syo.luckyfriday.view.ui.HUDView;
+	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
-	import ua.com.syo.luckyfriday.view.UIManager;
+	import ua.com.syo.luckyfriday.view.game.ShipHero;
+	import ua.com.syo.luckyfriday.view.ui.HUDView;
 
 	/**
 	 *
@@ -60,6 +68,12 @@ package ua.com.syo.luckyfriday.view.states {
 		private var rocks:Vector.<DrawingPhysicsObject>;
 		private var hudView:HUDView;
 
+		private var lightLayer:LightLayer;
+		private var shipLight:PointLight;
+		private var p1Light:PointLight;
+		private var p2Light:PointLight;
+		private var light:CitrusSprite;
+
 		override public function initialize():void {
 			super.initialize();
 
@@ -82,6 +96,9 @@ package ua.com.syo.luckyfriday.view.states {
 			LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
 			rocks = LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
+
+			//initLights();
+
 			// add ship hero
 			shipHero = new ShipHero("ship");
 			particles = new ParticlesView();
@@ -91,11 +108,17 @@ package ua.com.syo.luckyfriday.view.states {
 			add(shipHero);
 			shipHero.body.position.setxy(500, 300);
 
+
+			//var sa:SpriteArt = shipHero.art as SpriteArt;
+			//var mc:DisplayObject = DisplayObject(sa.content);
+
+			//lightLayer.addShadowGeometry(new ShadowGeometry(mc));
 			mainCamera = view.camera as StarlingCamera;
 			mainCamera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
 			mainCamera.allowZoom = true;
 
 			mainCamera.zoomEasing = 0.001;
+			//mainCamera.baseZoom = 1.5;
 			//mainCamera.allowRotation = true;
 			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
 
@@ -160,6 +183,61 @@ package ua.com.syo.luckyfriday.view.states {
 		}
 
 		/**
+		 * Init lights
+		 */
+		private var geometry:Vector.<DisplayObject>;
+		private var probes:CitrusSprite;
+		private function initLights():void {
+			lightLayer = new LightLayer(stage.stageWidth, stage.stageHeight, 0x000000, 0);
+			//create a white light that will follow the mouse position
+			shipLight = new PointLight(0, 0, 1000, 0xffffff, 1);
+			//add it to the light layer
+
+			p1Light = new PointLight(200, 800, 100, 0xffffff, 1);
+			//addChild(lightLayer);
+
+			lightLayer.addLight(shipLight);
+			lightLayer.addLight(p1Light);
+			geometry = new <DisplayObject>[];
+
+			var quad:Quad;
+			var w:int;
+			var h:int;
+			//create an arbitrary number of quads to act as shadow geometry
+			var probesCont:Sprite = new Sprite();
+			for(var i:int; i < 50; i++)
+			{
+				w = 10 + Math.round(Math.random() * 10);
+				h = 4;
+
+				quad = new Quad(w, h, Math.random() * 0xffffff);
+				quad.pivotX = w / 2;
+				quad.pivotY = h / 2;
+				quad.x = Math.random() * stage.stageWidth;
+				quad.y = Math.random() * stage.stageHeight;
+
+				//this takes the bounding box of the quad to create geometry that blocks light
+				//the QuadShadowGeometry class also accepts Images
+				//if you want to create more complex geometry for a display object, 
+				//you can make your own ShadowGeometry subclass, and override the createEdges method
+				//lightLayer.addShadowGeometry(new QuadShadowGeometry(quad));
+
+				//add the quad to the stage
+				//the quad will cast shadows even if it is not on the display list (I might change this later)
+				//to remove shadow geometry assosiated with a display object, call LightLayer.removeGeometryForDisplayObject 			
+				probesCont.addChild(quad);
+
+				geometry.push(quad);
+			}
+
+			//probes = new CitrusSprite("probes", {view:probesCont});
+			//add(probes);
+			light = new CitrusSprite("light", {view:lightLayer});
+			add(light);
+		}
+
+
+		/**
 		 * Init debug layer
 		 */
 		private function initDebugLayer():void {
@@ -176,6 +254,22 @@ package ua.com.syo.luckyfriday.view.states {
 
 		override public function update(timeDelta:Number):void {
 			super.update(timeDelta);
+
+			//mouseLight.x = shipHero.body.position.x + mainCamera.camPos.x;
+			//mouseLight.y = shipHero.body.position.y + mainCamera.camPos.y;
+
+			//p1Light.x = -mainCamera.camPos.x + stage.stageWidth / 2 + 200;
+			//p1Light.y = -mainCamera.camPos.y + stage.stageHeight / 2 + 600;
+
+			//shipLight.x = shipHero.x-mainCamera.camPos.x + stage.stageWidth / 2;
+			//shipLight.y = shipHero.y-mainCamera.camPos.y + stage.stageHeight / 2;
+
+			/*if (lightLayer)
+			{
+				lightLayer.x = shipHero.body.position.x;
+				lightLayer.y = shipHero.body.position.y;
+			}*/
+
 			hudView.updateTimeLabel(getTimer());
 			if (_ce.input.hasDone(Constants.CONSOLE_ACTION)) {
 				//
@@ -219,7 +313,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (!isZoomIn)
 				{
-					camera.baseZoom = 2.5;
+					mainCamera.baseZoom = 1;
 					isZoomIn = true;
 				}
 			}
@@ -227,7 +321,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (isZoomIn)
 				{
-					camera.baseZoom = 1.5;
+					mainCamera.baseZoom = 1;
 					isZoomIn = false;
 				}
 			}

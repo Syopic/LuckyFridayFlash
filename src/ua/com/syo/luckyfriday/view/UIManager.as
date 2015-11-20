@@ -176,7 +176,7 @@ package ua.com.syo.luckyfriday.view {
 			gamepad.setButtonAction(GamePadMap.BUTTON_LEFT, Constants.BACKWARD_ACTION);
 			gamepad.setButtonAction(GamePadMap.BUTTON_RIGHT, Constants.FORWARD_ACTION);
 			gamepad.setButtonAction(GamePadMap.BUTTON_TOP, Constants.UP_ACTION);
-			gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, Constants.DOWN_ACTION);
+			gamepad.setButtonAction(GamePadMap.BUTTON_BOTTOM, Constants.BREAK_ACTION);
 
 			gamepad.setButtonAction(GamePadMap.DPAD_LEFT, Constants.ROTATECW_ACTION);
 			gamepad.setButtonAction(GamePadMap.DPAD_RIGHT, Constants.ROTATECCW_ACTION);
@@ -186,8 +186,8 @@ package ua.com.syo.luckyfriday.view {
 			gamepad.setButtonAction(GamePadMap.SELECT, Constants.MENU_ACTION);
 			gamepad.setButtonAction(GamePadMap.L1, Constants.LEFT_TURN_ACTION);
 			gamepad.setButtonAction(GamePadMap.R1, Constants.RIGHT_TURN_ACTION);
-			gamepad.setButtonAction(GamePadMap.L2, Constants.BREAK_ACTION);
-			gamepad.setButtonAction(GamePadMap.R2, Constants.BREAK_ACTION);
+			//gamepad.setButtonAction(GamePadMap.L2, Constants.BREAK_ACTION);
+			//gamepad.setButtonAction(GamePadMap.R2, Constants.BREAK_ACTION);
 		}
 
 		/**

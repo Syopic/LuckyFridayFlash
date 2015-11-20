@@ -24,7 +24,7 @@ package ua.com.syo.luckyfriday.view.game {
 
 	public class DrawingPhysicsObject extends NapePhysicsObject {
 
-		private var img:Image;
+		public var img:Image;
 
 		public function DrawingPhysicsObject(name:String, params:Object = null) {
 			points = params as Array;
