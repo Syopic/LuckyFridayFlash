@@ -106,7 +106,7 @@ package ua.com.syo.luckyfriday.view.states {
 			add(flame);
 			//shipHero.particles = particles;
 			add(shipHero);
-			shipHero.body.position.setxy(500, 300);
+			shipHero.body.position.setxy(300, 300);
 
 
 			//var sa:SpriteArt = shipHero.art as SpriteArt;
@@ -114,11 +114,11 @@ package ua.com.syo.luckyfriday.view.states {
 
 			//lightLayer.addShadowGeometry(new ShadowGeometry(mc));
 			mainCamera = view.camera as StarlingCamera;
-			mainCamera.setUp(shipHero, new Rectangle(0, 0, 3840, 1080), new Point(.5, .5));
+			mainCamera.setUp(shipHero, new Rectangle(0, 0, 1920, 1080), new Point(.5, .5));
 			mainCamera.allowZoom = true;
 
 			mainCamera.zoomEasing = 0.001;
-			//mainCamera.baseZoom = 1.5;
+			mainCamera.baseZoom = 1.5;
 			//mainCamera.allowRotation = true;
 			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
 
@@ -258,12 +258,12 @@ package ua.com.syo.luckyfriday.view.states {
 			//mouseLight.x = shipHero.body.position.x + mainCamera.camPos.x;
 			//mouseLight.y = shipHero.body.position.y + mainCamera.camPos.y;
 
-			//p1Light.x = -mainCamera.camPos.x + stage.stageWidth / 2 + 200;
-			//p1Light.y = -mainCamera.camPos.y + stage.stageHeight / 2 + 600;
+			/*p1Light.x = -mainCamera.camPos.x + stage.stageWidth / 2 + 200;
+			p1Light.y = -mainCamera.camPos.y + stage.stageHeight / 2 + 600;
 
-			//shipLight.x = shipHero.x-mainCamera.camPos.x + stage.stageWidth / 2;
-			//shipLight.y = shipHero.y-mainCamera.camPos.y + stage.stageHeight / 2;
-
+			shipLight.x = shipHero.x-mainCamera.camPos.x + stage.stageWidth / 2;
+			shipLight.y = shipHero.y-mainCamera.camPos.y + stage.stageHeight / 2;
+			*/
 			/*if (lightLayer)
 			{
 				lightLayer.x = shipHero.body.position.x;
@@ -309,11 +309,11 @@ package ua.com.syo.luckyfriday.view.states {
 				mcDebug.y = -mainCamera.camPos.y + stage.stageHeight / 2;
 			}
 
-			if (Math.abs(3840 / 2 - mainCamera.camPos.x) < 300)
+			if (Math.abs(1920 / 2 - mainCamera.camPos.x) < 100)
 			{
 				if (!isZoomIn)
 				{
-					mainCamera.baseZoom = 1;
+					mainCamera.baseZoom = 2;
 					isZoomIn = true;
 				}
 			}
@@ -321,7 +321,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (isZoomIn)
 				{
-					mainCamera.baseZoom = 1;
+					mainCamera.baseZoom = 1.5;
 					isZoomIn = false;
 				}
 			}

@@ -12,6 +12,7 @@ package ua.com.syo.luckyfriday.view.ui
 	import feathers.controls.Panel;
 	import feathers.controls.Slider;
 	import feathers.core.PopUpManager;
+	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
@@ -23,7 +24,7 @@ package ua.com.syo.luckyfriday.view.ui
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
-	public class SettingsView extends Panel
+	public class SettingsView extends Panel 
 	{
 		private var backBtn:Button;
 		private var panelWidth:int = 460;
@@ -37,8 +38,8 @@ package ua.com.syo.luckyfriday.view.ui
 		{
 			width = panelWidth;
 			height = panelHeight;
-			title = "Settings";
-
+			//title = "Settings";
+			//backgroundSkin = new Scale9Image( headerBackgroundTextures );
 			this.layout = new AnchorLayout();
 
 			var labelsVLayout:VerticalLayout = new VerticalLayout();
