@@ -11,6 +11,7 @@ package ua.com.syo.luckyfriday.view.states
 	import starling.display.Image;
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.view.UIManager;
@@ -105,7 +106,7 @@ package ua.com.syo.luckyfriday.view.states
 			super.update(timeDelta);
 
 			if (_ce.input.hasDone(Constants.PLAY_ACTION)) {
-				UIManager.instance.changeState(GameState.newInstance);
+				Controller.instance.startLevel(Controller.instance.currentLevelId);  
 			}
 		}
 
@@ -114,10 +115,11 @@ package ua.com.syo.luckyfriday.view.states
 			switch (event.currentTarget as Button)
 			{
 				case playBtn: 
-					UIManager.instance.changeState(GameState.newInstance);   
+					//TODO goto location
+					Controller.instance.startLevel(Controller.instance.currentLevelId);   
 					break;
 				case locationsBtn: 
-					UIManager.instance.changeState(LocationsState.newInstance);   
+					Controller.instance.changeState(LocationsState.newInstance);   
 					break;
 				case settingsBtn: 
 					UIManager.instance.showSettings();
@@ -128,7 +130,7 @@ package ua.com.syo.luckyfriday.view.states
 				case exitBtn: 
 					UIManager.instance.showExitAlert();
 					break;
-			
+
 			}
 		}   
 

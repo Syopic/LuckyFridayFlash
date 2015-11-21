@@ -108,6 +108,8 @@ package ua.com.syo.luckyfriday.data {
 		private static var ShipAnimXMLC:Class;
 
 
+
+
 		/**
 		 * ------------------
 		 * 		Helpers
@@ -143,15 +145,7 @@ package ua.com.syo.luckyfriday.data {
 		}
 
 
-		/**
-		 * Cashing JSON object
-		 */
-		private static var levelJSON:Object;
-		public static function get levelObjects():Object {
-			if (levelJSON == null)
-				levelJSON = JSON.parse(new Assets.LevelJSON());;
-			return levelJSON;
-		}
+
 
 
 	}

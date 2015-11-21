@@ -10,6 +10,7 @@ package ua.com.syo.luckyfriday.view.states
 	import starling.display.Image;
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
@@ -18,6 +19,7 @@ package ua.com.syo.luckyfriday.view.states
 
 		private var backBtn:Button;
 		private var mission1Btn:Button;
+		private var mission2Btn:Button;
 		private var container:LayoutGroup;
 		private var settingsBtn:Button;
 
@@ -40,11 +42,19 @@ package ua.com.syo.luckyfriday.view.states
 			// mission 
 			mission1Btn = new Button();
 			mission1Btn.label = "MISSION 1";
-			mission1Btn.width = 300;
-			mission1Btn.height = 100;
+			mission1Btn.width = 250;
+			mission1Btn.height = 50;
 			mission1Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			mission1Btn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(mission1Btn);
+
+			mission2Btn = new Button();
+			mission2Btn.label = "MISSION 2";
+			mission2Btn.width = 250;
+			mission2Btn.height = 50;
+			mission2Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 70);
+			mission2Btn.addEventListener(Event.TRIGGERED, buttonClicked);
+			container.addChild(mission2Btn);
 
 			// back
 			backBtn = new Button();
@@ -70,10 +80,13 @@ package ua.com.syo.luckyfriday.view.states
 			switch (event.currentTarget as Button)
 			{
 				case backBtn: 
-					UIManager.instance.changeState(LocationsState.newInstance);   
+					Controller.instance.changeState(LocationsState.newInstance);   
 					break;
 				case mission1Btn: 
-					UIManager.instance.changeState(GameState.newInstance);   
+					Controller.instance.startLevel("1");
+					break;
+				case mission2Btn: 
+					Controller.instance.startLevel("2"); 
 					break;
 				case settingsBtn: 
 					UIManager.instance.showSettings();

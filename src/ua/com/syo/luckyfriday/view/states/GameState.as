@@ -11,7 +11,6 @@ package ua.com.syo.luckyfriday.view.states {
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
 	import citrus.sounds.SoundManager;
-	import citrus.view.spriteview.SpriteArt;
 	import citrus.view.starlingview.StarlingCamera;
 
 	import nape.callbacks.CbEvent;
@@ -32,15 +31,13 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.extensions.lighting.core.LightLayer;
-	import starling.extensions.lighting.core.ShadowGeometry;
-	import starling.extensions.lighting.geometry.QuadShadowGeometry;
 	import starling.extensions.lighting.lights.PointLight;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.data.LevelData;
+	import ua.com.syo.luckyfriday.data.CurrentLevelData;
 	import ua.com.syo.luckyfriday.model.Globals;
-	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
 	import ua.com.syo.luckyfriday.view.game.ShipHero;
@@ -84,17 +81,17 @@ package ua.com.syo.luckyfriday.view.states {
 				initDebugLayer();
 
 			// add background
-			bgSprite = new CitrusSprite("backgroud", {view: new Image(Assets.getTexture("BackgroundC"))});
+			bgSprite = new CitrusSprite("backgroud", {view: new Image(CurrentLevelData.bgTexture)});
 			add(bgSprite);
 			bgSprite.parallaxX = 0.1;
 			bgSprite.parallaxY = 0.1;
 			//addChild(new Demo());
-			caveSprite = new CitrusSprite("cave", {view: new Image(Assets.getTexture("CaveC"))});
+			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelData.fgTexture )});
 			add(caveSprite);
 
-			LevelData.getObjectsByType(this, LevelData.CAVE_SHAPES, BodyType.STATIC);
-			LevelData.getObjectsByType(this, LevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			rocks = LevelData.getObjectsByType(this, LevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			CurrentLevelData.getObjectsByType(this, CurrentLevelData.CAVE_SHAPES, BodyType.STATIC);
+			CurrentLevelData.getObjectsByType(this, CurrentLevelData.PLATFORM_SHAPES, BodyType.STATIC);
+			rocks = CurrentLevelData.getObjectsByType(this, CurrentLevelData.ROCK_SHAPES, BodyType.DYNAMIC);
 
 
 			//initLights();
@@ -114,7 +111,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 			//lightLayer.addShadowGeometry(new ShadowGeometry(mc));
 			mainCamera = view.camera as StarlingCamera;
-			mainCamera.setUp(shipHero, new Rectangle(0, 0, 1920, 1080), new Point(.5, .5));
+			mainCamera.setUp(shipHero, new Rectangle(0, 0, CurrentLevelData.levelWidth, CurrentLevelData.levelHeight), new Point(.5, .5));
 			mainCamera.allowZoom = true;
 
 			mainCamera.zoomEasing = 0.001;
@@ -135,7 +132,6 @@ package ua.com.syo.luckyfriday.view.states {
 
 			//UIManager.instance.showSettings();
 		}
-
 
 		private function OnCollision(e:InteractionCallback):void
 		{
@@ -241,7 +237,7 @@ package ua.com.syo.luckyfriday.view.states {
 		 * Init debug layer
 		 */
 		private function initDebugLayer():void {
-			debug = new ShapeDebug(3840, 1080);
+			debug = new ShapeDebug(CurrentLevelData.levelWidth, CurrentLevelData.levelHeight);
 			debug.drawBodies = true;
 			debug.drawCollisionArbiters = true;
 			debug.drawConstraints = true;
@@ -275,7 +271,7 @@ package ua.com.syo.luckyfriday.view.states {
 				//
 			}
 			if (_ce.input.hasDone(Constants.MENU_ACTION)) {
-				UIManager.instance.changeState(MenuState.newInstance);  
+				Controller.instance.changeState(MenuState.newInstance);  
 			}
 
 			if (_ce.input.hasDone(Constants.BREAK_ACTION)) {
@@ -309,7 +305,7 @@ package ua.com.syo.luckyfriday.view.states {
 				mcDebug.y = -mainCamera.camPos.y + stage.stageHeight / 2;
 			}
 
-			if (Math.abs(1920 / 2 - mainCamera.camPos.x) < 100)
+			if (Math.abs(CurrentLevelData.levelWidth / 2 - mainCamera.camPos.x) < 100)
 			{
 				if (!isZoomIn)
 				{

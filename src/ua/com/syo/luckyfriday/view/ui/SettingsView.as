@@ -20,6 +20,7 @@ package ua.com.syo.luckyfriday.view.ui
 
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.UIManager;
@@ -100,7 +101,7 @@ package ua.com.syo.luckyfriday.view.ui
 		private function checkBoxChanged(event:Event):void   
 		{   
 			SaveData.instance.writeData(Constants.WINDOWLED_SO, (event.currentTarget as Check).isSelected);
-			UIManager.instance.ce.stage.displayState = !windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
+			Controller.instance.ce.stage.displayState = !windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
 		}
 
 		private function sliderChanged(event:Event):void   

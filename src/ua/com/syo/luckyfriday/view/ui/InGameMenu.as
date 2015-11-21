@@ -1,18 +1,22 @@
 package ua.com.syo.luckyfriday.view.ui
 {
 	import citrus.core.starling.StarlingState;
+
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.Panel;
 	import feathers.core.PopUpManager;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+
 	import starling.events.Event;
+
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
-	import ua.com.syo.luckyfriday.view.states.MissionsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
-	
+	import ua.com.syo.luckyfriday.view.states.MissionsState;
+
 	public class InGameMenu extends Panel
 	{
 		private var container:LayoutGroup;
@@ -28,84 +32,84 @@ package ua.com.syo.luckyfriday.view.ui
 		public var btLabelB:String;
 		public var btLabelC:String;
 		public var viBtC:Boolean;
-		
-		
+
+
 		public function InGameMenu()
 		{
-			
-			
-			
+
+
+
 			width = panelWidth;
 			height = panelHeight;
 			title = "Game Menu";
 
-		
-			
-			
+
+
+
 			/**
-			 * Add butons 
+			 * Add butons
 			 */
-			
+
 			initButtons()
-			
+
 			resumeBtn = new Button();
 			resumeBtn.label = "Resume";
 			resumeBtn.layoutData = new AnchorLayoutData(12, 12, NaN, 15);
 			resumeBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(resumeBtn);
-			
+
 			aBtn = new Button();
 			aBtn.layoutData = new AnchorLayoutData(74, 12, NaN, 15);
 			aBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(aBtn);
-			
-			
+
+
 			bBtn = new Button();
 			bBtn.layoutData = new AnchorLayoutData(136, 12, NaN, 15);
 			bBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(bBtn);
-			
-			
+
+
 			cBtn = new Button();
 			cBtn.layoutData = new AnchorLayoutData(198, 12, NaN, 15);
 			cBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(cBtn);
-			
-			
+
+
 			arrange();
 		}
 		/**
 		 * add layout group
 		 */
-		
+
 		private function initButtons():void {
 			container = new LayoutGroup();
 			container.layout = new AnchorLayout();
 			container.autoSizeMode = LayoutGroup.AUTO_SIZE_MODE_CONTENT;
 			this.addChild(container);
 		}
-		
+
 		/**
 		 * arrange buttons
 		 */
 		public function	arrange():void
 		{
-			if (UIManager.instance.ce.state == GameState.instance){
+			if (Controller.instance.ce.state == GameState.instance){
 				aBtn.label = "Restart Misson";
 				bBtn.label = "Exit Misson";
 				cBtn.label = "Setings";
 				cBtn.visible = true;
 				panelHeight = 360;
-				
+
 			} else {
 				aBtn.label = "Settings";
 				bBtn.label = "Main Menu";
 				cBtn.visible = false;
 				panelHeight = 290;
-				
+
 			}
 			height = panelHeight;
-			
+
 		}
 		private function buttonClicked(event:Event):void   
 		{   
@@ -113,33 +117,33 @@ package ua.com.syo.luckyfriday.view.ui
 			{
 				case resumeBtn: 
 					PopUpManager.removePopUp(this);
-					UIManager.instance.ce.playing = true;
+					Controller.instance.ce.playing = true;
 					break;
 				case cBtn: 
-					if (UIManager.instance.ce.state == GameState.instance){
+					if (Controller.instance.ce.state == GameState.instance){
 						UIManager.instance.showSettings();
-						UIManager.instance.ce.playing = false;
-					break;
+						Controller.instance.ce.playing = false;
+						break;
 					}else {
 					}
 				case bBtn:
-					if (UIManager.instance.ce.state == GameState.instance){
-						UIManager.instance.changeState(MissionsState.newInstance);
+					if (Controller.instance.ce.state == GameState.instance){
+						Controller.instance.changeState(MissionsState.newInstance);
 						PopUpManager.removePopUp(this);
-						UIManager.instance.ce.playing = true;
-					break;
+						Controller.instance.ce.playing = true;
+						break;
 					}else{
-						UIManager.instance.changeState(MenuState.newInstance);
+						Controller.instance.changeState(MenuState.newInstance);
 						PopUpManager.removePopUp(this);
-						UIManager.instance.ce.playing = true;
+						Controller.instance.ce.playing = true;
 						break;
 					}
 				case aBtn:
-					if (UIManager.instance.ce.state == GameState.instance){
-						UIManager.instance.changeState(GameState.newInstance);
+					if (Controller.instance.ce.state == GameState.instance){
+						Controller.instance.startLevel(Controller.instance.currentLevelId);  
 						PopUpManager.removePopUp(this);
-						UIManager.instance.ce.playing = true;
-					break;
+						Controller.instance.ce.playing = true;
+						break;
 					}else{
 						UIManager.instance.showSettings();
 						break;
@@ -148,3 +152,4 @@ package ua.com.syo.luckyfriday.view.ui
 		}
 	}
 }
+
