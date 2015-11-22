@@ -74,7 +74,7 @@ package ua.com.syo.luckyfriday.view.states
 			profileBtn.width = 75;
 			profileBtn.height = 75;
 			profileBtn.layoutData = new AnchorLayoutData(20, 20);
-			//profileBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			profileBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(profileBtn);
 
 			// exit
@@ -127,6 +127,9 @@ package ua.com.syo.luckyfriday.view.states
 					break;
 				case exitBtn: 
 					UIManager.instance.showExitAlert();
+					break;
+				case profileBtn: 
+					UIManager.instance.showMissionComplete();
 					break;
 			
 			}

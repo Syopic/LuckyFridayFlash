@@ -1,6 +1,6 @@
 package ua.com.syo.luckyfriday.view.ui
 {
-	import citrus.core.starling.StarlingState;
+
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.Panel;
@@ -23,11 +23,7 @@ package ua.com.syo.luckyfriday.view.ui
 		private var cBtn:Button;
 		private var panelWidth:int = 280;
 		private var panelHeight:int;
-		private var currentState:StarlingState;
-		public var btLabelA:String;
-		public var btLabelB:String;
-		public var btLabelC:String;
-		public var viBtC:Boolean;
+		
 		
 		
 		public function InGameMenu()
@@ -50,23 +46,27 @@ package ua.com.syo.luckyfriday.view.ui
 			
 			resumeBtn = new Button();
 			resumeBtn.label = "Resume";
+			resumeBtn.width = 210;
 			resumeBtn.layoutData = new AnchorLayoutData(12, 12, NaN, 15);
 			resumeBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(resumeBtn);
 			
 			aBtn = new Button();
+			aBtn.width = 210;
 			aBtn.layoutData = new AnchorLayoutData(74, 12, NaN, 15);
 			aBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(aBtn);
 			
 			
 			bBtn = new Button();
+			bBtn.width = 210;
 			bBtn.layoutData = new AnchorLayoutData(136, 12, NaN, 15);
 			bBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(bBtn);
 			
 			
 			cBtn = new Button();
+			cBtn.width = 210;
 			cBtn.layoutData = new AnchorLayoutData(198, 12, NaN, 15);
 			cBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(cBtn);
@@ -81,7 +81,7 @@ package ua.com.syo.luckyfriday.view.ui
 		private function initButtons():void {
 			container = new LayoutGroup();
 			container.layout = new AnchorLayout();
-			container.autoSizeMode = LayoutGroup.AUTO_SIZE_MODE_CONTENT;
+			//container.autoSizeMode = LayoutGroup.AUTO_SIZE_MODE_CONTENT;
 			this.addChild(container);
 		}
 		
@@ -96,12 +96,14 @@ package ua.com.syo.luckyfriday.view.ui
 				cBtn.label = "Setings";
 				cBtn.visible = true;
 				panelHeight = 360;
+				panelWidth = 280;
 				
 			} else {
 				aBtn.label = "Settings";
 				bBtn.label = "Main Menu";
 				cBtn.visible = false;
 				panelHeight = 290;
+				panelWidth = 280;
 				
 			}
 			height = panelHeight;
@@ -116,12 +118,9 @@ package ua.com.syo.luckyfriday.view.ui
 					UIManager.instance.ce.playing = true;
 					break;
 				case cBtn: 
-					if (UIManager.instance.ce.state == GameState.instance){
 						UIManager.instance.showSettings();
 						UIManager.instance.ce.playing = false;
 					break;
-					}else {
-					}
 				case bBtn:
 					if (UIManager.instance.ce.state == GameState.instance){
 						UIManager.instance.changeState(MissionsState.newInstance);

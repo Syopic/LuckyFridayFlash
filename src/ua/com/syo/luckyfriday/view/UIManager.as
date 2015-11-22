@@ -1,6 +1,6 @@
 package ua.com.syo.luckyfriday.view {
 	import flash.display.StageDisplayState;
-
+	
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
@@ -9,23 +9,30 @@ package ua.com.syo.luckyfriday.view {
 	import citrus.input.controllers.gamepad.maps.GamePadMap;
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
-
+	
 	import feathers.controls.Alert;
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
+	import feathers.controls.Header;
+	
 	import starling.events.Event;
-
+	
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
+	import ua.com.syo.luckyfriday.view.states.MissionsState;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
 	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
+	import ua.com.syo.luckyfriday.view.ui.MissionComplete;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
-	import ua.com.syo.luckyfriday.view.states.MissionsState;
+	import ua.com.syo.luckyfriday.view.states.LocationsState;
+	import feathers.core.IFeathersControl;
+	
+	import starling.display.Quad;
 
 	public class UIManager {
 
@@ -33,6 +40,7 @@ package ua.com.syo.luckyfriday.view {
 		private var aboutView:AboutView;
 		private var exitAlert:Alert;
 		private var ingameMenu:InGameMenu;
+		private var missionComplete:MissionComplete;
 
 
 		public function init():void {
@@ -90,6 +98,37 @@ package ua.com.syo.luckyfriday.view {
 			PopUpManager.addPopUp(ingameMenu);
 			ingameMenu.arrange();
 		}
+		
+		/**
+		 * 
+		 * Show MissionComplete popup
+		 */
+		/**
+		 *
+		 public function showMissionComplete():void {
+			if (!missionComplete) {
+				missionComplete = new MissionComplete();
+			}
+			PopUpManager.addPopUp(missionComplete);
+		 }
+		 * 
+		 * 
+		 */
+		 public function showMissionComplete():void {
+			 if (!missionComplete) {
+				 missionComplete = new MissionComplete();
+				  missionComplete.headerFactory = function():Header {
+					var header:Header = new Header();
+					header.scaleY = 0.2;
+					header.visible = false;
+					return header;
+				}
+			}
+			 PopUpManager.addPopUp(missionComplete);
+		}
+		 
+		
+		
 
 		/**
 		 * ESC button pressed
@@ -108,6 +147,9 @@ package ua.com.syo.luckyfriday.view {
 				PopUpManager.removePopUp(exitAlert);
 				return;
 			} else if (ce.state == MissionsState.instance && !PopUpManager.isTopLevelPopUp(ingameMenu)) {
+				showIngameMenu();
+				return;
+			} else if (ce.state == LocationsState.instance && !PopUpManager.isTopLevelPopUp(ingameMenu)) {
 				showIngameMenu();
 				return;
 			} else if (ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert)) {
