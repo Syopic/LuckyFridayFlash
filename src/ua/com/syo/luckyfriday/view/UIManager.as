@@ -115,6 +115,9 @@ package ua.com.syo.luckyfriday.view {
 			} else if (PopUpManager.isTopLevelPopUp(aboutView)) {
 				PopUpManager.removePopUp(aboutView);
 				return;
+			} else if (PopUpManager.isTopLevelPopUp(missionComplete)) {
+				PopUpManager.removePopUp(missionComplete);
+				return;
 			} else if (PopUpManager.isTopLevelPopUp(exitAlert)) {
 				PopUpManager.removePopUp(exitAlert);
 				return;
@@ -124,7 +127,6 @@ package ua.com.syo.luckyfriday.view {
 			} else if (Controller.instance.ce.state == LocationsState.instance && !PopUpManager.isTopLevelPopUp(ingameMenu)) {
 				showIngameMenu();
 				return;
-			} else if (Controller.instance.ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert)) {
 			} else if (Controller.instance.ce.state == MenuState.instance && !PopUpManager.isTopLevelPopUp(exitAlert)) {
 				showExitAlert();
 				return;
