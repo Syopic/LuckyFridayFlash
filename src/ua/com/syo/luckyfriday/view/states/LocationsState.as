@@ -10,6 +10,7 @@ package ua.com.syo.luckyfriday.view.states
 	import starling.display.Image;
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
@@ -70,10 +71,10 @@ package ua.com.syo.luckyfriday.view.states
 			switch (event.currentTarget as Button)
 			{
 				case backBtn: 
-					UIManager.instance.changeState(MenuState.newInstance);   
+					Controller.instance.changeState(MenuState.newInstance);   
 					break;
 				case location1Btn: 
-					UIManager.instance.changeState(MissionsState.newInstance);   
+					Controller.instance.changeState(MissionsState.newInstance);   
 					break;
 				case settingsBtn: 
 					UIManager.instance.showSettings();

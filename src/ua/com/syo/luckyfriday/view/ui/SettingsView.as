@@ -19,11 +19,11 @@ package ua.com.syo.luckyfriday.view.ui
 
 	import starling.events.Event;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
-	import ua.com.syo.luckyfriday.view.UIManager;
 
-	public class SettingsView extends Panel
+	public class SettingsView extends Panel 
 	{
 		private var backBtn:Button;
 		private var panelWidth:int = 460;
@@ -38,7 +38,7 @@ package ua.com.syo.luckyfriday.view.ui
 			width = panelWidth;
 			height = panelHeight;
 			title = "Settings";
-
+			//backgroundSkin = new Scale9Image( headerBackgroundTextures );
 			this.layout = new AnchorLayout();
 
 			var labelsVLayout:VerticalLayout = new VerticalLayout();
@@ -99,7 +99,7 @@ package ua.com.syo.luckyfriday.view.ui
 		private function checkBoxChanged(event:Event):void   
 		{   
 			SaveData.instance.writeData(Constants.WINDOWLED_SO, (event.currentTarget as Check).isSelected);
-			UIManager.instance.ce.stage.displayState = !windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
+			Controller.instance.ce.stage.displayState = !windowledCheckBox.isSelected ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
 		}
 
 		private function sliderChanged(event:Event):void   

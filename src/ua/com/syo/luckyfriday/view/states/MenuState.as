@@ -3,14 +3,16 @@ package ua.com.syo.luckyfriday.view.states
 	import citrus.core.starling.StarlingState;
 
 	import feathers.controls.Button;
+	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.themes.MetalWorksDesktopTheme;
 
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.text.TextField;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.view.UIManager;
@@ -24,6 +26,8 @@ package ua.com.syo.luckyfriday.view.states
 		private var settingsBtn:Button;
 		private var exitBtn:Button;
 		private var container:LayoutGroup;
+
+		private var versionLabel:Label;
 
 		override public function initialize():void   
 		{   
@@ -95,6 +99,11 @@ package ua.com.syo.luckyfriday.view.states
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 
+			versionLabel = new Label();
+			versionLabel.scaleX = versionLabel.scaleY = 0.5;
+			versionLabel.text = "v." + Constants.VERSION;
+			versionLabel.layoutData = new AnchorLayoutData(NaN, 20, 5, NaN);
+			container.addChild(versionLabel);
 
 			// MOCK
 			//UIManager.instance.showSettings();
@@ -105,7 +114,7 @@ package ua.com.syo.luckyfriday.view.states
 			super.update(timeDelta);
 
 			if (_ce.input.hasDone(Constants.PLAY_ACTION)) {
-				UIManager.instance.changeState(GameState.newInstance);
+				Controller.instance.startLevel(Controller.instance.currentLevelId);  
 			}
 		}
 
@@ -114,10 +123,11 @@ package ua.com.syo.luckyfriday.view.states
 			switch (event.currentTarget as Button)
 			{
 				case playBtn: 
-					UIManager.instance.changeState(GameState.newInstance);   
+					//TODO goto location
+					Controller.instance.startLevel(Controller.instance.currentLevelId);   
 					break;
 				case locationsBtn: 
-					UIManager.instance.changeState(LocationsState.newInstance);   
+					Controller.instance.changeState(LocationsState.newInstance);   
 					break;
 				case settingsBtn: 
 					UIManager.instance.showSettings();
@@ -132,6 +142,7 @@ package ua.com.syo.luckyfriday.view.states
 					UIManager.instance.showMissionComplete();
 					break;
 			
+
 			}
 		}   
 

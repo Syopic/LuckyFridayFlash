@@ -10,13 +10,13 @@ package ua.com.syo.luckyfriday.data {
 		/**
 		 * Level assets
 		 */
-		[Embed(source="/../assets/levels/level1/bg.png")]
+		[Embed(source="/../assets/levels/level2/bg.png")]
 		public static const BackgroundC:Class;
 
-		[Embed(source="/../assets/levels/level1/fg.png")]
+		[Embed(source="/../assets/levels/level2/fg.png")]
 		public static const CaveC:Class;
 
-		[Embed(source = '/../assets/levels/level1/levelData.json', mimeType = 'application/octet-stream')]
+		[Embed(source = '/../assets/levels/level2/levelData.json', mimeType = 'application/octet-stream')]
 		private static const LevelJSON:Class;
 
 		/**
@@ -108,6 +108,8 @@ package ua.com.syo.luckyfriday.data {
 		private static var ShipAnimXMLC:Class;
 
 
+
+
 		/**
 		 * ------------------
 		 * 		Helpers
@@ -143,15 +145,7 @@ package ua.com.syo.luckyfriday.data {
 		}
 
 
-		/**
-		 * Cashing JSON object
-		 */
-		private static var levelJSON:Object;
-		public static function get levelObjects():Object {
-			if (levelJSON == null)
-				levelJSON = JSON.parse(new Assets.LevelJSON());;
-			return levelJSON;
-		}
+
 
 
 	}

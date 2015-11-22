@@ -22,9 +22,22 @@
       <name>level_name</name>
       <displayName>Level #</displayName>
       <description>Level name in list</description>
-      <shortDescription>Collision mask</shortDescription>
       <type>int</type>
       <default>1</default>
+    </parameter>
+    <parameter>
+      <name>level_width</name>
+      <displayName>Level width</displayName>
+      <description>Level width in pixels</description>
+      <type>int</type>
+      <default>1920</default>
+    </parameter>
+  <parameter>
+      <name>level_height</name>
+      <displayName>Level height</displayName>
+      <description>Level height in pixels</description>
+      <type>int</type>
+      <default>1080</default>
     </parameter>
   </global>
 </exporter>

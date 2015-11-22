@@ -13,8 +13,8 @@ package ua.com.syo.luckyfriday.view.game {
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.data.LevelData;
-	import ua.com.syo.luckyfriday.model.Globals;
+	import ua.com.syo.luckyfriday.data.CurrentLevelData;
+	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 
@@ -97,7 +97,7 @@ package ua.com.syo.luckyfriday.view.game {
 
 		override protected function createShape():void {
 
-			points = LevelData.getShipGeom();
+			points = CurrentLevelData.getShipGeom();
 			super.createShape();
 		}
 
@@ -108,11 +108,11 @@ package ua.com.syo.luckyfriday.view.game {
 			if (testFlip(dir)) {
 				body.shapes.clear();
 				if (dir == 1) {
-					points = LevelData.getShipGeom();
+					points = CurrentLevelData.getShipGeom();
 					animation = Constants.RROTATER_ANIMATION;
 				} else {
 					animation = Constants.ROTATE_ANIMATION;
-					points = LevelData.getShipGeom(true);
+					points = CurrentLevelData.getShipGeom(true);
 				}
 				super.createShape();
 				direction = dir;
@@ -130,9 +130,9 @@ package ua.com.syo.luckyfriday.view.game {
 			var result:Boolean = true;
 			body.shapes.clear();
 			if (dir == 1) {
-				points = LevelData.getShipGeom();
+				points = CurrentLevelData.getShipGeom();
 			} else {
-				points = LevelData.getShipGeom(true);
+				points = CurrentLevelData.getShipGeom(true);
 			}
 
 			super.createShape();
@@ -144,9 +144,9 @@ package ua.com.syo.luckyfriday.view.game {
 				body.shapes.clear();
 				dir = -dir;
 				if (dir == 1) {
-					points = LevelData.getShipGeom();
+					points = CurrentLevelData.getShipGeom();
 				} else {
-					points = LevelData.getShipGeom(true);
+					points = CurrentLevelData.getShipGeom(true);
 				}
 
 				super.createShape();
