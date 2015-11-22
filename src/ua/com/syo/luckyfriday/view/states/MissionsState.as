@@ -20,6 +20,7 @@ package ua.com.syo.luckyfriday.view.states
 		private var backBtn:Button;
 		private var mission1Btn:Button;
 		private var mission2Btn:Button;
+		private var mission3Btn:Button;
 		private var container:LayoutGroup;
 		private var settingsBtn:Button;
 
@@ -44,7 +45,7 @@ package ua.com.syo.luckyfriday.view.states
 			mission1Btn.label = "MISSION 1";
 			mission1Btn.width = 250;
 			mission1Btn.height = 50;
-			mission1Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+			mission1Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -70);
 			mission1Btn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(mission1Btn);
 
@@ -52,9 +53,17 @@ package ua.com.syo.luckyfriday.view.states
 			mission2Btn.label = "MISSION 2";
 			mission2Btn.width = 250;
 			mission2Btn.height = 50;
-			mission2Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 70);
+			mission2Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			mission2Btn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(mission2Btn);
+
+			mission3Btn = new Button();
+			mission3Btn.label = "MISSION 3";
+			mission3Btn.width = 250;
+			mission3Btn.height = 50;
+			mission3Btn.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 70);
+			mission3Btn.addEventListener(Event.TRIGGERED, buttonClicked);
+			container.addChild(mission3Btn);
 
 			// back
 			backBtn = new Button();
@@ -87,6 +96,9 @@ package ua.com.syo.luckyfriday.view.states
 					break;
 				case mission2Btn: 
 					Controller.instance.startLevel("2"); 
+					break;
+				case mission3Btn: 
+					Controller.instance.startLevel("3"); 
 					break;
 				case settingsBtn: 
 					UIManager.instance.showSettings();

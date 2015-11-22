@@ -8,18 +8,6 @@ package ua.com.syo.luckyfriday.data {
 	public class Assets
 	{
 		/**
-		 * Level assets
-		 */
-		[Embed(source="/../assets/levels/level2/bg.png")]
-		public static const BackgroundC:Class;
-
-		[Embed(source="/../assets/levels/level2/fg.png")]
-		public static const CaveC:Class;
-
-		[Embed(source = '/../assets/levels/level2/levelData.json', mimeType = 'application/octet-stream')]
-		private static const LevelJSON:Class;
-
-		/**
 		 * Logo assets
 		 */
 

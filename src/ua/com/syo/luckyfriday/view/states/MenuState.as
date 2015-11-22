@@ -10,7 +10,6 @@ package ua.com.syo.luckyfriday.view.states
 
 	import starling.display.Image;
 	import starling.events.Event;
-	import starling.text.TextField;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
