@@ -14,7 +14,7 @@ package ua.com.syo.luckyfriday.view.game {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.CurrentLevelData;
-	import ua.com.syo.luckyfriday.model.Globals;
+	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 

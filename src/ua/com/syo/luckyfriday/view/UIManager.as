@@ -34,15 +34,14 @@ package ua.com.syo.luckyfriday.view {
 		public function showSettings():void {
 			if (!settingsView) {
 				settingsView = new SettingsView();
-				settingsView.headerFactory = function():Header {
+				/*settingsView.headerFactory = function():Header {
 					var header:Header = new Header();
 					header.visible = false;
 					return header;
-				}
+				}*/
 			}
 
 			PopUpManager.addPopUp(settingsView);
-			//ce.playing = false;
 		}
 
 		/**

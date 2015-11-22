@@ -87,6 +87,7 @@ package ua.com.syo.luckyfriday.controller
 			loadLevelAssets();
 		}
 
+
 		/**
 		 * Load level assets
 		 */

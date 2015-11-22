@@ -3,6 +3,7 @@ package ua.com.syo.luckyfriday.view.states
 	import citrus.core.starling.StarlingState;
 
 	import feathers.controls.Button;
+	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -10,6 +11,7 @@ package ua.com.syo.luckyfriday.view.states
 
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.text.TextField;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
@@ -25,6 +27,8 @@ package ua.com.syo.luckyfriday.view.states
 		private var settingsBtn:Button;
 		private var exitBtn:Button;
 		private var container:LayoutGroup;
+
+		private var versionLabel:Label;
 
 		override public function initialize():void   
 		{   
@@ -96,6 +100,11 @@ package ua.com.syo.luckyfriday.view.states
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 
+			versionLabel = new Label();
+			versionLabel.scaleX = versionLabel.scaleY = 0.5;
+			versionLabel.text = "v." + Constants.VERSION;
+			versionLabel.layoutData = new AnchorLayoutData(NaN, 20, 5, NaN);
+			container.addChild(versionLabel);
 
 			// MOCK
 			//UIManager.instance.showSettings();

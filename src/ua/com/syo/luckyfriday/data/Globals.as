@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.model
+package ua.com.syo.luckyfriday.data
 {
 	public class Globals
 	{

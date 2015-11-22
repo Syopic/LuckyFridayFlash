@@ -37,7 +37,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.CurrentLevelData;
-	import ua.com.syo.luckyfriday.model.Globals;
+	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
 	import ua.com.syo.luckyfriday.view.game.ShipHero;

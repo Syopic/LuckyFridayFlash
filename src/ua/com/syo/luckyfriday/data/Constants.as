@@ -2,6 +2,14 @@ package ua.com.syo.luckyfriday.data
 {
 	public class Constants
 	{
+		/**
+		 * First x.x.x - last version of game patch
+		 * Next x - subversion
+		 * Next xxxx xx xx - year month date
+		 * Next xx - version of daily build
+		 */
+		public static const VERSION:String = "0.1.20151122.17";
+
 		// game objects names
 		public static const SHIP_OBJ_NAME:String = "ship";
 
