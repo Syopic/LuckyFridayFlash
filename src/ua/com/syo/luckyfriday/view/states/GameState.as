@@ -115,7 +115,7 @@ package ua.com.syo.luckyfriday.view.states {
 			mainCamera.allowZoom = true;
 
 			mainCamera.zoomEasing = 0.001;
-			mainCamera.baseZoom = 1.5;
+			mainCamera.baseZoom = 1;
 			//mainCamera.allowRotation = true;
 			//mainCamera.parallaxMode = ACitrusCamera.BOUNDS_MODE_AABB;
 
@@ -317,7 +317,7 @@ package ua.com.syo.luckyfriday.view.states {
 			{
 				if (isZoomIn)
 				{
-					mainCamera.baseZoom = 1.5;
+					mainCamera.baseZoom = 1;
 					isZoomIn = false;
 				}
 			}
