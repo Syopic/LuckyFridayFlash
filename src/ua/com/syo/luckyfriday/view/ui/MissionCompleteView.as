@@ -18,6 +18,7 @@ package ua.com.syo.luckyfriday.view.ui
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 
@@ -140,7 +141,7 @@ package ua.com.syo.luckyfriday.view.ui
 					Controller.instance.ce.playing = true;
 					break;
 				case nextBtn:
-					
+					UIManager.instance.showGameOver();
 					break;
 			}
 		}

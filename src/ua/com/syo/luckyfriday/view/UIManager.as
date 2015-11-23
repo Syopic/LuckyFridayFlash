@@ -6,22 +6,19 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-	import feathers.controls.Header;
 	
 	import starling.events.Event;
 	
-
-	import starling.events.Event;
-
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.view.states.LocationsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.states.MissionsState;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
+	import ua.com.syo.luckyfriday.view.ui.GameOverView;
 	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
 	import ua.com.syo.luckyfriday.view.ui.MissionCompleteView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
-	import ua.com.syo.luckyfriday.view.states.LocationsState;
 
 	public class UIManager {
 
@@ -30,7 +27,7 @@ package ua.com.syo.luckyfriday.view {
 		private var exitAlert:Alert;
 		private var ingameMenu:InGameMenu;
 		private var missionComplete:MissionCompleteView;
-
+		private var gameOver:GameOverView;
 
 		public function init():void {
 			// init ui theme
@@ -76,18 +73,28 @@ package ua.com.syo.luckyfriday.view {
 		
 		/**
 		 * 
-		 * Show MissionComplete popup
+		 * Show GameOver popup
 		 */
-		/**
-		 *
-		 public function showMissionComplete():void {
-			if (!missionComplete) {
-				missionComplete = new MissionComplete();
+		
+		 public function showGameOver():void {
+			 if (!gameOver) {
+				 gameOver = new GameOverView();
+				  gameOver.headerFactory = function():Header {
+					var header:Header = new Header();
+					header.scaleY = 0.2;
+					header.visible = false;
+					return header;
+				}
 			}
-			PopUpManager.addPopUp(missionComplete);
-		 }
+			 PopUpManager.addPopUp(gameOver);
+		}
+		 
+		 
+		
+		
+		/**
 		 * 
-		 * 
+		 * Show MissionComplete popup
 		 */
 		 public function showMissionComplete():void {
 			 if (!missionComplete) {
