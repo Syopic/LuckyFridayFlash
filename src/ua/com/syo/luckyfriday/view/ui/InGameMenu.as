@@ -100,7 +100,7 @@ package ua.com.syo.luckyfriday.view.ui
 			if (Controller.instance.ce.state == GameState.instance){
 				aBtn.label = "Restart Misson";
 				bBtn.label = "Exit Misson";
-				cBtn.label = "Setings";
+				cBtn.label = "Settings";
 				cBtn.visible = true;
 				panelHeight = 360;
 				panelWidth = 280;

@@ -11,14 +11,14 @@ package ua.com.syo.luckyfriday.view.ui
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalLayout;
 	
+	import starling.core.Starling;
+	import starling.display.MovieClip;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import starling.textures.Texture;
-	import starling.display.MovieClip;
-	import starling.core.Starling;
 
 	public class MissionComplete extends Panel
 		
@@ -67,6 +67,7 @@ package ua.com.syo.luckyfriday.view.ui
 			this.addChild(controlsContainer);
 */
 			addLabel("Mission Complete", labelsContainer);
+			
 			initAnimations()
 			// animate them
 			Starling.juggler.add ( mMovie );
