@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Lucky Friday" basedir=".">
+
+	<property file="properties/local.properties" />
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="properties/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="copy assets">
+		<copy todir="${BIN_DIR}/levels">
+			<fileset dir="${ASSETS_DIR}/levels">
+				<exclude name="*.pes"/>
+				<exclude name="**/mask.png"/>
+			</fileset>
+		</copy>
+		<copy todir="${BIN_DIR}/sounds">
+			<fileset dir="${ASSETS_DIR}/sounds">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="update build number">
+		<tstamp>
+			<format property="logtime" pattern="yyyyMMdd" />
+		</tstamp>
+		<if>
+			<equals arg1="${logtime}" arg2="${BUILD_DATE}" />
+			<then>
+				<propertyfile file="properties/local.properties">
+					<entry key="BUILD_NUM" type="int" default="01" operation="+" pattern="00" />
+				</propertyfile >
+				<math result="result" operand1="${BUILD_NUM}" operand2="1" operation="+" datatype="int" />
+			</then>
+			<else>
+				<propertyfile file="properties/local.properties">
+					<entry key="BUILD_DATE" value="${logtime}" />
+				</propertyfile >
+				<propertyfile file="properties/local.properties">
+					<entry key="BUILD_NUM" value="01" />
+				</propertyfile >
+				<math result="result" operand1="0" operand2="1" operation="+" datatype="int" />
+			</else>
+		</if>
+
+		<echo>v${MAJOR_VERSION}.${logtime}.${result}</echo>
+		<replaceregexp file="${SRC_DIR}/ua/com/syo/luckyfriday/data/Constants.as" flags="gi" byline="true">
+			<regexp pattern="([0-9]+\.+[0-9]+\.+[0-9]+\.+[0-9]{1,2})" />
+			<substitution expression="${MAJOR_VERSION}.${logtime}.${result}" />
+		</replaceregexp>
+	</target>
+
+
+</project>
