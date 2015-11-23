@@ -19,7 +19,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.states.MissionsState;
 	import ua.com.syo.luckyfriday.view.ui.AboutView;
 	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
-	import ua.com.syo.luckyfriday.view.ui.MissionComplete;
+	import ua.com.syo.luckyfriday.view.ui.MissionCompleteView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
 
@@ -29,7 +29,7 @@ package ua.com.syo.luckyfriday.view {
 		private var aboutView:AboutView;
 		private var exitAlert:Alert;
 		private var ingameMenu:InGameMenu;
-		private var missionComplete:MissionComplete;
+		private var missionComplete:MissionCompleteView;
 
 
 		public function init():void {
@@ -91,7 +91,7 @@ package ua.com.syo.luckyfriday.view {
 		 */
 		 public function showMissionComplete():void {
 			 if (!missionComplete) {
-				 missionComplete = new MissionComplete();
+				 missionComplete = new MissionCompleteView();
 				  missionComplete.headerFactory = function():Header {
 					var header:Header = new Header();
 					header.scaleY = 0.2;

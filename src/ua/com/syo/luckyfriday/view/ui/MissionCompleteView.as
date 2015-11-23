@@ -1,15 +1,13 @@
 package ua.com.syo.luckyfriday.view.ui
 {
-	import citrus.view.starlingview.AnimationSequence;
-	
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.Panel;
+	import feathers.core.PopUpManager;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
-	import feathers.layout.VerticalLayout;
 	
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -17,10 +15,13 @@ package ua.com.syo.luckyfriday.view.ui
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.view.states.MenuState;
 
-	public class MissionComplete extends Panel
+	public class MissionCompleteView extends Panel
 		
 	{
 		private var menuBtn:Button;
@@ -34,7 +35,7 @@ package ua.com.syo.luckyfriday.view.ui
 		
 		
 		
-		public function MissionComplete()
+		public function MissionCompleteView()
 		{
 			
 			width = panelWidth;
@@ -129,8 +130,17 @@ package ua.com.syo.luckyfriday.view.ui
 			switch (event.currentTarget as Button)
 			{
 				case menuBtn: 
-					//PopUpManager.removePopUp(this);
-					//UIManager.instance.ce.playing = true;
+					Controller.instance.changeState(MenuState.newInstance);
+					PopUpManager.removePopUp(this);
+					Controller.instance.ce.playing = true;
+					break;
+				case playagainBtn:
+					Controller.instance.startLevel(Controller.instance.currentLevelId);  
+					PopUpManager.removePopUp(this);
+					Controller.instance.ce.playing = true;
+					break;
+				case nextBtn:
+					
 					break;
 			}
 		}
