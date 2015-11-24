@@ -23,6 +23,14 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source="/../assets/img/LogoBtnDown.png")]
 		public static const ButtonDownC:Class;
+		
+		/**
+		 * Game Over assets
+		 */
+		
+		[Embed(source="/../assets/images/GameOver/GameOver1.png")]
+		public static const GameOver1C:Class;
+		
 		/**
 		 * Ship hero assets
 		 */
