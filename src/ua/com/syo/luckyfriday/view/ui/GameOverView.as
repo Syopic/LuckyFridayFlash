@@ -29,6 +29,9 @@ package ua.com.syo.luckyfriday.view.ui
 		private var containerBtn:LayoutGroup;
 		private var img:Image;
 		private var sText:Sprite;
+		private var gtlegend:Array;
+		private var textLegend:String;
+		private var legend:TextField;
 		
 		public function GameOverView() 
 		{
@@ -61,11 +64,17 @@ package ua.com.syo.luckyfriday.view.ui
 			addLabel("Game Over", labelsContainer);
 			
 		
-			//add text
+			//add text Legends
+			
+			gtlegend = new Array();
+			gtlegend[0] = "Ты слишком жесток, вот что я тебе должен сказать. Таких, как ты,\n опасно пускать в космос – там все чересчур хрупко,\n да-да, вот именно, хрупко! ";
+			gtlegend[1] = "Ракета отлично взлетела. Жаль только, приземлилась не на той планете."
+			gtlegend[2] = "Космос - это не прогулка, ракета - не самолет.";
 			
 			sText = new Sprite();
-			var legend:TextField = new TextField(540, 200, " ", "Segoe Print", 13, 0xFFFFFF, true);
-			legend.text = "Ты слишком жесток, вот что я тебе должен сказать. Таких, как ты,\n опасно пускать в космос – там все чересчур хрупко,\n да-да, вот именно, хрупко! ";
+			legend = new TextField(540, 200, " ", "Segoe Print", 13, 0xFFFFFF, true);
+			inLegend();
+			//legend.text = textLegend;
 			sText.addChild(legend);
 			sText.x = 10;
 			sText.y =250;
@@ -76,7 +85,7 @@ package ua.com.syo.luckyfriday.view.ui
 			   Add buttons
 			 * 
 			 */
-			initButtons()
+			initButtons();
 			
 			
 			// menu button
@@ -99,7 +108,22 @@ package ua.com.syo.luckyfriday.view.ui
 			containerBtn.addChild(playagainBtn);
 			
 			
+			
 		}
+		
+		/**
+		 * Add legends array
+		 */
+		
+		public function inLegend():void 
+		{
+			
+			var i:Number;
+			i =  Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+			legend.text = gtlegend[i];
+			 
+		}
+		
 		
 		private function addLabel(text:String, container:LayoutGroup):void
 		{
@@ -136,12 +160,14 @@ package ua.com.syo.luckyfriday.view.ui
 				case menuBtn: 
 					Controller.instance.changeState(MenuState.newInstance);
 					PopUpManager.removePopUp(this);
+					inLegend();
 					Controller.instance.ce.playing = true;
 					break;
 				case playagainBtn:
-					Controller.instance.startLevel(Controller.instance.currentLevelId);  
-					PopUpManager.removePopUp(this);
-					Controller.instance.ce.playing = true;
+					inLegend();
+					//Controller.instance.startLevel(Controller.instance.currentLevelId);  
+					//PopUpManager.removePopUp(this);
+					//Controller.instance.ce.playing = true;
 					break;
 			}
 		

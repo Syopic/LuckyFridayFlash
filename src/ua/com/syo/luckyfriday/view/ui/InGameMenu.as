@@ -49,7 +49,7 @@ package ua.com.syo.luckyfriday.view.ui
 			 * Add butons
 			 */
 
-			initButtons()
+			initButtons();
 
 			resumeBtn = new Button();
 			resumeBtn.label = "Resume";
