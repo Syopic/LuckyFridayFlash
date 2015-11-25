@@ -138,17 +138,18 @@ package ua.com.syo.luckyfriday.view.ui
 		public function inImgLegend():void 
 		{
 			var i:Number;
-			if (contains(img) != true){
 			i =  Math.floor(Math.random() * (3 - 0 + 1)) + 0;
 			texture = imglegend[i];
+			
+			if (contains(img) != true){
+trace(contains(img));				
 			img = new Image(texture);
 			img.y = 0;
 			img.x = 10;
 			this.addChild(img);
 			}else{
 				this.removeChild(img);
-				i =  Math.floor(Math.random() * (3 - 0 + 1)) + 0;
-				texture = imglegend[i];
+				
 				img = new Image(texture);
 				img.y = 0;
 				img.x = 10;
