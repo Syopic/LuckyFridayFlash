@@ -139,7 +139,7 @@ package ua.com.syo.luckyfriday.view.ui
 		{
 			var i:Number;
 			if (contains(img) != true){
-			i =  Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+			i =  Math.floor(Math.random() * (3 - 0 + 1)) + 0;
 			texture = imglegend[i];
 			img = new Image(texture);
 			img.y = 0;
@@ -147,7 +147,7 @@ package ua.com.syo.luckyfriday.view.ui
 			this.addChild(img);
 			}else{
 				this.removeChild(img);
-				i =  Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+				i =  Math.floor(Math.random() * (3 - 0 + 1)) + 0;
 				texture = imglegend[i];
 				img = new Image(texture);
 				img.y = 0;
