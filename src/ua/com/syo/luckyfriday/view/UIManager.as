@@ -79,12 +79,13 @@ package ua.com.syo.luckyfriday.view {
 		 public function showGameOver():void {
 			 if (!gameOver) {
 				 gameOver = new GameOverView();
+				 /*
 				  gameOver.headerFactory = function():Header {
 					var header:Header = new Header();
 					header.scaleY = 0.2;
 					header.visible = false;
 					return header;
-				}
+				}*/
 			}
 			 PopUpManager.addPopUp(gameOver);
 		}
@@ -104,7 +105,7 @@ package ua.com.syo.luckyfriday.view {
 					header.scaleY = 0.2;
 					header.visible = false;
 					return header;
-				}
+				  }
 			}
 			 PopUpManager.addPopUp(missionComplete);
 		}

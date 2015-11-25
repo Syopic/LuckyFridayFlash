@@ -9,10 +9,10 @@ package ua.com.syo.luckyfriday.view.ui
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	
+	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.events.TouchEvent;
 	import starling.text.TextField;
 	import starling.textures.Texture;
 	
@@ -25,31 +25,43 @@ package ua.com.syo.luckyfriday.view.ui
 		private var playagainBtn:Button;
 		private var menuBtn:Button;
 		private var panelWidth:int = 600;
-		private var panelHeight:int = 500;
+		private var panelHeight:int = 550;
 		private var containerBtn:LayoutGroup;
 		private var img:Image;
 		private var sText:Sprite;
 		private var gtlegend:Array;
 		private var textLegend:String;
 		private var legend:TextField;
+		private var imglegend:Array;
+		private var texture:Texture;
+		
 		
 		public function GameOverView() 
 		{
 			
 			width = panelWidth;
 			height = panelHeight;
+			title = "Game Over";
+			
+			
+			// add Image
+			
+			imglegend = new Array;
+			imglegend[0] = Texture.fromEmbeddedAsset(Assets.GameOver1C);
+			imglegend[1] = Texture.fromEmbeddedAsset(Assets.GameOver2C);
+			imglegend[2] = Texture.fromEmbeddedAsset(Assets.GameOver3C);
+			imglegend[3] = Texture.fromEmbeddedAsset(Assets.GameOver4C);
+			
+			
+			inImgLegend();
+			//img = new Image(texture);
+			
+			//addChild(img);
+			//Starling.juggler.add(img);
 			
 			
 			
-			// add Logo
-			img = new Image(Texture.fromEmbeddedAsset(Assets.GameOver1C));
-			img.y = 0;
-			img.x = 10;
-			this.addChild(img);
-			
-			
-			
-			
+			/*
 			var labelsVLayout:HorizontalLayout = new HorizontalLayout();
 			var labelsContainer:LayoutGroup = new LayoutGroup();
 			labelsVLayout.padding = 20;
@@ -62,7 +74,7 @@ package ua.com.syo.luckyfriday.view.ui
 			
 			
 			addLabel("Game Over", labelsContainer);
-			
+			*/
 		
 			//add text Legends
 			
@@ -72,7 +84,7 @@ package ua.com.syo.luckyfriday.view.ui
 			gtlegend[2] = "Космос - это не прогулка, ракета - не самолет.";
 			
 			sText = new Sprite();
-			legend = new TextField(540, 200, " ", "Segoe Print", 13, 0xFFFFFF, true);
+			legend = new TextField(540, 200, " ", "Source Sans Pro", 15, 0xFFFFFF, false);
 			inLegend();
 			//legend.text = textLegend;
 			sText.addChild(legend);
@@ -123,6 +135,29 @@ package ua.com.syo.luckyfriday.view.ui
 			legend.text = gtlegend[i];
 			 
 		}
+		public function inImgLegend():void 
+		{
+			var i:Number;
+			if (contains(img) != true){
+			i =  Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+			texture = imglegend[i];
+			img = new Image(texture);
+			img.y = 0;
+			img.x = 10;
+			this.addChild(img);
+			}else{
+				this.removeChild(img);
+				i =  Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+				texture = imglegend[i];
+				img = new Image(texture);
+				img.y = 0;
+				img.x = 10;
+				this.addChild(img);
+			}	
+			
+			//addEventListener(Event.ENTER_FRAME, inImgLegend);
+			
+		}
 		
 		
 		private function addLabel(text:String, container:LayoutGroup):void
@@ -161,10 +196,13 @@ package ua.com.syo.luckyfriday.view.ui
 					Controller.instance.changeState(MenuState.newInstance);
 					PopUpManager.removePopUp(this);
 					inLegend();
+					inImgLegend();
 					Controller.instance.ce.playing = true;
 					break;
 				case playagainBtn:
+					inImgLegend();
 					inLegend();
+					
 					//Controller.instance.startLevel(Controller.instance.currentLevelId);  
 					//PopUpManager.removePopUp(this);
 					//Controller.instance.ce.playing = true;
