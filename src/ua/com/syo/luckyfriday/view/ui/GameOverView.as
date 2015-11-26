@@ -80,8 +80,14 @@ package ua.com.syo.luckyfriday.view.ui
 			
 			gtlegend = new Array();
 			gtlegend[0] = "Ты слишком жесток, вот что я тебе должен сказать. Таких, как ты,\n опасно пускать в космос – там все чересчур хрупко,\n да-да, вот именно, хрупко! ";
-			gtlegend[1] = "Ракета отлично взлетела. Жаль только, приземлилась не на той планете."
-			gtlegend[2] = "Космос - это не прогулка, ракета - не самолет.";
+			gtlegend[1] = "Шатл отлично взлетел. Жаль только, приземлился не на той планете."
+			gtlegend[2] = "Космос - это не прогулка, шатл - не самолет.";
+			gtlegend[3] = "Иногда мне кажется, что мы — черти, которые штурмуют Космос.";
+			gtlegend[4] = "Прежде, чем лезть к звездам, человеку надо научиться жить на Земле.";
+			gtlegend[5] = "— Как иголка в космосе!\n— Там было про стог сена!\n— Да, точно, как стог сена в космосе!";
+			gtlegend[6] = "Меняются миры, распадаются Галактики,\n но женщины — всегда женщины.";
+			
+			
 			
 			sText = new Sprite();
 			legend = new TextField(540, 200, " ", "Source Sans Pro", 15, 0xFFFFFF, false);
@@ -131,7 +137,7 @@ package ua.com.syo.luckyfriday.view.ui
 		{
 			
 			var i:Number;
-			i =  Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+			i =  Math.floor(Math.random() * (6 - 0 + 1)) + 0;
 			legend.text = gtlegend[i];
 			 
 		}
@@ -142,7 +148,6 @@ package ua.com.syo.luckyfriday.view.ui
 			texture = imglegend[i];
 			
 			if (contains(img) != true){
-trace(contains(img));				
 			img = new Image(texture);
 			img.y = 0;
 			img.x = 10;
