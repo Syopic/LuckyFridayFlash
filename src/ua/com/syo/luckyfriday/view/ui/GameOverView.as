@@ -154,7 +154,7 @@ package ua.com.syo.luckyfriday.view.ui
 			this.addChild(img);
 			}else{
 				this.removeChild(img);
-				
+				img = null;
 				img = new Image(texture);
 				img.y = 0;
 				img.x = 10;
