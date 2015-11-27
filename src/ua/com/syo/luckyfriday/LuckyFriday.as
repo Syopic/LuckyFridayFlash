@@ -1,6 +1,5 @@
 package ua.com.syo.luckyfriday
 {
-	import flash.desktop.NativeApplication;
 	import flash.display.StageQuality;
 	import flash.events.KeyboardEvent;
 

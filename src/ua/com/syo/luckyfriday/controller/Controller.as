@@ -25,7 +25,7 @@ package ua.com.syo.luckyfriday.controller
 	public class Controller
 	{
 
-		private var _currentLevelId:String = "1";
+		private var _currentLevelId:String = "4";
 		private var assetManager:AssetManager;
 
 		public function init():void {
