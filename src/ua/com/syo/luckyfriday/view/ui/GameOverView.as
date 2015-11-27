@@ -1,5 +1,7 @@
 package ua.com.syo.luckyfriday.view.ui
 {
+	import citrus.math.MathUtils;
+	
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
@@ -30,7 +32,6 @@ package ua.com.syo.luckyfriday.view.ui
 		private var img:Image;
 		private var sText:Sprite;
 		private var gtlegend:Array;
-		private var textLegend:String;
 		private var legend:TextField;
 		private var imglegend:Array;
 		private var texture:Texture;
@@ -53,30 +54,6 @@ package ua.com.syo.luckyfriday.view.ui
 			imglegend[3] = Texture.fromEmbeddedAsset(Assets.GameOver4C);
 			
 			
-			inImgLegend();
-			//img = new Image(texture);
-			
-			//addChild(img);
-			//Starling.juggler.add(img);
-			
-			
-			
-			/*
-			var labelsVLayout:HorizontalLayout = new HorizontalLayout();
-			var labelsContainer:LayoutGroup = new LayoutGroup();
-			labelsVLayout.padding = 20;
-			labelsVLayout.gap = 8;
-			labelsContainer.y = 0;
-			labelsContainer.width = 550;
-			labelsVLayout.horizontalAlign = HorizontalLayout.HORIZONTAL_ALIGN_CENTER;
-			labelsContainer.layout = labelsVLayout;
-			this.addChild(labelsContainer);
-			
-			
-			addLabel("Game Over", labelsContainer);
-			*/
-		
-			//add text Legends
 			
 			gtlegend = new Array();
 			gtlegend[0] = "Ты слишком жесток, вот что я тебе должен сказать. Таких, как ты,\n опасно пускать в космос – там все чересчур хрупко,\n да-да, вот именно, хрупко! ";
@@ -91,7 +68,7 @@ package ua.com.syo.luckyfriday.view.ui
 			
 			sText = new Sprite();
 			legend = new TextField(540, 200, " ", "Source Sans Pro", 15, 0xFFFFFF, false);
-			inLegend();
+			arrange();
 			//legend.text = textLegend;
 			sText.addChild(legend);
 			sText.x = 10;
@@ -133,19 +110,15 @@ package ua.com.syo.luckyfriday.view.ui
 		 * Add legends array
 		 */
 		
-		public function inLegend():void 
+	
+		public function arrange():void 
 		{
-			
 			var i:Number;
-			i =  Math.floor(Math.random() * (6 - 0 + 1)) + 0;
+			var n:Number;
+			i =  MathUtils.randomInt(0, 6);
+			n =  MathUtils.randomInt(0, 3);
+			texture = imglegend[n];
 			legend.text = gtlegend[i];
-			 
-		}
-		public function inImgLegend():void 
-		{
-			var i:Number;
-			i =  Math.floor(Math.random() * (3 - 0 + 1)) + 0;
-			texture = imglegend[i];
 			
 			if (contains(img) != true){
 			img = new Image(texture);
@@ -201,14 +174,11 @@ package ua.com.syo.luckyfriday.view.ui
 				case menuBtn: 
 					Controller.instance.changeState(MenuState.newInstance);
 					PopUpManager.removePopUp(this);
-					inLegend();
-					inImgLegend();
+					arrange();
 					Controller.instance.ce.playing = true;
 					break;
 				case playagainBtn:
-					inImgLegend();
-					inLegend();
-					
+					arrange();					
 					//Controller.instance.startLevel(Controller.instance.currentLevelId);  
 					//PopUpManager.removePopUp(this);
 					//Controller.instance.ce.playing = true;
