@@ -27,7 +27,14 @@ package ua.com.syo.luckyfriday.data {
 		/**
 		 * Game Over assets
 		 */
-
+		[Embed(source="/../assets/images/GameOver/GameOver1.png")]
+		public static const GameOver1C:Class;
+		[Embed(source="/../assets/images/GameOver/GameOver2.png")]
+		public static const GameOver2C:Class;
+		[Embed(source="/../assets/images/GameOver/GameOver3.png")]
+		public static const GameOver3C:Class;
+		[Embed(source="/../assets/images/GameOver/GameOver4.png")]
+		public static const GameOver4C:Class;
 
 		/**
 		 * Ship hero assets
@@ -101,8 +108,12 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source = "/../assets/anim/shipAnim.xml", mimeType = "application/octet-stream")]
 		private static var ShipAnimXMLC:Class;
 
+		/**
+		 * font
 
-
+		[Embed(source="/../assets/fonts/SourceSansPro-Regular.ttf",fontFamily="SourceSansPro",fontWeight="normal",mimeType="application/x-font",embedAsCFF="true")]
+		public static const SOURCE_SANS_PRO_REGULAR:Class;
+		*/
 
 		/**
 		 * ------------------
