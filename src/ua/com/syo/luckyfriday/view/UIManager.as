@@ -1,14 +1,14 @@
 package ua.com.syo.luckyfriday.view {
-	
-	
+
+
 	import feathers.controls.Alert;
 	import feathers.controls.Header;
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-	
+
 	import starling.events.Event;
-	
+
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
@@ -70,47 +70,47 @@ package ua.com.syo.luckyfriday.view {
 			PopUpManager.addPopUp(ingameMenu);
 			ingameMenu.arrange();
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * Show GameOver popup
 		 */
-		
-		 public function showGameOver():void {
-			 if (!gameOver) {
-				 gameOver = new GameOverView();
-				  gameOver.headerFactory = function():Header {
+
+		public function showGameOver():void {
+			if (!gameOver) {
+				gameOver = new GameOverView();
+				gameOver.headerFactory = function():Header {
 					var header:Header = new Header();
 					header.scaleY = 0.2;
 					header.visible = false;
 					return header;
 				}
 			}
-			 PopUpManager.addPopUp(gameOver);
+			PopUpManager.addPopUp(gameOver);
 		}
-		 
-		 
-		
-		
+
+
+
+
 		/**
-		 * 
+		 *
 		 * Show MissionComplete popup
 		 */
-		 public function showMissionComplete():void {
-			 if (!missionComplete) {
-				 missionComplete = new MissionCompleteView();
-				  missionComplete.headerFactory = function():Header {
+		public function showMissionComplete():void {
+			if (!missionComplete) {
+				missionComplete = new MissionCompleteView();
+				missionComplete.headerFactory = function():Header {
 					var header:Header = new Header();
 					header.scaleY = 0.2;
 					header.visible = false;
 					return header;
 				}
 			}
-			 PopUpManager.addPopUp(missionComplete);
+			PopUpManager.addPopUp(missionComplete);
 		}
-		 
-		
-		
+
+
+
 
 		/**
 		 * ESC button pressed
