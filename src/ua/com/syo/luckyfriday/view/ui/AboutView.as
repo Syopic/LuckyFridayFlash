@@ -1,10 +1,7 @@
-package ua.com.syo.luckyfriday.view.ui
-{	
+package ua.com.syo.luckyfriday.view.ui {
 
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
-
-	import citrus.objects.CitrusSprite;
 
 	import feathers.controls.Button;
 	import feathers.controls.Label;
@@ -28,10 +25,10 @@ package ua.com.syo.luckyfriday.view.ui
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.Constants;
 
 
-	public class AboutView extends Panel
-	{
+	public class AboutView extends Panel {
 
 		private var backBtn:Button;
 		private var panelWidth:int = 500;
@@ -42,8 +39,7 @@ package ua.com.syo.luckyfriday.view.ui
 		private var imgover:Image;
 		private var imgdown:Image;
 
-		public function AboutView()
-		{
+		public function AboutView() {
 			width = panelWidth;
 			height = panelHeight;
 			title = "About";
@@ -74,18 +70,16 @@ package ua.com.syo.luckyfriday.view.ui
 			this.addChild(controlsContainer);
 
 
-			addLabel("Lucky Friday v.0.0.0", labelsContainer);
-
-
+			addLabel("Lucky Friday " + Constants.VERSION, labelsContainer);
 
 			//add text
 
 			s = new Sprite();
-			var legend:TextField = new TextField(180, 200, " ", "Segoe Print", 14, 0xFFFFFF, true);
+			var legend:TextField = new TextField(180, 200, " ", Assets.font.fontName, 14, 0xFFFFFF, true);
 			legend.text = "\"Kryvosheya (Syo) Serhii\nMyzika Slava\nGonhcar Urii\nKryvosheya Volodymyr\nKysliuk (Riks) Oleksii";
 			s.addChild(legend);
 			s.x = 140;
-			s.y =110;
+			s.y = 110;
 			addChild(s);
 
 			// add Logo
@@ -96,20 +90,10 @@ package ua.com.syo.luckyfriday.view.ui
 			img.addEventListener(TouchEvent.TOUCH, onTouch);
 			addChild(img);
 
-			/**
-
-			imgover = new Image(Texture.fromEmbeddedAsset(Assets.ButtonOverC));
-			//imgover.y = 5;
-			//imgover.x = 180;
-			//imgover.touchable = true;
-			addChild(imgover);
-
-			 */
 
 			imgdown = new Image(Texture.fromEmbeddedAsset(Assets.ButtonDownC));
 			imgdown.y = 5;
 			imgdown.x = 180;
-			//imgdown.touchable = true;
 			imgdown.addEventListener(TouchEvent.TOUCH, onTouch);
 			imgdown.visible = false;
 			addChild(imgdown);
@@ -117,38 +101,33 @@ package ua.com.syo.luckyfriday.view.ui
 
 			// add Hyperlink Text
 
-			var abtxt:HyperlinkTextFieldTextRenderer = new HyperlinkTextFieldTextRenderer();
+			/*var abtxt:HyperlinkTextFieldTextRenderer = new HyperlinkTextFieldTextRenderer();
 			abtxt.text = "<u><a href=\"http://lyuckyfriday.net\">LyuckyFriday.net</a></u>.";
 			abtxt.x = 185;
 			abtxt.y = 280;
-			this.addChild(abtxt);
+			this.addChild(abtxt);*/
 
 			// back
 			backBtn = new Button();
 			backBtn.label = "Back";
 			backBtn.width = 150;
 			backBtn.height = 50;
-			backBtn.layoutData = new AnchorLayoutData(NaN,150, 12, 150);
+			backBtn.layoutData = new AnchorLayoutData(NaN, 150, 12, 150);
 			backBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			this.addChild(backBtn);
 
-
-			//addEventListener(Event.ADDED_TO_STAGE, onAdded);	
-
 		}
 
-		private function add(bgSprite:CitrusSprite):void
-		{
-			// TODO Auto Generated method stub
+		/**
+		 * 
+		 * @param event 
+		 * button clicked reax
+		 * 
+		 */
+		private function buttonClicked(event:Event):void {
+			switch (event.currentTarget as Button) {
 
-		}
-
-		private function buttonClicked(event:Event):void   
-		{   
-			switch (event.currentTarget as Button)
-			{
-
-				case backBtn: 
+				case backBtn:
 					PopUpManager.removePopUp(this);
 					break;
 			}
@@ -156,27 +135,22 @@ package ua.com.syo.luckyfriday.view.ui
 		}
 
 
-		private function onTouch(e:TouchEvent):void
-		{
+		/**
+		 * 
+		 * @param e
+		 * detect the click/release phase
+		 */
+		private function onTouch(e:TouchEvent):void {
 
-			// get the touch points (can be multiple because of multitouch)
 			var touch:Touch = e.getTouch(stage);
 			var clicked:DisplayObject = e.currentTarget as DisplayObject;
 
-			if (touch.phase == TouchPhase.BEGAN)
-			{
+			if (touch.phase == TouchPhase.BEGAN) {
 				imgdown.visible = true;
-					//swapChildren(img, imgdown)
-			}
-			else
-			{
+			} else {
 				imgdown.visible = false;
 			}
-			// detect the click/release phase
-			if (touch.phase == TouchPhase.ENDED)
-			{
-				// get the touch Logobtn open URL
-				//var url:String = "http://lyuckyfriday.net";
+			if (touch.phase == TouchPhase.ENDED) {
 				var url:String = "https://github.com/";
 				navigateToURL(new URLRequest(url));
 
@@ -185,19 +159,17 @@ package ua.com.syo.luckyfriday.view.ui
 		}
 
 
-		private function addLabel(text:String, container:LayoutGroup):void
-		{
+		private function addLabel(text:String, container:LayoutGroup):void {
 			var label:Label = new Label();
-			label.scaleX =0.7;
-			label.scaleY =0.7;
+			label.scaleX = 0.7;
+			label.scaleY = 0.7;
 			label.text = text;
 			container.addChild(label);
 		}
 
 		//
 
-		private function addButton(label:String, container:LayoutGroup):void
-		{
+		private function addButton(label:String, container:LayoutGroup):void {
 			var button:Button = new Button();
 			button.label = label;
 			button.width = 70;

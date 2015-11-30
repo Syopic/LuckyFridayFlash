@@ -1,64 +1,64 @@
 package ua.com.syo.luckyfriday.data {
 	import flash.display.Bitmap;
+	import flash.text.Font;
 	import flash.utils.Dictionary;
 
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
-	public class Assets
-	{
+	public class Assets {
 		/**
 		 * Logo assets
 		 */
 
-		[Embed(source="/../assets/img/Logo.png")]
+		[Embed(source = "/../assets/img/Logo.png")]
 		public static const LogoC:Class;
 
 
-		[Embed(source="/../assets/img/LogoBtn.png")]
+		[Embed(source = "/../assets/img/LogoBtn.png")]
 		public static const LogobtnC:Class;
 
-		[Embed(source="/../assets/img/LogoBtnOver.png")]
+		[Embed(source = "/../assets/img/LogoBtnOver.png")]
 		public static const ButtonOverC:Class;
 
-		[Embed(source="/../assets/img/LogoBtnDown.png")]
+		[Embed(source = "/../assets/img/LogoBtnDown.png")]
 		public static const ButtonDownC:Class;
 
 		/**
 		 * Game Over assets
 		 */
-		[Embed(source="/../assets/img/gui/gameover/go1.png")]
+		[Embed(source = "/../assets/img/gui/gameover/go1.png")]
 		public static const GameOver1C:Class;
-		[Embed(source="/../assets/img/gui/gameover/go2.png")]
+		[Embed(source = "/../assets/img/gui/gameover/go2.png")]
 		public static const GameOver2C:Class;
-		[Embed(source="/../assets/img/gui/gameover/go3.png")]
+		[Embed(source = "/../assets/img/gui/gameover/go3.png")]
 		public static const GameOver3C:Class;
-		[Embed(source="/../assets/img/gui/gameover/go4.png")]
+		[Embed(source = "/../assets/img/gui/gameover/go4.png")]
 		public static const GameOver4C:Class;
 
 		/**
 		 * Ship hero assets
 		 */
-		[Embed(source="/../assets/img/ship.png")]
+		[Embed(source = "/../assets/img/ship.png")]
 		public static const ShipC:Class;
 
-		[Embed(source="/../assets/img/platform.png")]
+		[Embed(source = "/../assets/img/platform.png")]
 		public static const PlatformC:Class;
 
-		[Embed(source="/../assets/img/engine.png")]
+		[Embed(source = "/../assets/img/engine.png")]
 		public static const EngineC:Class;
 
 		/**
 		 * Icons
 		 */
 
-		[Embed(source="/../assets/img/icons/gear-outline.png")]
+		[Embed(source = "/../assets/img/icons/gear-outline.png")]
 		public static const GearIconC:Class;
 
-		[Embed(source="/../assets/img/icons/settings.png")]
+		[Embed(source = "/../assets/img/icons/settings.png")]
 		public static const SettingsIconC:Class;
 
-		[Embed(source="/../assets/img/icons/power.png")]
+		[Embed(source = "/../assets/img/icons/power.png")]
 		public static const PowerIconC:Class;
 
 		/**
@@ -109,11 +109,16 @@ package ua.com.syo.luckyfriday.data {
 		private static var ShipAnimXMLC:Class;
 
 		/**
-		 * font
-
-		[Embed(source="/../assets/fonts/SourceSansPro-Regular.ttf",fontFamily="SourceSansPro",fontWeight="normal",mimeType="application/x-font",embedAsCFF="true")]
-		public static const SOURCE_SANS_PRO_REGULAR:Class;
+		 * Embed font
 		*/
+		/*regilar font*/
+		[Embed(source = "/../assets/fonts/segoepr.ttf", fontName = "segoepr", fontWeight = "normal", mimeType = "application/x-font", embedAsCFF = "false")]
+		public static var segoeprC:Class;
+		/*Bold font*/
+		[Embed(source = "/../assets/fonts/segoeprb.ttf", fontName = "segoepr", fontWeight = "bold", mimeType = "application/x-font", embedAsCFF = "false")]
+		public static var segoeprbC:Class;
+		public static var font:Font = new segoeprC();
+
 
 		/**
 		 * ------------------
@@ -125,6 +130,7 @@ package ua.com.syo.luckyfriday.data {
 		 * Cashing textures
 		 */
 		private static var gameTextures:Dictionary = new Dictionary();
+
 		public static function getTexture(name:String):Texture {
 			if (gameTextures[name] == undefined) {
 				var bitmap:Bitmap = new Assets[name]();
@@ -138,10 +144,9 @@ package ua.com.syo.luckyfriday.data {
 		 * Cashing atlases
 		 */
 		private static var shipTextureAtlas:TextureAtlas;
-		public static function getShipHeroAtlas():TextureAtlas
-		{
-			if (shipTextureAtlas == null)
-			{
+
+		public static function getShipHeroAtlas():TextureAtlas {
+			if (shipTextureAtlas == null) {
 				var texture:Texture = getTexture("ShipAnimC");
 				var xml:XML = XML(new ShipAnimXMLC());
 				shipTextureAtlas = new TextureAtlas(texture, xml);

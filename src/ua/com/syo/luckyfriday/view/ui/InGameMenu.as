@@ -1,5 +1,4 @@
-package ua.com.syo.luckyfriday.view.ui
-{
+package ua.com.syo.luckyfriday.view.ui {
 	import citrus.core.starling.StarlingState;
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
@@ -16,8 +15,7 @@ package ua.com.syo.luckyfriday.view.ui
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.states.MissionsState;
 
-	public class InGameMenu extends Panel
-	{
+	public class InGameMenu extends Panel {
 		private var container:LayoutGroup;
 		private var showSettings:UIManager;
 		private var resumeBtn:Button;
@@ -33,17 +31,11 @@ package ua.com.syo.luckyfriday.view.ui
 		public var viBtC:Boolean;
 
 
-		public function InGameMenu()
-		{
-
-
+		public function InGameMenu() {
 
 			width = panelWidth;
 			height = panelHeight;
 			title = "Game Menu";
-
-
-
 
 			/**
 			 * Add butons
@@ -78,9 +70,9 @@ package ua.com.syo.luckyfriday.view.ui
 			cBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(cBtn);
 
-
 			arrange();
 		}
+
 		/**
 		 * add layout group
 		 */
@@ -95,16 +87,15 @@ package ua.com.syo.luckyfriday.view.ui
 		/**
 		 * arrange buttons
 		 */
-		public function	arrange():void
-		{
-			if (Controller.instance.ce.state == GameState.instance){
+		public function arrange():void {
+			if (Controller.instance.ce.state == GameState.instance) {
 				aBtn.label = "Restart Misson";
 				bBtn.label = "Exit Misson";
 				cBtn.label = "Settings";
 				cBtn.visible = true;
 				panelHeight = 360;
 				panelWidth = 280;
-				
+
 
 			} else {
 				aBtn.label = "Settings";
@@ -112,49 +103,47 @@ package ua.com.syo.luckyfriday.view.ui
 				cBtn.visible = false;
 				panelHeight = 290;
 				panelWidth = 280;
-				
-
 			}
+			
 			height = panelHeight;
 
 		}
-		private function buttonClicked(event:Event):void   
-		{   
-			switch (event.currentTarget as Button)
-			{
-				case resumeBtn: 
+
+		private function buttonClicked(event:Event):void {
+			switch (event.currentTarget as Button) {
+				case resumeBtn:
 					PopUpManager.removePopUp(this);
 					Controller.instance.ce.playing = true;
 					break;
-				case cBtn: 
-						UIManager.instance.showSettings();
-						Controller.instance.ce.playing = false;
+				case cBtn:
+					UIManager.instance.showSettings();
+					Controller.instance.ce.playing = false;
 					break;
-					if (Controller.instance.ce.state == GameState.instance){
+					if (Controller.instance.ce.state == GameState.instance) {
 						UIManager.instance.showSettings();
 						Controller.instance.ce.playing = false;
 						break;
-					}else {
+					} else {
 					}
 				case bBtn:
-					if (Controller.instance.ce.state == GameState.instance){
+					if (Controller.instance.ce.state == GameState.instance) {
 						Controller.instance.changeState(MissionsState.newInstance);
 						PopUpManager.removePopUp(this);
 						Controller.instance.ce.playing = true;
 						break;
-					}else{
+					} else {
 						Controller.instance.changeState(MenuState.newInstance);
 						PopUpManager.removePopUp(this);
 						Controller.instance.ce.playing = true;
 						break;
 					}
 				case aBtn:
-					if (Controller.instance.ce.state == GameState.instance){
-						Controller.instance.startLevel(Controller.instance.currentLevelId);  
+					if (Controller.instance.ce.state == GameState.instance) {
+						Controller.instance.startLevel(Controller.instance.currentLevelId);
 						PopUpManager.removePopUp(this);
 						Controller.instance.ce.playing = true;
 						break;
-					}else{
+					} else {
 						UIManager.instance.showSettings();
 						break;
 					}
