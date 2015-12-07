@@ -57,7 +57,7 @@ package ua.com.syo.luckyfriday.model {
 			var topList:ListCollection = new ListCollection;
 			var topData:Array = new Array;
 			for (var i:int = 0; i < profileObjects.top.length; i++) {
-				topData[i] = profileObjects.top[i].rank + "  " + profileObjects.top[i].name + "  " + profileObjects.top[i].score;
+				topData[i] = profileObjects.top[i].rank + "   " + profileObjects.top[i].name + "  " + profileObjects.top[i].score;
 			}
 			topList.data = topData;
 
