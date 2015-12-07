@@ -23,7 +23,12 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/img/LogoBtnDown.png")]
 		public static const ButtonDownC:Class;
-
+		
+		/**
+		 * Default avatar
+		 */
+		[Embed(source = "/../assets/img/avatar.jpg")]
+		public static const AvatarC:Class;
 		/**
 		 * Game Over assets
 		 */

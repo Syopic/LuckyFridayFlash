@@ -1,5 +1,4 @@
-package ua.com.syo.luckyfriday.controller
-{
+package ua.com.syo.luckyfriday.controller {
 	import flash.desktop.NativeApplication;
 	import flash.display.StageDisplayState;
 	import flash.filesystem.File;
@@ -21,9 +20,10 @@ package ua.com.syo.luckyfriday.controller
 	import ua.com.syo.luckyfriday.data.CurrentLevelData;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.model.Profile;
+	import ua.com.syo.luckyfriday.view.UIManager;
 
-	public class Controller
-	{
+	public class Controller {
 
 		private var _currentLevelId:String = "4";
 		private var assetManager:AssetManager;
@@ -65,8 +65,7 @@ package ua.com.syo.luckyfriday.controller
 		/**
 		 * Exit to system
 		 */
-		public function exitApplication():void    
-		{    
+		public function exitApplication():void {
 			NativeApplication.nativeApplication.exit();
 		}
 
@@ -80,8 +79,12 @@ package ua.com.syo.luckyfriday.controller
 			trace("changeState");
 		}
 
-		public function startLevel(levelId:String):void
-		{
+		public function startLoadProfile():void {
+			trace("START LOAD PROFILE");
+			loadProfileAssets()
+		}
+
+		public function startLevel(levelId:String):void {
 			trace("START LEVEL: " + levelId);
 			_currentLevelId = levelId;
 			loadLevelAssets();
@@ -91,29 +94,27 @@ package ua.com.syo.luckyfriday.controller
 		/**
 		 * Load level assets
 		 */
-		protected function loadLevelAssets():void
-		{
+		protected function loadLevelAssets():void {
 			//loadComplete();
 
 			var appDir:File = File.applicationDirectory;
 			trace("loading from: " + "levels/level" + _currentLevelId);
 
 			assetManager.enqueue(appDir.resolvePath("levels/level" + _currentLevelId));
-			assetManager.loadQueue(function(ratio:Number):void
-			{
+			assetManager.loadQueue(function(ratio:Number):void {
 				//trace("Loading assets, progress:", ratio);
 
 				// -> When the ratio equals '1', we are finished.
-				if (ratio == 1.0)
+				if (ratio == 1.0) {
 					loadComplete();
+				}
 			});
 		}
 
 		/**
 		 * Load complete
 		 */
-		protected function loadComplete():void
-		{
+		protected function loadComplete():void {
 			//CurrentLevelData.bgTexture = Assets.getTexture("BackgroundC");
 			CurrentLevelData.bgTexture = assetManager.getTexture("bg");
 			CurrentLevelData.fgTexture = assetManager.getTexture("fg")
@@ -121,6 +122,30 @@ package ua.com.syo.luckyfriday.controller
 			Controller.instance.changeState(GameState.newInstance);
 
 			trace("loadComplete" + _currentLevelId);
+		}
+		/**
+		 * Load profile assets
+		 */
+		protected function loadProfileAssets():void {
+			assetManager = new AssetManager();
+			var appDir:File = File.applicationDirectory;
+			assetManager.enqueue(appDir.resolvePath("profile"));
+			trace("loading from: " + "/profile" + appDir);
+			assetManager.loadQueue(function(ratio:Number):void {
+				trace("Loading PROF assets, progress:", ratio);
+				// -> When the ratio equals '1', we are finished.
+				if (ratio == 1.0) {
+					loadProfileComplete();
+					
+				}
+			});
+		}
+		protected function loadProfileComplete():void {
+			Profile.profTexture = assetManager.getTexture("che");
+			Profile.setProfile(assetManager.getObject("profile"));
+			UIManager.instance.arrageProfileView();
+			trace("loadProfileComplete");
+			
 		}
 
 
@@ -185,8 +210,7 @@ package ua.com.syo.luckyfriday.controller
 			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: Assets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
 		}
 
-		public function get currentLevelId():String
-		{
+		public function get currentLevelId():String {
 			return _currentLevelId;
 		}
 
@@ -202,6 +226,9 @@ package ua.com.syo.luckyfriday.controller
 			}
 			return _instance;
 		}
+		
+	
+	
 	}
 }
 

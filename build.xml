@@ -21,6 +21,13 @@
 			</fileset>
 		</copy>
 	</target>
+	
+	<target name="copy assets profile">
+		<copy todir="${BIN_DIR}/profile">
+			<fileset dir="${ASSETS_DIR}/profile">
+			</fileset>
+		</copy>
+	</target>
 
 	<target name="update build number">
 		<tstamp>

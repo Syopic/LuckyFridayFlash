@@ -1,0 +1,60 @@
+{
+    "name":"che",
+    "avatarImg":"profile/avatar.jpg",
+    "score":3400,
+    "rank":8,
+    "achives":13,
+    "achivesMax":50,
+    "top":[
+        {
+            "rank":1,
+            "name":"userName 1",
+            "score":99999
+        },
+        {
+            "rank":2,
+            "name":"userName 2",
+            "score":80000
+        },
+        {
+            "rank":3,
+            "name":"userName 3",
+            "score":70000
+        },
+        {
+            "rank":4,
+            "name":"userName 4",
+            "score":60000
+        },
+        {
+            "rank":5,
+            "name":"userName 5",
+            "score":50000
+        },
+        {
+            "rank":6,
+            "name":"userName 6",
+            "score":40000
+        },
+        {
+            "rank":7,
+            "name":"userName 7",
+            "score":30000
+        },
+        {
+            "rank":8,
+            "name":"userName 8",
+            "score":20000
+        },
+        {
+            "rank":9,
+            "name":"userName 9",
+            "score":10000
+        },
+        {
+            "rank":10,
+            "name":"userName 10",
+            "score":5000
+        }
+    ]
+}
