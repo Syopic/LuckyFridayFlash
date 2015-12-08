@@ -17,10 +17,10 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.data.CurrentLevelData;
+	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.view.states.GameState;
-	import ua.com.syo.luckyfriday.model.Profile;
+	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class Controller {
@@ -136,7 +136,7 @@ package ua.com.syo.luckyfriday.controller {
 				// -> When the ratio equals '1', we are finished.
 				if (ratio == 1.0) {
 					loadProfileComplete();
-					
+
 				}
 			});
 		}
@@ -145,7 +145,7 @@ package ua.com.syo.luckyfriday.controller {
 			Profile.setProfile(assetManager.getObject("profile"));
 			UIManager.instance.arrageProfileView();
 			trace("loadProfileComplete");
-			
+
 		}
 
 
@@ -226,9 +226,9 @@ package ua.com.syo.luckyfriday.controller {
 			}
 			return _instance;
 		}
-		
-	
-	
+
+
+
 	}
 }
 

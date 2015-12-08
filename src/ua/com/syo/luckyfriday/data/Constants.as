@@ -8,7 +8,7 @@ package ua.com.syo.luckyfriday.data
 		 * Next xxxx xx xx - year month date
 		 * Next xx - version of daily build
 		 */
-		public static const VERSION:String = "0.1.20151129.1";
+		public static const VERSION:String = "0.1.20151208.3";
 
 		// game objects names
 		public static const SHIP_OBJ_NAME:String = "ship";

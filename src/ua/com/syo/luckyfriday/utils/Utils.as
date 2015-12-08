@@ -3,7 +3,7 @@ package ua.com.syo.luckyfriday.utils
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	public class ProjectUtils
+	public class Utils
 	{
 		/**
 		 * Bounding box of points array

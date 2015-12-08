@@ -21,7 +21,7 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.utils.AssetManager;
 
 	import ua.com.syo.luckyfriday.data.Assets;
-	import ua.com.syo.luckyfriday.model.Profile;
+	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class ProfileView extends Panel {

@@ -1,9 +1,7 @@
-package ua.com.syo.luckyfriday.model {
+package ua.com.syo.luckyfriday.model.storage.profile {
 	import feathers.data.ListCollection;
 
 	import starling.textures.Texture;
-
-	import ua.com.syo.luckyfriday.view.ui.ProfileView;
 
 	public class Profile {
 
@@ -14,6 +12,20 @@ package ua.com.syo.luckyfriday.model {
 		public static const RANK_USER:String = "rank";
 		public static const TOP_USER:String = "top"
 
+		/**
+		 *
+		 */
+		public var id:String;	
+		public var name:String;	
+		public var rank:int;	
+		public var score:int;	
+		public var isPlayer:Boolean = false;	
+		//...
+
+		public function Profile()
+		{
+
+		}
 
 		/**
 		 * Profile Texture

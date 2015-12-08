@@ -1,5 +1,4 @@
-package ua.com.syo.luckyfriday.data
-{
+package ua.com.syo.luckyfriday.model.storage.level {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -8,11 +7,11 @@ package ua.com.syo.luckyfriday.data
 	import nape.geom.Vec2;
 	import nape.phys.BodyType;
 
-	import ua.com.syo.luckyfriday.utils.ProjectUtils;
+	import ua.com.syo.luckyfriday.utils.Utils;
 	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
+	import ua.com.syo.luckyfriday.data.Assets;
 
-	public class LevelData
-	{
+	public class _LevelData {
 		/**
 		 * Object types
 		 */
@@ -27,8 +26,7 @@ package ua.com.syo.luckyfriday.data
 		/**
 		 * Create objects from level data by type
 		 */
-		public static function getObjectsByType(state:StarlingState, shapeType:String, bodyType:BodyType):Vector.<DrawingPhysicsObject> 
-		{
+		public static function getObjectsByType(state:StarlingState, shapeType:String, bodyType:BodyType):Vector.<DrawingPhysicsObject> {
 			var drawingObj:Vector.<DrawingPhysicsObject> = new Vector.<DrawingPhysicsObject>();
 			var shapes:Array = Assets.levelObjects[shapeType];
 			var shapePoints:Array;
@@ -39,7 +37,7 @@ package ua.com.syo.luckyfriday.data
 				shapePoints = shapes[i].shape;
 				points = new Array();
 
-				var bBox:Rectangle = ProjectUtils.getBoundingBox(shapePoints);
+				var bBox:Rectangle = Utils.getBoundingBox(shapePoints);
 				for (j = 0; j < shapePoints.length; j += 2) {
 					points.push(new Point(shapePoints[j] - bBox.x, shapePoints[j + 1] - bBox.y));
 				}
@@ -47,16 +45,14 @@ package ua.com.syo.luckyfriday.data
 				var dr:DrawingPhysicsObject = new DrawingPhysicsObject(bodyType + i, points);
 				state.add(dr);
 
-				var anchor:Vec2 = new Vec2(0,0);
-				if (shapeType == ROCK_SHAPES)
-				{
+				var anchor:Vec2 = new Vec2(0, 0);
+				if (shapeType == ROCK_SHAPES) {
 					//dr.body.align();
 					anchor = dr.body.localCOM.mul(-1);
 					dr.body.translateShapes(anchor);
 				}
 
-				if (shapeType != CAVE_SHAPES)
-				{
+				if (shapeType != CAVE_SHAPES) {
 					dr.drawShape(anchor);
 				}
 				dr.body.position.setxy(bBox.x - anchor.x, bBox.y - anchor.y);
@@ -73,27 +69,20 @@ package ua.com.syo.luckyfriday.data
 		 */
 		static public function getShipGeom(isMirror:Boolean = false):Array {
 			var vertices:Array = [];
-			if (!isMirror)
-			{
-				if (!shipRightPoints)
-				{
+			if (!isMirror) {
+				if (!shipRightPoints) {
 
 					vertices = getShipPoints();
 					shipRightPoints = vertices;
-				} else
-				{
+				} else {
 					vertices = shipRightPoints;
 				}
-			}
-			else
-			{
-				if (!shipLeftPoints)
-				{
+			} else {
+				if (!shipLeftPoints) {
 					vertices = getShipPoints();
-					for (var i:int = 0; i < vertices.length; i++) 
-					{
+					for (var i:int = 0; i < vertices.length; i++) {
 						var p:Point = vertices[i] as Point;
-						p.x = - p.x;
+						p.x = -p.x;
 					}
 					shipLeftPoints = vertices;
 				} else {

@@ -15,7 +15,7 @@ package ua.com.syo.luckyfriday.view.game {
 	import starling.display.Image;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.utils.ProjectUtils;
+	import ua.com.syo.luckyfriday.utils.Utils;
 
 	/**
 	 * Physics object with drawing shape
@@ -32,7 +32,7 @@ package ua.com.syo.luckyfriday.view.game {
 		}
 
 		public function drawShape(anchor:Vec2, strokeColor:uint = 0xa78d04, fillColor:uint = 0x18180C):void {
-			var bBox:Rectangle = ProjectUtils.getBoundingBox(points);
+			var bBox:Rectangle = Utils.getBoundingBox(points);
 			var w:Number = bBox.width;
 			var h:Number = bBox.height;
 

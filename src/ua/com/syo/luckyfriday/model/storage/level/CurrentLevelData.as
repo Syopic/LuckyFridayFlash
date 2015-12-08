@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.data
+package ua.com.syo.luckyfriday.model.storage.level
 {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -10,7 +10,7 @@ package ua.com.syo.luckyfriday.data
 
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.utils.ProjectUtils;
+	import ua.com.syo.luckyfriday.utils.Utils;
 	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
 
 	public class CurrentLevelData
@@ -46,7 +46,7 @@ package ua.com.syo.luckyfriday.data
 				shapePoints = shapes[i].shape;
 				points = new Array();
 
-				var bBox:Rectangle = ProjectUtils.getBoundingBox(shapePoints);
+				var bBox:Rectangle = Utils.getBoundingBox(shapePoints);
 				for (j = 0; j < shapePoints.length; j += 2) {
 					points.push(new Point(shapePoints[j] - bBox.x, shapePoints[j + 1] - bBox.y));
 				}
