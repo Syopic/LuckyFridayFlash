@@ -2,7 +2,7 @@ package ua.com.syo.luckyfriday.controller {
 	import flash.desktop.NativeApplication;
 	import flash.display.StageDisplayState;
 	import flash.filesystem.File;
-
+	
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
@@ -11,22 +11,25 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.input.controllers.gamepad.maps.GamePadMap;
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
-
+	
+	import starling.textures.Texture;
 	import starling.utils.AssetManager;
-
+	
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.data.SaveData;
-	import ua.com.syo.luckyfriday.view.states.GameState;
+	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.view.UIManager;
+	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller {
 
 		private var _currentLevelId:String = "4";
 		private var assetManager:AssetManager;
+		public static var profTexture:Texture;
+		private static var profileJSON:Object;
 
 		public function init():void {
 			// update settings from saved data in SharedObjects
@@ -141,13 +144,31 @@ package ua.com.syo.luckyfriday.controller {
 			});
 		}
 		protected function loadProfileComplete():void {
-			Profile.profTexture = assetManager.getTexture("che");
-			Profile.setProfile(assetManager.getObject("profile"));
+			Controller.profTexture = assetManager.getTexture("che");
+			Controller.setProfile(assetManager.getObject("profile"));
 			UIManager.instance.arrageProfileView();
 			trace("loadProfileComplete");
 
 		}
-
+		/**
+		 * Profile Texture
+		 */
+		static public function getProfileTexture():Texture {
+			return profTexture;
+			
+		}
+		/**
+		 * Cashing JSON object
+		 */
+		public static function setProfile(json:Object):void {
+			profileJSON = json;
+		}
+		/**
+		 * Cashing JSON object
+		 */
+		public static function get profileObjects():Object {
+			return profileJSON;
+		}
 
 		/**
 		 * Get the keyboard, and add actions

@@ -14,15 +14,13 @@ package ua.com.syo.luckyfriday.view.ui {
 	import feathers.layout.VerticalLayout;
 
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.events.Event;
-	import starling.events.TouchEvent;
 	import starling.textures.Texture;
 	import starling.utils.AssetManager;
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
-	import ua.com.syo.luckyfriday.view.UIManager;
+	import ua.com.syo.luckyfriday.controller.Controller;
 
 	public class ProfileView extends Panel {
 
@@ -33,18 +31,13 @@ package ua.com.syo.luckyfriday.view.ui {
 		private var top:Label;
 		private var topuser:List;
 		private var currentuser:List;
-		private var username:Label;
-		private var rank:Label;
-		private var score:Label;
-		private var ach:Label;
 		private var assetManager:AssetManager;
-		private var qavatar:Quad;
-		//public static var profTexture:Texture;
 		public var profimg:Image;
 		private var topUser:Array;
 		private var topScore:Array;
 		private var topList:ListCollection = new ListCollection(["Loading Data Please Wait..."]);
 		private var currentUserList:ListCollection = new ListCollection(["Loading Data Please Wait..."]);
+
 		/**
 		 *
 		 *
@@ -134,8 +127,8 @@ package ua.com.syo.luckyfriday.view.ui {
 		public function arrange():void {
 
 			this.removeChild(profimg);
-			profimg = null;
-			profimg = new Image(Profile.getProfileTexture());
+			//profimg = null;
+			profimg = new Image(Controller.getProfileTexture());
 			profimg.height = 180;
 			profimg.width = 180;
 			profimg.x = 25;
