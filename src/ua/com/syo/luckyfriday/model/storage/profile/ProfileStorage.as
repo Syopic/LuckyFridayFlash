@@ -1,17 +1,23 @@
 package ua.com.syo.luckyfriday.model.storage.profile
 {
 	import flash.utils.Dictionary;
+	
+	import starling.textures.Texture;
 
 
 	public class ProfileStorage
 	{
 		private static var profileDictionary:Dictionary = new Dictionary();
 		private static var playerProfile:Profile;
+		public static var profTexture:Texture;
+		private static var profileJSON:Object;
 
 		public static function addProfileFromJSON(profileData:Object):void {
 			var p:Profile = new Profile();
 			p.id = profileData.id;
 			p.name = profileData.name;
+			p.rank = profileData.rank;
+			p.score = profileData.score;
 			// TODO .... 
 			addProfile(p);
 		}
@@ -40,6 +46,26 @@ package ua.com.syo.luckyfriday.model.storage.profile
 		public static function getPlayerProfile():Profile {
 			return playerProfile;
 		}
+		/**
+		 * Profile Texture
+		 */
+		static public function getProfileTexture():Texture {
+			return profTexture;
+			
+		}
+		/**
+		 * Cashing JSON object
+		 */
+		public static function setProfile(json:Object):void {
+			profileJSON = json;
+		}
+		/**
+		 * Cashing JSON object
+		 */
+		public static function get profileObjects():Object {
+			return profileJSON;
+		}
+
 	}
 }
 

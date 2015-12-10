@@ -18,9 +18,10 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.textures.Texture;
 	import starling.utils.AssetManager;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
-	import ua.com.syo.luckyfriday.controller.Controller;
+	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 
 	public class ProfileView extends Panel {
 
@@ -71,7 +72,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			topuser.paddingRight = 20;
 			topuser.x = 240;
 			topuser.y = 40;
-			topuser.touchable = false;
+			topuser.touchable = true;
 			//topuser.itemRendererProperties.labelField = topList;
 			this.addChild(topuser);
 
@@ -128,14 +129,42 @@ package ua.com.syo.luckyfriday.view.ui {
 
 			this.removeChild(profimg);
 			//profimg = null;
-			profimg = new Image(Controller.getProfileTexture());
+			profimg = new Image(ProfileStorage.getProfileTexture());
 			profimg.height = 180;
 			profimg.width = 180;
 			profimg.x = 25;
 			profimg.y = 20;
 			addChild(profimg);
-			topuser.dataProvider = Profile.getTopData();
-			currentuser.dataProvider = Profile.getCurrentUserData();
+			//var p:Profile = ProfileStorage.getProfileById("name");
+			//p.name;
+
+			topuser.dataProvider = getTopData();
+			currentuser.dataProvider = getCurrentUserData();
 		}
+
+		public static function getCurrentUserData():ListCollection {
+			var currentUserList:ListCollection = new ListCollection;
+			var currentUser:Array = new Array;
+			currentUser[0] = ProfileStorage.profileObjects.name;
+			currentUser[1] = "SCORE: " + ProfileStorage.profileObjects.score;
+			currentUser[2] = "RANK: " + ProfileStorage.profileObjects.rank;
+			currentUser[3] = "ACH: " + ProfileStorage.profileObjects.achives + "/" + ProfileStorage.profileObjects.achivesMax;
+			currentUserList.data = currentUser;
+
+			return currentUserList;
+		}
+
+		public static function getTopData():ListCollection {
+
+			var topList:ListCollection = new ListCollection;
+			var topData:Array = new Array;
+			for (var i:int = 0; i < ProfileStorage.profileObjects.top.length; i++) {
+				topData[i] = ProfileStorage.profileObjects.top[i].rank + "   " + ProfileStorage.profileObjects.top[i].name + "  " + ProfileStorage.profileObjects.top[i].score;
+			}
+			topList.data = topData;
+
+			return topList;
+		}
+
 	}
 }
