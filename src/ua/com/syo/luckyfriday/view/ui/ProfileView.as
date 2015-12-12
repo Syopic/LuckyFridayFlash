@@ -12,6 +12,7 @@ package ua.com.syo.luckyfriday.view.ui {
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalLayout;
+	import feathers.controls.renderers.LayoutGroupListItemRenderer;
 
 	import starling.display.Image;
 	import starling.events.Event;
@@ -22,6 +23,7 @@ package ua.com.syo.luckyfriday.view.ui {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import feathers.controls.renderers.IListItemRenderer;
 
 	public class ProfileView extends Panel {
 
@@ -68,6 +70,12 @@ package ua.com.syo.luckyfriday.view.ui {
 
 			topuser = new List()
 			topuser.dataProvider = topList;
+			/*topuser.itemRendererFactory = function():IListItemRenderer
+			{
+				var renderer:CustomLayoutGroupItemRenderer = new CustomLayoutGroupItemRenderer();
+				renderer.padding = 10;
+				return renderer;
+			};*/
 			topuser.width = 310;
 			topuser.paddingRight = 20;
 			topuser.x = 240;
@@ -165,6 +173,19 @@ package ua.com.syo.luckyfriday.view.ui {
 
 			return topList;
 		}
-
+	/*	public static function getTopData():ListCollection {
+			
+			var topList:ListCollection = new ListCollection;
+			var topData:Array = new Array;
+			for (var i:int = 1; i < 10; i++) {
+				var n:int = i - 1;
+				var p:Profile = ProfileStorage.getProfileByRank(i);
+				topData[n] = p.rank + "   " + p.name + "  " + p.score;
+			}
+			topList.data = topData;
+			
+			return topList;
+		}
+*/
 	}
 }
