@@ -109,3 +109,4 @@ package ua.com.syo.luckyfriday.model.storage.profile {
 	}
 }
 
+
