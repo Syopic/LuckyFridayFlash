@@ -18,9 +18,10 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.textures.Texture;
 	import starling.utils.AssetManager;
 
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
-	import ua.com.syo.luckyfriday.controller.Controller;
+	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 
 	public class ProfileView extends Panel {
 
@@ -71,7 +72,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			topuser.paddingRight = 20;
 			topuser.x = 240;
 			topuser.y = 40;
-			topuser.touchable = false;
+			topuser.touchable = true;
 			//topuser.itemRendererProperties.labelField = topList;
 			this.addChild(topuser);
 
@@ -128,14 +129,42 @@ package ua.com.syo.luckyfriday.view.ui {
 
 			this.removeChild(profimg);
 			//profimg = null;
-			profimg = new Image(Controller.getProfileTexture());
+			profimg = new Image(ProfileStorage.getProfileTexture());
 			profimg.height = 180;
 			profimg.width = 180;
 			profimg.x = 25;
 			profimg.y = 20;
 			addChild(profimg);
-			topuser.dataProvider = Profile.getTopData();
-			currentuser.dataProvider = Profile.getCurrentUserData();
+			topuser.dataProvider = getTopData();
+			currentuser.dataProvider = getCurrentUserData();
 		}
+
+		public static function getCurrentUserData():ListCollection {
+			var currentUserList:ListCollection = new ListCollection;
+			var p:Profile = ProfileStorage.getPlayerProfile()
+			var currentUser:Array = new Array;
+			currentUser[0] = p.name;
+			currentUser[1] = "SCORE: " + p.score;
+			currentUser[2] = "RANK: " + p.rank;
+			currentUser[3] = "ACH: " + p.achives + "/" + p.achivesMax;
+			currentUserList.data = currentUser;
+
+			return currentUserList;
+		}
+
+		public static function getTopData():ListCollection {
+
+			var topList:ListCollection = new ListCollection;
+			var topData:Array = new Array;
+			for (var i:int = 1; i < 10; i++) {
+				var n:int = i - 1;
+				var p:Profile = ProfileStorage.getProfileByRank(i);
+				topData[n] = p.rank + "   " + p.name + "  " + p.score;
+			}
+			topList.data = topData;
+
+			return topList;
+		}
+
 	}
 }

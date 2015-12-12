@@ -20,6 +20,7 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
+	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
@@ -27,8 +28,6 @@ package ua.com.syo.luckyfriday.controller {
 
 		private var _currentLevelId:String = "1";
 		private var assetManager:AssetManager;
-		public static var profTexture:Texture;
-		private static var profileJSON:Object;
 
 		public function init():void {
 			// update settings from saved data in SharedObjects
@@ -145,30 +144,11 @@ package ua.com.syo.luckyfriday.controller {
 			});
 		}
 		protected function loadProfileComplete():void {
-			Controller.profTexture = assetManager.getTexture("che");
-			Controller.setProfile(assetManager.getObject("profile"));
+			ProfileStorage.profTexture = assetManager.getTexture("che");
+			ProfileStorage.ParseProfileFromJSON(assetManager.getObject("profile"));
 			UIManager.instance.arrageProfileView();
 			trace("loadProfileComplete");
 
-		}
-		/**
-		 * Profile Texture
-		 */
-		static public function getProfileTexture():Texture {
-			return profTexture;
-
-		}
-		/**
-		 * Cashing JSON object
-		 */
-		public static function setProfile(json:Object):void {
-			profileJSON = json;
-		}
-		/**
-		 * Cashing JSON object
-		 */
-		public static function get profileObjects():Object {
-			return profileJSON;
 		}
 
 		/**
