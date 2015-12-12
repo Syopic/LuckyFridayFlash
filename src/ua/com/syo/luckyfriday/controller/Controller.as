@@ -144,7 +144,7 @@ package ua.com.syo.luckyfriday.controller {
 		}
 		protected function loadProfileComplete():void {
 			ProfileStorage.profTexture = assetManager.getTexture("che");
-			ProfileStorage.setProfile(assetManager.getObject("profile"));
+			ProfileStorage.ParseProfileFromJSON(assetManager.getObject("profile"));
 			UIManager.instance.arrageProfileView();
 			trace("loadProfileComplete");
 

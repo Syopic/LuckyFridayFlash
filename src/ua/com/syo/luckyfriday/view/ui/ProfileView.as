@@ -135,20 +135,18 @@ package ua.com.syo.luckyfriday.view.ui {
 			profimg.x = 25;
 			profimg.y = 20;
 			addChild(profimg);
-			//var p:Profile = ProfileStorage.getProfileById("name");
-			//p.name;
-
 			topuser.dataProvider = getTopData();
 			currentuser.dataProvider = getCurrentUserData();
 		}
 
 		public static function getCurrentUserData():ListCollection {
 			var currentUserList:ListCollection = new ListCollection;
+			var p:Profile = ProfileStorage.getPlayerProfile()
 			var currentUser:Array = new Array;
-			currentUser[0] = ProfileStorage.profileObjects.name;
-			currentUser[1] = "SCORE: " + ProfileStorage.profileObjects.score;
-			currentUser[2] = "RANK: " + ProfileStorage.profileObjects.rank;
-			currentUser[3] = "ACH: " + ProfileStorage.profileObjects.achives + "/" + ProfileStorage.profileObjects.achivesMax;
+			currentUser[0] = p.name;
+			currentUser[1] = "SCORE: " + p.score;
+			currentUser[2] = "RANK: " + p.rank;
+			currentUser[3] = "ACH: " + p.achives + "/" + p.achivesMax;
 			currentUserList.data = currentUser;
 
 			return currentUserList;
@@ -158,8 +156,10 @@ package ua.com.syo.luckyfriday.view.ui {
 
 			var topList:ListCollection = new ListCollection;
 			var topData:Array = new Array;
-			for (var i:int = 0; i < ProfileStorage.profileObjects.top.length; i++) {
-				topData[i] = ProfileStorage.profileObjects.top[i].rank + "   " + ProfileStorage.profileObjects.top[i].name + "  " + ProfileStorage.profileObjects.top[i].score;
+			for (var i:int = 1; i < 10; i++) {
+				var n:int = i - 1;
+				var p:Profile = ProfileStorage.getProfileByRank(i);
+				topData[n] = p.rank + "   " + p.name + "  " + p.score;
 			}
 			topList.data = topData;
 
