@@ -47,6 +47,11 @@ package ua.com.syo.luckyfriday.view.game {
 					shape.graphics.lineTo(points[i].x + w / 2, points[i].y + h / 2);
 				}
 			}
+			shape.graphics.moveTo(w, 0 + h - h/2);
+			shape.graphics.lineTo(w, 3 + h - h/2);
+
+			shape.graphics.moveTo(w, -3 + h + h/2);
+			shape.graphics.lineTo(w, 0 + h + h/2);
 			shape.graphics.endFill();
 
 

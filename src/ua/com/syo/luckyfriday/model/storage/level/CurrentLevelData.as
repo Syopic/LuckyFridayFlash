@@ -77,13 +77,13 @@ package ua.com.syo.luckyfriday.model.storage.level
 
 		static public function get levelWidth():int
 		{
-			if (_width == 0) _width = levelObjects.levelWidth;
+			_width = levelObjects.levelWidth;
 			return _width;
 		}
 
 		static public function get levelHeight():int
 		{
-			if (_height == 0) _height = levelObjects.levelHeight;
+			_height = levelObjects.levelHeight;
 			return _height;
 		}
 
