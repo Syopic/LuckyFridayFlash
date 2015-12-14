@@ -34,7 +34,6 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.extensions.lighting.lights.PointLight;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
@@ -71,6 +70,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var p1Light:PointLight;
 		private var p2Light:PointLight;
 		private var light:CitrusSprite;
+		private var currentContainer:DrawingPhysicsObject;
 
 		override public function initialize():void {
 			super.initialize();
@@ -91,9 +91,9 @@ package ua.com.syo.luckyfriday.view.states {
 			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelData.fgTexture)});
 			add(caveSprite);
 
-			CurrentLevelData.getObjectsByType(this, CurrentLevelData.CAVE_SHAPES, BodyType.STATIC);
-			CurrentLevelData.getObjectsByType(this, CurrentLevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			rocks = CurrentLevelData.getObjectsByType(this, CurrentLevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			CurrentLevelData.getObjectsByType(this, DrawingPhysicsObject.CAVE_SHAPES, BodyType.STATIC);
+			CurrentLevelData.getObjectsByType(this, DrawingPhysicsObject.PLATFORM_SHAPES, BodyType.STATIC);
+			rocks = CurrentLevelData.getObjectsByType(this, DrawingPhysicsObject.ROCK_SHAPES, BodyType.DYNAMIC);
 
 
 			//initLights();
@@ -148,37 +148,42 @@ package ua.com.syo.luckyfriday.view.states {
 		private var pivotJoint:PivotJoint;
 		private var t:Timer;
 
-		private function createPivotJoint(body1:Body, container:DrawingPhysicsObject):void {
+		private function createPivotJoint(shipBody:Body, container:DrawingPhysicsObject):void {
 			var bBox:Rectangle = Utils.getBoundingBox(container.points);
 			var w:Number = bBox.width;
 			var h:Number = bBox.height;
 
-			var anchorBody_1:Vec2 = new Vec2(body1.localCOM.x, body1.localCOM.y + 40);
-			var anchorBody_2:Vec2 = new Vec2(container.body.localCOM.x, container.body.localCOM.y - h + h / 2);
-			var anchorBody_3:Vec2 = new Vec2(container.body.localCOM.x, container.body.localCOM.y - h - h / 2);
+			var shipAnchor:Vec2 = new Vec2(shipBody.localCOM.x, shipBody.localCOM.y + 40);
+			var nearestAnchor:Vec2;
+			var minDistance:Number = 1000;
+			for (var i:int = 0; i < container.braces.length; i++) 
+			{
+				var tAnchor:Vec2 = new Vec2(container.body.localCOM.x + container.braces[i].x, container.body.localCOM.y + container.braces[i].y);
+				var tDistance:Number = Vec2.distance(shipBody.localPointToWorld(shipAnchor), container.body.localPointToWorld(tAnchor));
+				if (tDistance < minDistance)
+				{
+					minDistance = tDistance;
+					nearestAnchor = tAnchor;
+				}
+			}
 
-			var dist1:Number = Vec2.distance(new Vec2(body1.worldCOM.x, body1.worldCOM.y + 40), new Vec2(container.body.worldCOM.x, container.body.worldCOM.y));
-			var dist2:Number = Vec2.distance(anchorBody_1, anchorBody_3);
-			//trace("d1: " + dist1 + ", d2: " + dist2);
-			if (dist1 > dist2)
-			{
-				pivotJoint = new PivotJoint(body1, container.body, anchorBody_1, anchorBody_3);
-			}
-			else
-			{
-			}
-			pivotJoint = new PivotJoint(body1, container.body, anchorBody_1, anchorBody_2);
+			pivotJoint = new PivotJoint(shipBody, container.body, shipAnchor, nearestAnchor);
+
 			//pivotJoint.ignore = true;
 			pivotJoint.stiff = false;
 			pivotJoint.maxError = 50;
-			pivotJoint.maxForce = 4000;
+			pivotJoint.maxForce = 7000;
+			pivotJoint.frequency = 1;
+			pivotJoint.damping = 1;
 			pivotJoint.breakUnderError = true;
 			pivotJoint.breakUnderForce = true;
 			pivotJoint.space = napeWorld.space;
 			pivotJoint.removeOnBreak = true;
-			t = new Timer(1000, 1);
+			t = new Timer(2000, 1);
 			t.addEventListener(TimerEvent.TIMER, deactivateJoint);
 			t.start();
+
+			currentContainer = container;
 		}
 
 
@@ -292,14 +297,31 @@ package ua.com.syo.luckyfriday.view.states {
 				if (pivotJoint && pivotJoint.space) {
 					pivotJoint.space = null;
 					SoundManager.getInstance().playSound(Constants.DISCONNECT_SFX);
+					if (currentContainer != null)
+					{
+						currentContainer.body.applyImpulse(currentContainer.body.velocity);
+					}
 				} else {
+					var nearestObject:DrawingPhysicsObject;
+					var minDistance:Number = 1000;
 					for (var i:int = 0; i < rocks.length; i++) {
-						if (Vec2.distance(shipHero.body.position, rocks[i].body.position) < 100) {
-							createPivotJoint(shipHero.body, rocks[i]);
-							SoundManager.getInstance().playSound(Constants.CONNECT_SFX);
-							break;
+						// TODO
+						var shipAnchor:Vec2 = new Vec2(shipHero.body.localCOM.x, shipHero.body.localCOM.y + 40);
+						for (var n:int = 0; n < rocks[i].braces.length; n++) 
+						{
+							var tAnchor:Vec2 = new Vec2(rocks[i].body.localCOM.x + rocks[i].braces[n].x, rocks[i].body.localCOM.y + rocks[i].braces[n].y);
+							var tDistance:Number = Vec2.distance(shipHero.body.localPointToWorld(shipAnchor), rocks[i].body.localPointToWorld(tAnchor));
+							if (tDistance < minDistance)
+							{
+								minDistance = tDistance;
+								nearestObject = rocks[i];
+							}
 						}
 
+					}
+					if (minDistance < 100 && nearestObject != null) {
+						createPivotJoint(shipHero.body, nearestObject);
+						SoundManager.getInstance().playSound(Constants.CONNECT_SFX);
 					}
 				}
 			}
@@ -316,7 +338,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 			if (Math.abs(CurrentLevelData.levelWidth / 2 - mainCamera.camPos.x) < 100) {
 				if (!isZoomIn) {
-					mainCamera.baseZoom = 2;
+					mainCamera.baseZoom = 1;
 					isZoomIn = true;
 				}
 			} else {

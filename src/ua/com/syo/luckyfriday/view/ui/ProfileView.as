@@ -174,7 +174,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			return topList;
 		}
 	/*	public static function getTopData():ListCollection {
-			
+
 			var topList:ListCollection = new ListCollection;
 			var topData:Array = new Array;
 			for (var i:int = 1; i < 10; i++) {
@@ -183,9 +183,11 @@ package ua.com.syo.luckyfriday.view.ui {
 				topData[n] = p.rank + "   " + p.name + "  " + p.score;
 			}
 			topList.data = topData;
-			
+
 			return topList;
 		}
 */
 	}
 }
+
+

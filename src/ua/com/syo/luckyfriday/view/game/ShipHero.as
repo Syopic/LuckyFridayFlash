@@ -1,6 +1,5 @@
 package ua.com.syo.luckyfriday.view.game {
 	import flash.geom.Point;
-	import flash.utils.getTimer;
 
 	import citrus.objects.NapePhysicsObject;
 	import citrus.sounds.SoundManager;
@@ -13,8 +12,8 @@ package ua.com.syo.luckyfriday.view.game {
 
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.data.Globals;
+	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 
