@@ -2,7 +2,7 @@
 	"id":"i01",
     "name":"che",
     "avatarImg":"profile/avatar.jpg",
-    "score":3400,
+    "score":29000,
     "rank":8,
     "achives":13,
     "achivesMax":50,
@@ -10,7 +10,7 @@
         {
             "id":"v02",
             "rank":1,
-            "name":"userName 1",
+            "name":"userNamebmn 1",
             "score":99999
         },
         {
@@ -51,7 +51,7 @@
         },
         {
              "id":"a09",
-            "rank":8,
+            "rank":11,
             "name":"userName 8",
             "score":20000
         },

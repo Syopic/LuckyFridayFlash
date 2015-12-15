@@ -8,7 +8,7 @@ package ua.com.syo.luckyfriday.model.storage.profile {
 		private static var profileDictionary:Dictionary = new Dictionary();
 		private static var playerProfile:Profile;
 		public static var profTexture:Texture;
-		private static var profileJSON:Object;
+
 
 
 		/**
@@ -18,14 +18,13 @@ package ua.com.syo.luckyfriday.model.storage.profile {
 		 */
 		public static function ParseProfileFromJSON(json:Object):void {
 			var player:Object = new Object();
-			profileJSON = json;
 			//Parse Player Profile 
-			player = {id: profileJSON.id, name: profileJSON.name, rank: profileJSON.rank, score: profileJSON.score, achives: profileJSON.achives, achivesMax: profileJSON.achivesMax, isPlayer: true};
+			player = {id: json.id, name: json.name, rank: json.rank, score: json.score, achives: json.achives, achivesMax: json.achivesMax, isPlayer: true};
 			addProfileFromJSON(player);
 			//Parse TOP Profile 
-			for (var i:int = 0; i < profileJSON.top.length; i++) {
-				addProfileFromJSON(profileJSON.top[i]);
-					//TODO Parse separate data
+			for (var i:int = 0; i < json.top.length; i++) {
+				addProfileFromJSON(json.top[i]);
+			//TODO Parse separate data
 			}
 		}
 
@@ -103,9 +102,6 @@ package ua.com.syo.luckyfriday.model.storage.profile {
 			return profTexture;
 
 		}
-
-
-
 	}
 }
 
