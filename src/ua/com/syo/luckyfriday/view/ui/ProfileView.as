@@ -162,6 +162,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			}
 			return topList;
 		}
-
 	}
 }
+
+

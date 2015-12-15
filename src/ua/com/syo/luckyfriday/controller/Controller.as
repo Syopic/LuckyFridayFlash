@@ -12,7 +12,6 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
-	import starling.textures.Texture;
 	import starling.utils.AssetManager;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
@@ -20,14 +19,13 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
-	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller {
 
-		private var _currentLevelId:String = "4";
+		private var _currentLevelId:String = "1";
 		private var assetManager:AssetManager;
 
 		public function init():void {
@@ -40,6 +38,7 @@ package ua.com.syo.luckyfriday.controller {
 			initCommonSounds();
 
 			assetManager = new AssetManager();
+			startLevel(currentLevelId);
 		}
 
 		/**

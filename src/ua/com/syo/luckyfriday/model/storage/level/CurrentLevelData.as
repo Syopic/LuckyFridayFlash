@@ -4,6 +4,7 @@ package ua.com.syo.luckyfriday.model.storage.level
 	import flash.geom.Rectangle;
 
 	import citrus.core.starling.StarlingState;
+	import citrus.math.MathUtils;
 
 	import nape.geom.Vec2;
 	import nape.phys.BodyType;
@@ -18,10 +19,6 @@ package ua.com.syo.luckyfriday.model.storage.level
 		/**
 		 * Object types
 		 */
-		public static const CAVE_SHAPES:String = "cave";
-		public static const ROCK_SHAPES:String = "rocks";
-		public static const PLATFORM_SHAPES:String = "platforms";
-
 		private static var shipRightPoints:Array;
 		private static var shipLeftPoints:Array;
 
@@ -46,27 +43,30 @@ package ua.com.syo.luckyfriday.model.storage.level
 				shapePoints = shapes[i].shape;
 				points = new Array();
 
-				var bBox:Rectangle = Utils.getBoundingBox(shapePoints);
+				var bounds:Rectangle = Utils.getBoundingBox(shapePoints);
 				for (j = 0; j < shapePoints.length; j += 2) {
-					points.push(new Point(shapePoints[j] - bBox.x, shapePoints[j + 1] - bBox.y));
+					points.push(new Point(shapePoints[j] - bounds.x, shapePoints[j + 1] - bounds.y));
 				}
 
-				var dr:DrawingPhysicsObject = new DrawingPhysicsObject(bodyType + i, points);
+				var dr:DrawingPhysicsObject = new DrawingPhysicsObject(shapeType, bodyType + i, points);
 				state.add(dr);
 
 				var anchor:Vec2 = new Vec2(0,0);
-				if (shapeType == ROCK_SHAPES)
+				var oldPosition:Vec2 = dr.body.position;
+				var newPosition:Vec2 = dr.body.position;
+				if (shapeType == DrawingPhysicsObject.ROCK_SHAPES || shapeType == DrawingPhysicsObject.PLATFORM_SHAPES)
 				{
-					//dr.body.align();
-					anchor = dr.body.localCOM.mul(-1);
-					dr.body.translateShapes(anchor);
+					dr.body.align();
+					newPosition = dr.body.position;
+					anchor.x = newPosition.x - oldPosition.x;
+					anchor.y = newPosition.y - oldPosition.y;
+					dr.drawShape(anchor, MathUtils.getRandomColor());
 				}
-
-				if (shapeType != CAVE_SHAPES)
-				{
-					dr.drawShape(anchor);
-				}
-				dr.body.position.setxy(bBox.x - anchor.x, bBox.y - anchor.y);
+				//if (shapeType == DrawingPhysicsObject.PLATFORM_SHAPES)
+				//{
+				//	dr.drawShape(anchor);
+				//}
+				dr.body.position.setxy(bounds.x + newPosition.x, bounds.y + newPosition.y);
 
 				dr.body.type = bodyType;
 				drawingObj.push(dr);
