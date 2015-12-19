@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view.game
+package ua.com.syo.luckyfriday.view.game.ship
 {
 	import flash.geom.Point;
 

@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.view.game {
+package ua.com.syo.luckyfriday.view.game.draggedobjects {
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.filters.BlurFilter;
@@ -7,9 +7,6 @@ package ua.com.syo.luckyfriday.view.game {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	import citrus.objects.NapePhysicsObject;
-
-	import nape.geom.AABB;
 	import nape.geom.Vec2;
 	import nape.phys.Material;
 	import nape.shape.Polygon;
@@ -25,17 +22,16 @@ package ua.com.syo.luckyfriday.view.game {
 	 * TODO - optimize draw calls
 	 */
 
-	public class DrawingPhysicsObject extends NapePhysicsObject {
+	public class DrawingDO extends DraggedObject {
 
 		public static const CAVE_SHAPES:String = "cave";
 		public static const ROCK_SHAPES:String = "rocks";
 		public static const PLATFORM_SHAPES:String = "platforms";
 
 		public var img:Image;
-		public var braces:Vector.<Vec2> = new Vector.<Vec2>();
 		public var shapeType:String;
 
-		public function DrawingPhysicsObject(shapeType:String, name:String, params:Object = null) {
+		public function DrawingDO(shapeType:String, name:String, params:Object = null) {
 			points = params as Array;
 			this.shapeType = shapeType;
 			super(name);
@@ -95,7 +91,6 @@ package ua.com.syo.luckyfriday.view.game {
 			var result:BitmapData = bmd.clone();
 			var filter2:BlurFilter = new BlurFilter(1, 1, 2);
 			var filter3:GlowFilter = new GlowFilter(strokeColor, 1, 15, 15, 1);
-
 
 			result.draw(shape, new Matrix(1, 0, 0, 1, bounds.width/2 + 15, bounds.height/2 + 15), null, null, new Rectangle(0, 0, bounds.width + 40, bounds.height + 40), true);
 			result.applyFilter(result, new Rectangle(0, 0, bounds.width + 40, bounds.height + 40), new Point(0, 0), filter2);

@@ -5,20 +5,27 @@ package ua.com.syo.luckyfriday.model.storage.level
 
 	import citrus.core.starling.StarlingState;
 	import citrus.math.MathUtils;
+	import citrus.objects.NapePhysicsObject;
 
 	import nape.geom.Vec2;
 	import nape.phys.BodyType;
+	import nape.shape.Shape;
 
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.utils.Utils;
-	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
+	import ua.com.syo.luckyfriday.view.game.draggedobjects.DrawingDO;
+	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class CurrentLevelData
 	{
 		/**
 		 * Object types
 		 */
+		public static const TERRAIN_SHAPES:String = "cave";
+		public static const ROCK_SHAPES:String = "rocks";
+		public static const PLATFORM_SHAPES:String = "platforms";
+
 		private static var shipRightPoints:Array;
 		private static var shipLeftPoints:Array;
 
@@ -28,12 +35,27 @@ package ua.com.syo.luckyfriday.model.storage.level
 		public static var bgTexture:Texture;
 		public static var fgTexture:Texture;
 
+		private static var terrainShapes:Vector.<NapePhysicsObject> = new Vector.<NapePhysicsObject>();
+		private static var staticShapes:Vector.<NapePhysicsObject> = new Vector.<NapePhysicsObject>();
+		private static var dynamicShapes:Vector.<NapePhysicsObject> = new Vector.<NapePhysicsObject>();
+		private static var draggedObjects:Vector.<DrawingDO> = new Vector.<DrawingDO>();
+
+		public static function generateShapes():void
+		{
+
+		}
+
+		public static function drawShapes():void
+		{
+
+		}
+
 		/**
 		 * Create objects from level data by type
 		 */
-		public static function getObjectsByType(state:StarlingState, shapeType:String, bodyType:BodyType):Vector.<DrawingPhysicsObject> 
+		public static function getObjectsByType(state:StarlingState, shapeType:String, bodyType:BodyType):Vector.<DrawingDO> 
 		{
-			var drawingObj:Vector.<DrawingPhysicsObject> = new Vector.<DrawingPhysicsObject>();
+			var drawingObj:Vector.<DrawingDO> = new Vector.<DrawingDO>();
 			var shapes:Array = levelObjects[shapeType];
 			var shapePoints:Array;
 			var points:Array;
@@ -48,13 +70,13 @@ package ua.com.syo.luckyfriday.model.storage.level
 					points.push(new Point(shapePoints[j] - bounds.x, shapePoints[j + 1] - bounds.y));
 				}
 
-				var dr:DrawingPhysicsObject = new DrawingPhysicsObject(shapeType, bodyType + i, points);
-				state.add(dr);
+				var dr:DrawingDO = new DrawingDO(shapeType, bodyType + i, points);
+				GameState.instance.add(dr);
 
 				var anchor:Vec2 = new Vec2(0,0);
 				var oldPosition:Vec2 = dr.body.position;
 				var newPosition:Vec2 = dr.body.position;
-				if (shapeType == DrawingPhysicsObject.ROCK_SHAPES || shapeType == DrawingPhysicsObject.PLATFORM_SHAPES)
+				if (shapeType == DrawingDO.ROCK_SHAPES || shapeType == DrawingDO.PLATFORM_SHAPES)
 				{
 					dr.body.align();
 					newPosition = dr.body.position;
@@ -62,10 +84,7 @@ package ua.com.syo.luckyfriday.model.storage.level
 					anchor.y = newPosition.y - oldPosition.y;
 					dr.drawShape(anchor, MathUtils.getRandomColor());
 				}
-				//if (shapeType == DrawingPhysicsObject.PLATFORM_SHAPES)
-				//{
-				//	dr.drawShape(anchor);
-				//}
+
 				dr.body.position.setxy(bounds.x + newPosition.x, bounds.y + newPosition.y);
 
 				dr.body.type = bodyType;
@@ -73,6 +92,44 @@ package ua.com.syo.luckyfriday.model.storage.level
 			}
 
 			return drawingObj;
+		}
+
+
+
+		private static function generateShapesByType(shapeType:String, storage:Vector.<Shape>):void
+		{
+			var shapes:Array = levelObjects[shapeType];
+			var shapePoints:Array;
+			var points:Array;
+			var i:int, j:int;
+
+			for (i = 0; i < shapes.length; i++) {
+				shapePoints = shapes[i].shape;
+				points = new Array();
+
+				var bounds:Rectangle = Utils.getBoundingBox(shapePoints);
+				for (j = 0; j < shapePoints.length; j += 2) {
+					points.push(new Point(shapePoints[j] - bounds.x, shapePoints[j + 1] - bounds.y));
+				}
+
+				var obj:NapePhysicsObject = new NapePhysicsObject(shapeType + i);
+				obj.points = points;
+
+				var anchor:Vec2 = new Vec2(0,0);
+				var oldPosition:Vec2 = obj.body.position;
+				var newPosition:Vec2 = obj.body.position;
+
+				obj.body.position.setxy(bounds.x + newPosition.x, bounds.y + newPosition.y);
+
+				obj.body.type = BodyType.STATIC;
+				storage.push(obj);
+			}
+		}
+
+		public static function getRockShapes():Vector.<DrawingDO>
+		{
+			var result:Vector.<DrawingDO> = new Vector.<DrawingDO>();
+			return result;
 		}
 
 		static public function get levelWidth():int

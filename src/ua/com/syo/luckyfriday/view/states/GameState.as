@@ -38,9 +38,9 @@ package ua.com.syo.luckyfriday.view.states {
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.utils.Utils;
-	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
-	import ua.com.syo.luckyfriday.view.game.ShipHero;
+	import ua.com.syo.luckyfriday.view.game.draggedobjects.DrawingDO;
+	import ua.com.syo.luckyfriday.view.game.ship.ShipHero;
 	import ua.com.syo.luckyfriday.view.ui.HUDView;
 
 	/**
@@ -62,7 +62,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 		public var particles:ParticlesView;
 		private var flame:CitrusSprite;
-		private var rocks:Vector.<DrawingPhysicsObject>;
+		private var rocks:Vector.<DrawingDO>;
 		private var hudView:HUDView;
 
 		private var lightLayer:LightLayer;
@@ -70,7 +70,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var p1Light:PointLight;
 		private var p2Light:PointLight;
 		private var light:CitrusSprite;
-		private var currentContainer:DrawingPhysicsObject;
+		private var currentContainer:DrawingDO;
 
 		override public function initialize():void {
 			super.initialize();
@@ -91,9 +91,11 @@ package ua.com.syo.luckyfriday.view.states {
 			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelData.fgTexture)});
 			add(caveSprite);
 
-			CurrentLevelData.getObjectsByType(this, DrawingPhysicsObject.CAVE_SHAPES, BodyType.STATIC);
-			CurrentLevelData.getObjectsByType(this, DrawingPhysicsObject.PLATFORM_SHAPES, BodyType.STATIC);
-			rocks = CurrentLevelData.getObjectsByType(this, DrawingPhysicsObject.ROCK_SHAPES, BodyType.DYNAMIC);
+			CurrentLevelData.generateShapes();
+
+			CurrentLevelData.getObjectsByType(this, DrawingDO.CAVE_SHAPES, BodyType.STATIC);
+			CurrentLevelData.getObjectsByType(this, DrawingDO.PLATFORM_SHAPES, BodyType.STATIC);
+			rocks = CurrentLevelData.getObjectsByType(this, DrawingDO.ROCK_SHAPES, BodyType.DYNAMIC);
 
 
 			//initLights();
@@ -148,7 +150,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var pivotJoint:PivotJoint;
 		private var t:Timer;
 
-		private function createPivotJoint(shipBody:Body, container:DrawingPhysicsObject):void {
+		private function createPivotJoint(shipBody:Body, container:DrawingDO):void {
 			var bBox:Rectangle = Utils.getBoundingBox(container.points);
 			var w:Number = bBox.width;
 			var h:Number = bBox.height;
@@ -302,7 +304,7 @@ package ua.com.syo.luckyfriday.view.states {
 						currentContainer.body.applyImpulse(currentContainer.body.velocity);
 					}
 				} else {
-					var nearestObject:DrawingPhysicsObject;
+					var nearestObject:DrawingDO;
 					var minDistance:Number = 1000;
 					for (var i:int = 0; i < rocks.length; i++) {
 						// TODO
