@@ -19,6 +19,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
 	import ua.com.syo.luckyfriday.view.ui.MissionCompleteView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
+	import ua.com.syo.luckyfriday.view.ui.ProfileView;
 
 	public class UIManager {
 
@@ -28,6 +29,7 @@ package ua.com.syo.luckyfriday.view {
 		private var ingameMenu:InGameMenu;
 		private var missionComplete:MissionCompleteView;
 		private var gameOver:GameOverView;
+		private var profileView:ProfileView;
 
 		public function init():void {
 			// init ui theme
@@ -100,6 +102,17 @@ package ua.com.syo.luckyfriday.view {
 			PopUpManager.addPopUp(missionComplete);
 		}
 
+		public function showProfileView():void {
+			if (!profileView) {
+				profileView = new ProfileView();
+			}
+			PopUpManager.addPopUp(profileView);
+			Controller.instance.startLoadProfile();
+		}
+
+		public function arrageProfileView():void {
+			profileView.arrange();
+		}
 
 		/**
 		 * ESC button pressed

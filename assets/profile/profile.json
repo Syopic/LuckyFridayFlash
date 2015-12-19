@@ -1,57 +1,68 @@
 {
-    "name":"userName",
+	"id":"i01",
+    "name":"che",
     "avatarImg":"profile/avatar.jpg",
-    "score":3400,
+    "score":29000,
     "rank":8,
     "achives":13,
     "achivesMax":50,
     "top":[
         {
+            "id":"v02",
             "rank":1,
-            "name":"userName 1",
+            "name":"userNamebmn 1",
             "score":99999
         },
         {
+            "id":"a03",
             "rank":2,
             "name":"userName 2",
             "score":80000
         },
         {
+             "id":"a04",
             "rank":3,
             "name":"userName 3",
             "score":70000
         },
         {
+             "id":"a05",
             "rank":4,
             "name":"userName 4",
             "score":60000
         },
         {
+             "id":"a06",
             "rank":5,
             "name":"userName 5",
             "score":50000
         },
         {
+             "id":"a07",
             "rank":6,
             "name":"userName 6",
             "score":40000
         },
         {
+            "id":"a08",
             "rank":7,
             "name":"userName 7",
             "score":30000
         },
         {
-            "rank":8,
+             "id":"a09",
+            "rank":11,
             "name":"userName 8",
             "score":20000
         },
         {
+             "id":"v10",
             "rank":9,
             "name":"userName 9",
             "score":10000
         },
         {
+             "id":"d11",
             "rank":10,
             "name":"userName 10",
             "score":5000

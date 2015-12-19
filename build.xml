@@ -9,6 +9,19 @@
 		</classpath>
 	</taskdef>
 
+	<target name="> run all" depends="copy assets, copy assets profile, update build number">
+		<copy todir="${BIN_DIR}/levels">
+			<fileset dir="${ASSETS_DIR}/levels">
+				<exclude name="*.pes"/>
+				<exclude name="**/mask.png"/>
+			</fileset>
+		</copy>
+		<copy todir="${BIN_DIR}/sounds">
+			<fileset dir="${ASSETS_DIR}/sounds">
+			</fileset>
+		</copy>
+	</target>
+
 	<target name="copy assets">
 		<copy todir="${BIN_DIR}/levels">
 			<fileset dir="${ASSETS_DIR}/levels">
@@ -18,6 +31,13 @@
 		</copy>
 		<copy todir="${BIN_DIR}/sounds">
 			<fileset dir="${ASSETS_DIR}/sounds">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="copy assets profile">
+		<copy todir="${BIN_DIR}/profile">
+			<fileset dir="${ASSETS_DIR}/profile">
 			</fileset>
 		</copy>
 	</target>

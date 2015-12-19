@@ -70,13 +70,13 @@ package ua.com.syo.luckyfriday.view.ui {
 			this.addChild(controlsContainer);
 
 
-			addLabel("Lucky Friday " + Constants.VERSION, labelsContainer);
+			addLabel("Lucky Friday v." + Constants.VERSION, labelsContainer);
 
 			//add text
 
 			s = new Sprite();
 			var legend:TextField = new TextField(180, 200, " ", Assets.font.fontName, 14, 0xFFFFFF, true);
-			legend.text = "\"Kryvosheya (Syo) Serhii\nMyzika Slava\nGonhcar Urii\nKryvosheya Volodymyr\nKysliuk (Riks) Oleksii";
+			legend.text = "Kryvosheya (Syo) Serhii\nMyzika Slava\nGonhcar Urii\nKryvosheya Volodymyr\nKysliuk (Riks) Oleksii";
 			s.addChild(legend);
 			s.x = 140;
 			s.y = 110;

@@ -34,13 +34,13 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.extensions.lighting.lights.PointLight;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.data.CurrentLevelData;
 	import ua.com.syo.luckyfriday.data.Globals;
-	import ua.com.syo.luckyfriday.view.game.DrawingPhysicsObject;
+	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
+	import ua.com.syo.luckyfriday.utils.Utils;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
-	import ua.com.syo.luckyfriday.view.game.ShipHero;
+	import ua.com.syo.luckyfriday.view.game.draggedobjects.DrawingDO;
+	import ua.com.syo.luckyfriday.view.game.ship.ShipHero;
 	import ua.com.syo.luckyfriday.view.ui.HUDView;
 
 	/**
@@ -62,7 +62,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 		public var particles:ParticlesView;
 		private var flame:CitrusSprite;
-		private var rocks:Vector.<DrawingPhysicsObject>;
+		private var rocks:Vector.<DrawingDO>;
 		private var hudView:HUDView;
 
 		private var lightLayer:LightLayer;
@@ -70,6 +70,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var p1Light:PointLight;
 		private var p2Light:PointLight;
 		private var light:CitrusSprite;
+		private var currentContainer:DrawingDO;
 
 		override public function initialize():void {
 			super.initialize();
@@ -77,8 +78,9 @@ package ua.com.syo.luckyfriday.view.states {
 			// init nape
 			napeWorld = new Nape("nape", {gravity: new Vec2(0, Globals.gravity)});
 			add(napeWorld);
-			if (Globals.isDebugMode) 
+			if (Globals.isDebugMode) {
 				initDebugLayer();
+			}
 
 			// add background
 			bgSprite = new CitrusSprite("backgroud", {view: new Image(CurrentLevelData.bgTexture)});
@@ -86,12 +88,14 @@ package ua.com.syo.luckyfriday.view.states {
 			bgSprite.parallaxX = 0.1;
 			bgSprite.parallaxY = 0.1;
 			//addChild(new Demo());
-			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelData.fgTexture )});
+			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelData.fgTexture)});
 			add(caveSprite);
 
-			CurrentLevelData.getObjectsByType(this, CurrentLevelData.CAVE_SHAPES, BodyType.STATIC);
-			CurrentLevelData.getObjectsByType(this, CurrentLevelData.PLATFORM_SHAPES, BodyType.STATIC);
-			rocks = CurrentLevelData.getObjectsByType(this, CurrentLevelData.ROCK_SHAPES, BodyType.DYNAMIC);
+			CurrentLevelData.generateShapes();
+
+			CurrentLevelData.getObjectsByType(this, DrawingDO.CAVE_SHAPES, BodyType.STATIC);
+			CurrentLevelData.getObjectsByType(this, DrawingDO.PLATFORM_SHAPES, BodyType.STATIC);
+			rocks = CurrentLevelData.getObjectsByType(this, DrawingDO.ROCK_SHAPES, BodyType.DYNAMIC);
 
 
 			//initLights();
@@ -99,7 +103,7 @@ package ua.com.syo.luckyfriday.view.states {
 			// add ship hero
 			shipHero = new ShipHero("ship");
 			particles = new ParticlesView();
-			flame = new CitrusSprite("flame", {view:particles});
+			flame = new CitrusSprite("flame", {view: particles});
 			add(flame);
 			//shipHero.particles = particles;
 			add(shipHero);
@@ -133,14 +137,12 @@ package ua.com.syo.luckyfriday.view.states {
 			//UIManager.instance.showSettings();
 		}
 
-		private function OnCollision(e:InteractionCallback):void
-		{
-			if (shipHero.body == e.int1 as Body || shipHero.body == e.int2 as Body)
-			{
+		private function OnCollision(e:InteractionCallback):void {
+			if (shipHero.body == e.int1 as Body || shipHero.body == e.int2 as Body) {
 				//TODO
 				var v3:Vec3 = shipHero.body.normalImpulse();
 
-				cameraShake = Math.min(10, v3.length/1000);
+				cameraShake = Math.min(10, v3.length / 1000);
 					//soundManager.playSound("disconnect");
 			}
 		}
@@ -148,28 +150,47 @@ package ua.com.syo.luckyfriday.view.states {
 		private var pivotJoint:PivotJoint;
 		private var t:Timer;
 
-		private function createPivotJoint(body1:Body, body2:Body):void
-		{
-			var anchorBody_1:Vec2 = new Vec2(body1.localCOM.x, body1.localCOM.y + 55);
-			var anchorBody_2:Vec2 = new Vec2(body2.localCOM.x, body2.localCOM.y);
-			pivotJoint = new PivotJoint(body1, body2, anchorBody_1, anchorBody_2);
+		private function createPivotJoint(shipBody:Body, container:DrawingDO):void {
+			var bBox:Rectangle = Utils.getBoundingBox(container.points);
+			var w:Number = bBox.width;
+			var h:Number = bBox.height;
+
+			var shipAnchor:Vec2 = new Vec2(shipBody.localCOM.x, shipBody.localCOM.y + 40);
+			var nearestAnchor:Vec2;
+			var minDistance:Number = 1000;
+			for (var i:int = 0; i < container.braces.length; i++) 
+			{
+				var tAnchor:Vec2 = new Vec2(container.body.localCOM.x + container.braces[i].x, container.body.localCOM.y + container.braces[i].y);
+				var tDistance:Number = Vec2.distance(shipBody.localPointToWorld(shipAnchor), container.body.localPointToWorld(tAnchor));
+				if (tDistance < minDistance)
+				{
+					minDistance = tDistance;
+					nearestAnchor = tAnchor;
+				}
+			}
+
+			pivotJoint = new PivotJoint(shipBody, container.body, shipAnchor, nearestAnchor);
+
 			//pivotJoint.ignore = true;
 			pivotJoint.stiff = false;
 			pivotJoint.maxError = 50;
-			pivotJoint.maxForce = 4000;
+			pivotJoint.maxForce = 7000;
+			pivotJoint.frequency = 1;
+			pivotJoint.damping = 1;
 			pivotJoint.breakUnderError = true;
 			pivotJoint.breakUnderForce = true;
 			pivotJoint.space = napeWorld.space;
 			pivotJoint.removeOnBreak = true;
-			t = new Timer(1000, 1);
+			t = new Timer(2000, 1);
 			t.addEventListener(TimerEvent.TIMER, deactivateJoint);
 			t.start();
+
+			currentContainer = container;
 		}
 
 
 
-		private function deactivateJoint(event:TimerEvent):void
-		{
+		private function deactivateJoint(event:TimerEvent):void {
 			//pivotJoint.active = !pivotJoint.active;
 			pivotJoint.maxError = 1;
 			pivotJoint.maxForce = 500;
@@ -183,6 +204,7 @@ package ua.com.syo.luckyfriday.view.states {
 		 */
 		private var geometry:Vector.<DisplayObject>;
 		private var probes:CitrusSprite;
+
 		private function initLights():void {
 			lightLayer = new LightLayer(stage.stageWidth, stage.stageHeight, 0x000000, 0);
 			//create a white light that will follow the mouse position
@@ -201,8 +223,7 @@ package ua.com.syo.luckyfriday.view.states {
 			var h:int;
 			//create an arbitrary number of quads to act as shadow geometry
 			var probesCont:Sprite = new Sprite();
-			for(var i:int; i < 50; i++)
-			{
+			for (var i:int; i < 50; i++) {
 				w = 10 + Math.round(Math.random() * 10);
 				h = 4;
 
@@ -228,7 +249,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 			//probes = new CitrusSprite("probes", {view:probesCont});
 			//add(probes);
-			light = new CitrusSprite("light", {view:lightLayer});
+			light = new CitrusSprite("light", {view: lightLayer});
 			add(light);
 		}
 
@@ -271,26 +292,38 @@ package ua.com.syo.luckyfriday.view.states {
 				//
 			}
 			if (_ce.input.hasDone(Constants.MENU_ACTION)) {
-				Controller.instance.changeState(MenuState.newInstance);  
+				Controller.instance.changeState(MenuState.newInstance);
 			}
 
 			if (_ce.input.hasDone(Constants.BREAK_ACTION)) {
-				if (pivotJoint && pivotJoint.space)
-				{
+				if (pivotJoint && pivotJoint.space) {
 					pivotJoint.space = null;
 					SoundManager.getInstance().playSound(Constants.DISCONNECT_SFX);
-				}
-				else
-				{
-					for (var i:int = 0; i < rocks.length; i++) 
+					if (currentContainer != null)
 					{
-						if (Vec2.distance(shipHero.body.position, rocks[i].body.position) < 100)
+						currentContainer.body.applyImpulse(currentContainer.body.velocity);
+					}
+				} else {
+					var nearestObject:DrawingDO;
+					var minDistance:Number = 1000;
+					for (var i:int = 0; i < rocks.length; i++) {
+						// TODO
+						var shipAnchor:Vec2 = new Vec2(shipHero.body.localCOM.x, shipHero.body.localCOM.y + 40);
+						for (var n:int = 0; n < rocks[i].braces.length; n++) 
 						{
-							createPivotJoint(shipHero.body, rocks[i].body);
-							SoundManager.getInstance().playSound(Constants.CONNECT_SFX);
-							break;
+							var tAnchor:Vec2 = new Vec2(rocks[i].body.localCOM.x + rocks[i].braces[n].x, rocks[i].body.localCOM.y + rocks[i].braces[n].y);
+							var tDistance:Number = Vec2.distance(shipHero.body.localPointToWorld(shipAnchor), rocks[i].body.localPointToWorld(tAnchor));
+							if (tDistance < minDistance)
+							{
+								minDistance = tDistance;
+								nearestObject = rocks[i];
+							}
 						}
 
+					}
+					if (minDistance < 100 && nearestObject != null) {
+						createPivotJoint(shipHero.body, nearestObject);
+						SoundManager.getInstance().playSound(Constants.CONNECT_SFX);
 					}
 				}
 			}
@@ -305,18 +338,13 @@ package ua.com.syo.luckyfriday.view.states {
 				mcDebug.y = -mainCamera.camPos.y + stage.stageHeight / 2;
 			}
 
-			if (Math.abs(CurrentLevelData.levelWidth / 2 - mainCamera.camPos.x) < 100)
-			{
-				if (!isZoomIn)
-				{
-					mainCamera.baseZoom = 2;
+			if (Math.abs(CurrentLevelData.levelWidth / 2 - mainCamera.camPos.x) < 100) {
+				if (!isZoomIn) {
+					mainCamera.baseZoom = 1;
 					isZoomIn = true;
 				}
-			}
-			else
-			{
-				if (isZoomIn)
-				{
+			} else {
+				if (isZoomIn) {
 					mainCamera.baseZoom = 1;
 					isZoomIn = false;
 				}
@@ -329,19 +357,16 @@ package ua.com.syo.luckyfriday.view.states {
 		private var isZoomIn:Boolean = false;
 
 		private var cameraShake:Number = 0;
-		private function shakeAnimation(event:Event):void
-		{
+
+		private function shakeAnimation(event:Event):void {
 			// Animate quake effect, shaking the camera a little to the sides and up and down.
-			if (cameraShake > 0)
-			{
+			if (cameraShake > 0) {
 				cameraShake -= 0.1;
 				// Shake left right randomly.
-				this.x = int(Math.random() * cameraShake - cameraShake * 0.5); 
+				this.x = int(Math.random() * cameraShake - cameraShake * 0.5);
 				// Shake up down randomly.
-				this.y = int(Math.random() * cameraShake - cameraShake * 0.5); 
-			}
-			else if (x != 0) 
-			{
+				this.y = int(Math.random() * cameraShake - cameraShake * 0.5);
+			} else if (x != 0) {
 				// If the shake value is 0, reset the stage back to normal.
 				// Reset to initial position.
 				this.x = 0;
@@ -351,14 +376,14 @@ package ua.com.syo.luckyfriday.view.states {
 
 		private static var _instance:GameState;
 
-		public static function get instance():GameState
-		{
-			if (_instance == null) _instance = new GameState();
+		public static function get instance():GameState {
+			if (_instance == null) {
+				_instance = new GameState();
+			}
 			return _instance;
 		}
 
-		public static function get newInstance():GameState
-		{
+		public static function get newInstance():GameState {
 			_instance = new GameState();
 			return _instance;
 		}
