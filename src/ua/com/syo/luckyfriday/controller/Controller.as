@@ -2,7 +2,7 @@ package ua.com.syo.luckyfriday.controller {
 	import flash.desktop.NativeApplication;
 	import flash.display.StageDisplayState;
 	import flash.filesystem.File;
-	
+
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
 	import citrus.input.controllers.Keyboard;
@@ -11,10 +11,10 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.input.controllers.gamepad.maps.GamePadMap;
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
-	
+
 	import starling.events.EventDispatcher;
 	import starling.utils.AssetManager;
-	
+
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
@@ -24,7 +24,7 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import starling.events.Event;
 
-	public class Controller extends EventDispatcher{
+	public class Controller extends EventDispatcher {
 
 		private var _currentLevelId:String = "1";
 		private var assetManager:AssetManager;
@@ -98,7 +98,7 @@ package ua.com.syo.luckyfriday.controller {
 		 */
 		protected function loadLevelAssets():void {
 			//loadComplete();
-			
+
 			var appDir:File = File.applicationDirectory;
 			trace("loading from: " + "levels/level" + _currentLevelId);
 
@@ -117,15 +117,14 @@ package ua.com.syo.luckyfriday.controller {
 		 * Load complete
 		 */
 		protected function loadComplete():void {
-			var event:Event = new Event(Event.COMPLETE);
 			//CurrentLevelData.bgTexture = Assets.getTexture("BackgroundC");
 			CurrentLevelData.bgTexture = assetManager.getTexture("bg");
 			CurrentLevelData.fgTexture = assetManager.getTexture("fg")
 			CurrentLevelData.setLevelData(assetManager.getObject("levelData"));
 			Controller.instance.changeState(GameState.newInstance);
 			trace("loadComplete" + _currentLevelId);
-			this.dispatchEvent(event);
 		}
+
 		/**
 		 * Load profile assets
 		 */
@@ -143,7 +142,7 @@ package ua.com.syo.luckyfriday.controller {
 				}
 			});
 		}
-		
+
 		protected function loadProfileComplete():void {
 			var event:Event = new Event(Event.COMPLETE);
 			ProfileStorage.profTexture = assetManager.getTexture("che");
