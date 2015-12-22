@@ -3,22 +3,24 @@ package ua.com.syo.luckyfriday.view.ui {
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.List;
+	import feathers.controls.PageIndicator;
 	import feathers.controls.Panel;
+	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-
+	
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.utils.AssetManager;
-
+	
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.ui.renderers.TopListItemRenderer;
-	import feathers.controls.renderers.IListItemRenderer;
 
 	/**
 	 *
@@ -40,6 +42,10 @@ package ua.com.syo.luckyfriday.view.ui {
 		private var topScore:Array;
 		private var topList:ListCollection = new ListCollection([{label: "1", label2: "Please Wait", label3: "0"}]);
 		private var currentUserList:ListCollection = new ListCollection(["Loading Data Please Wait..."]);
+		private var pageIndicator:PageIndicator;
+		private var pn:int;
+
+		//private static var i:int;
 
 		/**
 		 * Add UI Profile View constructor
@@ -96,6 +102,16 @@ package ua.com.syo.luckyfriday.view.ui {
 			profimg.y = 25;
 			profimg.x = 20;
 			addChild(profimg);
+
+			//add page indicator top 100
+			this.pageIndicator = new PageIndicator();
+			this.pageIndicator.pageCount = 2;
+			this.pageIndicator.addEventListener(Event.CHANGE, pageIndicatorHandler);
+			var pageIndicatorLayoutData:AnchorLayoutData = new AnchorLayoutData();
+			pageIndicatorLayoutData.bottom = 10
+			pageIndicatorLayoutData.right = 80;
+			this.pageIndicator.layoutData = pageIndicatorLayoutData;
+			this.addChild(this.pageIndicator);
 		}
 
 		/**
@@ -125,7 +141,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			profimg.x = 25;
 			profimg.y = 20;
 			addChild(profimg);
-			topuser.dataProvider = getTopData();
+			topuser.dataProvider = getTopData(pn);
 			currentuser.dataProvider = getCurrentUserData();
 		}
 
@@ -152,16 +168,24 @@ package ua.com.syo.luckyfriday.view.ui {
 		 * @return ListCollection top List data
 		 *
 		 */
-		public static function getTopData():ListCollection {
+		public static function getTopData(pind:int):ListCollection {
 
 			var topList:ListCollection = new ListCollection;
-			for (var i:int = 1; i < 11; i++) {
-				var n:int = i - 1;
+			for (var i:int = (1 + pind); i < (11 + pind); i++) {
+				var n:int = i - pind - 1;
 				var p:Profile = ProfileStorage.getProfileByRank(i);
 				topList.data[n] = {label: p.rank, label2: p.name, label3: p.score, player: p.isPlayer};
 			}
 			return topList;
 		}
+
+		private function pageIndicatorHandler(event:Event):void {
+			pn =  this.pageIndicator.selectedIndex*10;
+			trace("page indicator change:", this.pageIndicator.selectedIndex);
+			arrange();
+		}
+		
+		
 	}
 }
 
