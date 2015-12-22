@@ -138,7 +138,6 @@ package ua.com.syo.luckyfriday.view.states
 					UIManager.instance.showExitAlert();
 					break;
 				case profileBtn:
-					//Controller.instance.startLoadProfile()
 					UIManager.instance.showProfileView();
 					//UIManager.instance.showMissionComplete();
 					break;

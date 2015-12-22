@@ -18,8 +18,8 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.GameOverView;
 	import ua.com.syo.luckyfriday.view.ui.InGameMenu;
 	import ua.com.syo.luckyfriday.view.ui.MissionCompleteView;
-	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 	import ua.com.syo.luckyfriday.view.ui.ProfileView;
+	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
 	public class UIManager {
 
@@ -102,13 +102,21 @@ package ua.com.syo.luckyfriday.view {
 			PopUpManager.addPopUp(missionComplete);
 		}
 
+		/**
+		 * Show ProfileView UI
+		 */
 		public function showProfileView():void {
 			if (!profileView) {
 				profileView = new ProfileView();
 			}
 			PopUpManager.addPopUp(profileView);
 			Controller.instance.startLoadProfile();
+			Controller.instance.addEventListener(Event.COMPLETE, arrageProfileView);
 		}
+
+		/**
+		 * Arrage ProfileView Data
+		 */
 
 		public function arrageProfileView():void {
 			profileView.arrange();
