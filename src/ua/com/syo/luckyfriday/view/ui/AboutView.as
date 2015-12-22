@@ -12,7 +12,6 @@ package ua.com.syo.luckyfriday.view.ui {
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalLayout;
-	import feathers.themes.HyperlinkTextFieldTextRenderer;
 
 	import starling.display.DisplayObject;
 	import starling.display.Image;

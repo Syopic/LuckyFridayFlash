@@ -3,22 +3,26 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.core.FeathersControl;
-
-	import starling.events.Event;
 	import feathers.layout.AnchorLayout;
+
+	import starling.display.Quad;
+	import starling.display.Sprite;
+	import starling.events.Event;
 
 	public class TopListItemRenderer extends FeathersControl implements IListItemRenderer {
 		protected var _label:Label;
 		protected var _label2:Label;
 		protected var _label3:Label;
+		protected var _player:Boolean;
 		protected var _index:int = -1;
 		protected var _owner:List;
 		protected var _data:Object;
 		protected var _factoryID:String;
 		protected var _isSelected:Boolean;
 		protected var _padding:Number = 0;
-		private var _touchable:Boolean;
-		private var layout:AnchorLayout;
+		protected var _q:Quad;
+		protected var _s:Sprite;
+
 
 		public function TopListItemRenderer() {
 			super();
@@ -100,19 +104,23 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 		}
 
 		override protected function initialize():void {
-			if (!this._label && !this._label2 && !this._label3) {
+			if (!this._label && !this._label2 && !this._label3 && !this._q && !this._s) {
 
-
+				_q = new Quad(310, 100);
+				_s = new Sprite();
 				this._label = new Label();
-				//this._label.layoutData = labelLayoutData;
 				this._label2 = new Label();
-				this._label2.touchable = true;
-				//this._label2.layoutData = labelLayoutData;
 				this._label3 = new Label();
-				//this._label3.layoutData = labelLayoutData;
-				this.addChild(this._label);
-				this.addChild(this._label2);
-				this.addChild(this._label3);
+				this._label2.focusPadding = 50;
+
+
+				this._q.color = 0x00FF00;
+				this._q.alpha = 0.2;
+				this._s.addChild(_q);
+				this._s.addChild(this._label);
+				this._s.addChild(this._label2);
+				this._s.addChild(this._label3);
+				this.addChild(_s);
 
 			}
 		}
@@ -156,28 +164,37 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 				this._label.text = this._data.label;
 				this._label2.text = this._data.label2;
 				this._label3.text = this._data.label3;
+				this._player = this._data.player;
 			} else {
 				this._label.text = null;
 				this._label2.text = null;
 				this._label3.text = null;
+				this._player = false;
 			}
 		}
 
 		protected function layoutChildren():void {
 
+			if (this._player == true) {
+				this._q.alpha = 0.2;
+			} else {
+				this._q.alpha = 0;
+			}
+			this._s.x = 0;
+			this._s.y = 0;
+			this._s.width = this.actualWidth;
+			this._s.height = this.actualHeight;
+			this._q.width = this.actualWidth;
+			this._q.height = this.actualHeight;
 			this._label.x = this._padding + 5;
 			this._label.y = this._padding;
 			this._label2.x = this._padding + 45;
 			this._label2.y = this._padding;
-			this._label3.x = this._padding + 215;
+			this._label3.x = this._padding + 200;
 			this._label3.y = this._padding;
-
 			this._label2.width = 150;
-			this._label2.focusPadding = 155;
-			this._label3.width = 150;
-			this._label3.focusPadding = 150;
+			this._label2.focusPadding = 150;
 			this._label.width = this.actualWidth - 2 * this._padding;
-
 			this._label.height = this.actualHeight - 2 * this._padding;
 			this._label2.height = this.actualHeight - 2 * this._padding;
 			this._label3.height = this.actualHeight - 2 * this._padding;

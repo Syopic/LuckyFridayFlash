@@ -59,7 +59,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			topuser.y = 50;
 			topuser.itemRendererFactory = function():IListItemRenderer {
 				var renderer:TopListItemRenderer = new TopListItemRenderer();
-				renderer.padding = 7;
+				renderer.padding = 5;
 				return renderer;
 			};
 			this.addChild(topuser);
@@ -158,7 +158,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			for (var i:int = 1; i < 11; i++) {
 				var n:int = i - 1;
 				var p:Profile = ProfileStorage.getProfileByRank(i);
-				topList.data[n] = {label: p.rank, label2: p.name, label3: p.score};
+				topList.data[n] = {label: p.rank, label2: p.name, label3: p.score, player: p.isPlayer};
 			}
 			return topList;
 		}
