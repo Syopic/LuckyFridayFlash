@@ -138,6 +138,9 @@ package ua.com.syo.luckyfriday.view {
 			} else if (PopUpManager.isTopLevelPopUp(exitAlert)) {
 				PopUpManager.removePopUp(exitAlert);
 				return;
+			} else if (PopUpManager.isTopLevelPopUp(profileView)) {
+				PopUpManager.removePopUp(profileView);
+				return;
 			} else if (Controller.instance.ce.state == MissionsState.instance && !PopUpManager.isTopLevelPopUp(ingameMenu)) {
 				showIngameMenu();
 				return;

@@ -15,6 +15,9 @@ package ua.com.syo.luckyfriday.view.ui {
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 	import ua.com.syo.luckyfriday.view.states.MissionsState;
 
+	/**
+	 * @author Alex
+	 */
 	public class InGameMenu extends Panel {
 		private var container:LayoutGroup;
 		private var showSettings:UIManager;
@@ -31,6 +34,9 @@ package ua.com.syo.luckyfriday.view.ui {
 		public var viBtC:Boolean;
 
 
+		/**
+		 * constructor
+		 */
 		public function InGameMenu() {
 
 			width = panelWidth;
@@ -90,13 +96,11 @@ package ua.com.syo.luckyfriday.view.ui {
 		public function arrange():void {
 			if (Controller.instance.ce.state == GameState.instance) {
 				aBtn.label = "Restart Misson";
-				bBtn.label = "Exit Misson";
-				cBtn.label = "Settings";
+				cBtn.label = "Exit Misson";
+				bBtn.label = "Settings";
 				cBtn.visible = true;
 				panelHeight = 360;
 				panelWidth = 280;
-
-
 			} else {
 				aBtn.label = "Settings";
 				bBtn.label = "Main Menu";
@@ -104,11 +108,13 @@ package ua.com.syo.luckyfriday.view.ui {
 				panelHeight = 290;
 				panelWidth = 280;
 			}
-			
 			height = panelHeight;
-
 		}
 
+		/**
+		 * button clicked handler
+		 * @param event
+		 */
 		private function buttonClicked(event:Event):void {
 			switch (event.currentTarget as Button) {
 				case resumeBtn:
@@ -116,20 +122,14 @@ package ua.com.syo.luckyfriday.view.ui {
 					Controller.instance.ce.playing = true;
 					break;
 				case cBtn:
-					UIManager.instance.showSettings();
-					Controller.instance.ce.playing = false;
+					Controller.instance.changeState(MissionsState.newInstance);
+					PopUpManager.removePopUp(this);
+					Controller.instance.ce.playing = true;
 					break;
+				case bBtn:
 					if (Controller.instance.ce.state == GameState.instance) {
 						UIManager.instance.showSettings();
 						Controller.instance.ce.playing = false;
-						break;
-					} else {
-					}
-				case bBtn:
-					if (Controller.instance.ce.state == GameState.instance) {
-						Controller.instance.changeState(MissionsState.newInstance);
-						PopUpManager.removePopUp(this);
-						Controller.instance.ce.playing = true;
 						break;
 					} else {
 						Controller.instance.changeState(MenuState.newInstance);
