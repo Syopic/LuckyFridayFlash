@@ -111,11 +111,7 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 				this._label = new Label();
 				this._label2 = new Label();
 				this._label3 = new Label();
-				this._label2.focusPadding = 50;
-
-
-				this._q.color = 0x00FF00;
-				this._q.alpha = 0.2;
+				this._q.color = 0x00CC33;
 				this._s.addChild(_q);
 				this._s.addChild(this._label);
 				this._s.addChild(this._label2);
@@ -176,7 +172,7 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 		protected function layoutChildren():void {
 
 			if (this._player == true) {
-				this._q.alpha = 0.2;
+				this._q.alpha = 1;
 			} else {
 				this._q.alpha = 0;
 			}
