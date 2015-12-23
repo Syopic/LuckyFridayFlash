@@ -105,7 +105,7 @@ package ua.com.syo.luckyfriday.view.ui {
 
 			//add page indicator top 100
 			this.pageIndicator = new PageIndicator();
-			this.pageIndicator.pageCount = 2;
+			this.pageIndicator.pageCount = 5;
 			this.pageIndicator.addEventListener(Event.CHANGE, pageIndicatorHandler);
 			var pageIndicatorLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			pageIndicatorLayoutData.bottom = 10
@@ -121,8 +121,18 @@ package ua.com.syo.luckyfriday.view.ui {
 		 */
 		private function buttonClicked(event:Event):void {
 			switch (event.currentTarget as Button) {
-
+				
 				case backBtn:
+				/*	var text:String;
+					var q:int=400;
+					
+					for (var r:int = 21; r < 100; r++){
+						q = q -1;
+						text = "{\n	\"id\":\"vt" + r +"\",\n	\"rank\":"+r+",\n 	\"name\":\"userName "+r+"\",\n 	\"score\":"+q+"\n},";
+						trace (text)
+					
+					}*/
+					
 					PopUpManager.removePopUp(this);
 					break;
 			}
