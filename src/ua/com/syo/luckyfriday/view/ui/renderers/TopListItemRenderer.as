@@ -111,7 +111,7 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 				this._label = new Label();
 				this._label2 = new Label();
 				this._label3 = new Label();
-				this._q.color = 0x00CC33;
+				this._q.color = 0xFF6600;
 				this._s.addChild(_q);
 				this._s.addChild(this._label);
 				this._s.addChild(this._label2);
@@ -184,12 +184,12 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 			this._q.height = this.actualHeight;
 			this._label.x = this._padding + 5;
 			this._label.y = this._padding;
-			this._label2.x = this._padding + 45;
+			this._label2.x = this._padding + 55;
 			this._label2.y = this._padding;
 			this._label3.x = this._padding + 200;
 			this._label3.y = this._padding;
-			this._label2.width = 150;
-			this._label2.focusPadding = 150;
+			this._label2.width = 135;
+			this._label2.focusPadding = 135;
 			this._label.width = this.actualWidth - 2 * this._padding;
 			this._label.height = this.actualHeight - 2 * this._padding;
 			this._label2.height = this.actualHeight - 2 * this._padding;
