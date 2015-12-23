@@ -80,7 +80,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			//Add Label "TOP"
 			top = new Label;
 			top.text = "TOP"
-			top.x = 380;
+			top.x = 375;
 			top.y = 10;
 			addChild(top);
 

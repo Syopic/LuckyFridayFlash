@@ -1,10 +1,10 @@
 package ua.com.syo.luckyfriday.view.ui.renderers {
+	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.core.FeathersControl;
-	import feathers.layout.AnchorLayout;
-
+	
 	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -20,7 +20,7 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 		protected var _factoryID:String;
 		protected var _isSelected:Boolean;
 		protected var _padding:Number = 0;
-		protected var _q:Quad;
+		protected var _q:Button;
 		protected var _s:Sprite;
 
 
@@ -106,12 +106,11 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 		override protected function initialize():void {
 			if (!this._label && !this._label2 && !this._label3 && !this._q && !this._s) {
 
-				_q = new Quad(310, 100);
+				_q = new Button;
 				_s = new Sprite();
 				this._label = new Label();
 				this._label2 = new Label();
 				this._label3 = new Label();
-				this._q.color = 0xFF6600;
 				this._s.addChild(_q);
 				this._s.addChild(this._label);
 				this._s.addChild(this._label2);
@@ -173,21 +172,24 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 
 			if (this._player == true) {
 				this._q.alpha = 1;
+				this._q.touchable = true;
 			} else {
 				this._q.alpha = 0;
 			}
 			this._s.x = 0;
 			this._s.y = 0;
-			this._s.width = this.actualWidth;
+			this._s.width = this.actualWidth - 2 * this._padding;
 			this._s.height = this.actualHeight;
 			this._q.width = this.actualWidth;
+			this._q.paddingLeft = 20;
 			this._q.height = this.actualHeight;
 			this._label.x = this._padding + 5;
 			this._label.y = this._padding;
 			this._label2.x = this._padding + 55;
 			this._label2.y = this._padding;
-			this._label3.x = this._padding + 200;
+			this._label3.x = this._padding + 210;
 			this._label3.y = this._padding;
+			this._label3.width = 80;
 			this._label2.width = 135;
 			this._label2.focusPadding = 135;
 			this._label.width = this.actualWidth - 2 * this._padding;
