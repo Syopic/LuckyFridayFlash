@@ -1,19 +1,20 @@
 package ua.com.syo.luckyfriday.view.states
 {
 	import citrus.core.starling.StarlingState;
-
+	
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-
+	
 	import starling.display.Image;
 	import starling.events.Event;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class MenuState extends StarlingState
@@ -166,6 +167,15 @@ package ua.com.syo.luckyfriday.view.states
 		{
 			_instance = new MenuState();
 			return _instance;
+		}
+		/**
+		 * Arrange profile button icon
+		 */
+		public function arrange():void {
+			profileBtn.label = "";
+			profileBtn.defaultIcon = new Image(ProfileStorage.getProfileTexture());
+			profileBtn.defaultIcon.width = 60;
+			profileBtn.defaultIcon.height = 60;
 		}
 	}
 }

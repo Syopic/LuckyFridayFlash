@@ -6,9 +6,9 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-
+	
 	import starling.events.Event;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
@@ -120,6 +120,7 @@ package ua.com.syo.luckyfriday.view {
 
 		public function arrageProfileView():void {
 			profileView.arrange();
+			MenuState.instance.arrange();
 		}
 
 		/**

@@ -5,7 +5,6 @@ package ua.com.syo.luckyfriday.view.ui.renderers {
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.core.FeathersControl;
 	
-	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
