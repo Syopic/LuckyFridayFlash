@@ -10,13 +10,11 @@ package ua.com.syo.luckyfriday.view.ui {
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	
+
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
-	import starling.utils.AssetManager;
-	
-	import ua.com.syo.luckyfriday.controller.Controller;
+
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
@@ -32,14 +30,12 @@ package ua.com.syo.luckyfriday.view.ui {
 		private var panelWidth:int = 600;
 		private var panelHeight:int = 600;
 		private var backBtn:Button;
-
+		private var nextBtn:Button;
+		private var prevBtn:Button;
 		private var top:Label;
 		private var topuser:List;
 		private var currentuser:List;
-		private var assetManager:AssetManager;
 		public var profimg:Image;
-		private var topUser:Array;
-		private var topScore:Array;
 		private var topList:ListCollection = new ListCollection([{label: "1", label2: "Please Wait", label3: "0"}]);
 		private var currentUserList:ListCollection = new ListCollection(["Loading Data Please Wait..."]);
 		private var pageIndicator:PageIndicator;
@@ -112,31 +108,31 @@ package ua.com.syo.luckyfriday.view.ui {
 			pageIndicatorLayoutData.right = 80;
 			this.pageIndicator.layoutData = pageIndicatorLayoutData;
 			this.addChild(this.pageIndicator);
+
+			//add button page next 50-100
+			nextBtn = new Button;
+			nextBtn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_FORWARD_BUTTON);
+			nextBtn.isEnabled = true;
+			nextBtn.width = 40;
+			nextBtn.height = 40;
+			nextBtn.layoutData = new AnchorLayoutData(NaN, 35, 12, NaN);
+			nextBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			//nextBtn.label = "+";
+			addChild(nextBtn);
+
+			//add button page previous 1-50
+			prevBtn = new Button;
+			prevBtn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON);
+			prevBtn.isEnabled = false;
+			prevBtn.width = 40;
+			prevBtn.height = 40;
+			prevBtn.layoutData = new AnchorLayoutData(NaN, 260, 12, NaN);
+			prevBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			//prevBtn.label = "+";
+			addChild(prevBtn);
 		}
 
-		/**
-		 *
-		 * @param event button "Back" Clicked
-		 *
-		 */
-		private function buttonClicked(event:Event):void {
-			switch (event.currentTarget as Button) {
-				
-				case backBtn:
-				/*	var text:String;
-					var q:int=400;
-					
-					for (var r:int = 21; r < 100; r++){
-						q = q -1;
-						text = "{\n	\"id\":\"vt" + r +"\",\n	\"rank\":"+r+",\n 	\"name\":\"userName "+r+"\",\n 	\"score\":"+q+"\n},";
-						trace (text)
-					
-					}*/
-					
-					PopUpManager.removePopUp(this);
-					break;
-			}
-		}
+
 
 		/**
 		* Arrange profile data
@@ -174,7 +170,7 @@ package ua.com.syo.luckyfriday.view.ui {
 		}
 
 		/**
-		 * Add top 10 user data for Top 10 List
+		 * Add top 10 user data for Top 100 List
 		 * @return ListCollection top List data
 		 *
 		 */
@@ -189,13 +185,47 @@ package ua.com.syo.luckyfriday.view.ui {
 			return topList;
 		}
 
+		/**
+		 * Page Indicator Handler
+		 * @param event
+		 */
 		private function pageIndicatorHandler(event:Event):void {
-			pn =  this.pageIndicator.selectedIndex*10;
-			trace("page indicator change:", this.pageIndicator.selectedIndex);
+			if (nextBtn.isEnabled == true) {
+				pn = pageIndicator.selectedIndex * 10;
+			} else {
+				pn = (pageIndicator.selectedIndex + 5) * 10;
+			}
 			arrange();
 		}
-		
-		
+
+		/**
+		 * Buttons Clicked Handler
+		 * @param event button Clicked
+		 */
+		private function buttonClicked(event:Event):void {
+			switch (event.currentTarget as Button) {
+
+				case nextBtn:
+					var next:Event = new Event(Event.CHANGE)
+					pageIndicator.selectedIndex = 0;
+					prevBtn.isEnabled = true;
+					nextBtn.isEnabled = false;
+					pageIndicatorHandler(next)
+
+					break;
+				case prevBtn:
+					var prev:Event = new Event(Event.CHANGE)
+					pageIndicator.selectedIndex = 0;
+					prevBtn.isEnabled = false;
+					nextBtn.isEnabled = true;
+					pageIndicatorHandler(prev)
+					break;
+				case backBtn:
+					PopUpManager.removePopUp(this);
+					break;
+			}
+		}
+
 	}
 }
 
