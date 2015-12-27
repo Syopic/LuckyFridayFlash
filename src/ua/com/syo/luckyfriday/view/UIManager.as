@@ -6,10 +6,11 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-	
+
 	import starling.events.Event;
-	
+
 	import ua.com.syo.luckyfriday.controller.Controller;
+	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
@@ -111,7 +112,7 @@ package ua.com.syo.luckyfriday.view {
 			}
 			PopUpManager.addPopUp(profileView);
 			Controller.instance.startLoadProfile();
-			Controller.instance.addEventListener(Event.COMPLETE, arrageProfileView);
+			Controller.instance.addEventListener(ProfileEvent.PROFILE_LOADED, arrageProfileView);
 		}
 
 		/**
