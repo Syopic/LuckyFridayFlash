@@ -12,17 +12,18 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
+	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import starling.utils.AssetManager;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
+	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.states.GameState;
-	import starling.events.Event;
 
 	public class Controller extends EventDispatcher {
 
@@ -39,7 +40,7 @@ package ua.com.syo.luckyfriday.controller {
 			initCommonSounds();
 
 			assetManager = new AssetManager();
-			startLevel(currentLevelId);
+			//startLevel(currentLevelId);
 		}
 
 		/**
@@ -144,11 +145,9 @@ package ua.com.syo.luckyfriday.controller {
 		}
 
 		protected function loadProfileComplete():void {
-			var event:Event = new Event(Event.COMPLETE);
 			ProfileStorage.profTexture = assetManager.getTexture("che");
 			ProfileStorage.ParseProfileFromJSON(assetManager.getObject("profile"));
-			trace("loadProfileComplete");
-			this.dispatchEvent(event);
+			this.dispatchEvent(new Event(ProfileEvent.PROFILE_LOADED));
 		}
 
 		/**
