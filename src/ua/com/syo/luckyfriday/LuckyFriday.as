@@ -18,7 +18,7 @@ package ua.com.syo.luckyfriday
 		 */
 		public function LuckyFriday()
 		{
-			setUpStarling(true);
+			setUpStarling(false);
 			stage.quality = StageQuality.LOW;
 			console.openKey = Keyboard.ENTER;
 			// disable ESC in fullscreen
@@ -30,7 +30,6 @@ package ua.com.syo.luckyfriday
 				}
 			});
 		}
-
 		override public function handleStarlingReady():void {
 			Controller.instance.init();
 			UIManager.instance.init();

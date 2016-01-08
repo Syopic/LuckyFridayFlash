@@ -23,7 +23,7 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/img/LogoBtnDown.png")]
 		public static const ButtonDownC:Class;
-		
+
 		/**
 		 * Default avatar
 		 */
@@ -65,6 +65,22 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/img/icons/power.png")]
 		public static const PowerIconC:Class;
+
+		/**
+		 * HUD
+		 */
+
+		[Embed(source = "/../assets/img/icons/hud/time.png")]
+		public static const HUDTimeIconC:Class;
+
+		[Embed(source = "/../assets/img/icons/hud/hull.png")]
+		public static const HUDHullIconC:Class;
+
+		[Embed(source = "/../assets/img/icons/hud/energy.png")]
+		public static const HUDEnergyIconC:Class;
+
+		[Embed(source = "/../assets/img/icons/hud/container.png")]
+		public static const HUDContainerIconC:Class;
 
 		/**
 		 * Particles
@@ -123,6 +139,9 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source = "/../assets/fonts/segoeprb.ttf", fontName = "segoepr", fontWeight = "bold", mimeType = "application/x-font", embedAsCFF = "false")]
 		public static var segoeprbC:Class;
 		public static var font:Font = new segoeprC();
+
+		[Embed(source = "/../assets/fonts/UbuntuMono-B.ttf", fontName = "UbuntuBold", mimeType = "application/x-font", fontWeight = "Bold", fontStyle = "Bold", advancedAntiAliasing = "true", embedAsCFF = "false")]
+		public static const UbuntuBoldClass:Class;
 
 
 		/**
