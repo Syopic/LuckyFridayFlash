@@ -25,6 +25,11 @@ package ua.com.syo.luckyfriday.data
 		public static var moveDownImpulse:Number = 2;
 		public static var moveForwardImpulse:Number = 3.0;
 		public static var moveBackwardImpulse:Number = 2;
+		/**
+		 * Windov dimention
+		 */
+		public static var windovWidth:int;
+		public static var windovHeight:int;
 	}
 }
 

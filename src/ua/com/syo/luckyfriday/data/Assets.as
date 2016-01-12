@@ -18,11 +18,21 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source = "/../assets/img/LogoBtn.png")]
 		public static const LogobtnC:Class;
 
-		[Embed(source = "/../assets/img/LogoBtnOver.png")]
-		public static const ButtonOverC:Class;
+		[Embed(source = "/../assets/img/LogoBtnDisabled.png")]
+		public static const ButtonDisabledC:Class;
 
 		[Embed(source = "/../assets/img/LogoBtnDown.png")]
 		public static const ButtonDownC:Class;
+				
+		/**
+		 * Background MissionsView
+		*/
+		
+		[Embed(source = "/../assets/img/gui/missionsview/space_bg.jpg")]
+		public static const SpacebgC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/met_alpha .png")]
+		public static const MissionsMetC:Class;
 		
 		/**
 		 * Default avatar

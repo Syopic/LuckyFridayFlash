@@ -6,11 +6,12 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-
+	
 	import starling.events.Event;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
+	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
@@ -22,7 +23,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.ProfileView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
-	public class UIManager {
+	public class UIManager  {
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
@@ -35,6 +36,7 @@ package ua.com.syo.luckyfriday.view {
 		public function init():void {
 			// init ui theme
 			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
+			
 		}
 
 		/**
@@ -175,7 +177,14 @@ package ua.com.syo.luckyfriday.view {
 				Controller.instance.exitApplication();
 			}
 		}
-
+		public function resizeListener(stageWidth:int, stageHeight:int):void
+		{
+			Globals.windovWidth = stageWidth;
+			Globals.windovHeight = stageHeight;
+			//trace("stageWidth: " + stageWidth + " stageHeight: " + stageHeight);
+			// TODO Auto Generated method stub
+			
+		}
 		/**
 		 * Singleton
 		 */
