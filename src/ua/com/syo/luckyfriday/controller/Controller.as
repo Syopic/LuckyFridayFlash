@@ -12,9 +12,12 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
+	import starling.core.Starling;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import starling.utils.AssetManager;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
@@ -27,7 +30,7 @@ package ua.com.syo.luckyfriday.controller {
 
 	public class Controller extends EventDispatcher {
 
-		private var _currentLevelId:String = "1";
+		private var _currentLevelId:String = "5";
 		private var assetManager:AssetManager;
 
 		public function init():void {
@@ -40,7 +43,8 @@ package ua.com.syo.luckyfriday.controller {
 			initCommonSounds();
 
 			assetManager = new AssetManager();
-			//startLevel(currentLevelId);
+			startLevel(currentLevelId);
+
 		}
 
 		/**

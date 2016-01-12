@@ -16,8 +16,10 @@ package ua.com.syo.luckyfriday {
 		/**
 		 * Entry point
 		 */
+
 		public function LuckyFriday() {
 			setUpStarling(true);
+
 			stage.quality = StageQuality.LOW;
 			console.openKey = Keyboard.ENTER;
 			stage.addEventListener(Event.RESIZE, function():void {
@@ -31,7 +33,6 @@ package ua.com.syo.luckyfriday {
 				}
 			});
 		}
-
 		override public function handleStarlingReady():void {
 			Controller.instance.init();
 			UIManager.instance.init();

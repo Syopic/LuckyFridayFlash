@@ -32,6 +32,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.display.Sprite;
 	import starling.extensions.lighting.core.LightLayer;
 	import starling.extensions.lighting.lights.PointLight;
+	import starling.filters.BlurFilter;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
@@ -128,6 +129,7 @@ package ua.com.syo.luckyfriday.view.states {
 			napeWorld.space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, OnCollision));
 			hudView = new HUDView();
 			addChild(hudView);
+			hudView.filter = BlurFilter.createDropShadow(4,0.785,0x000000,1,0,0.5);
 
 			SoundManager.getInstance().playSound(Constants.LOOP_MUSIC);
 			SoundManager.getInstance().playSound(Constants.LOOP_ENVIRONMENT);
