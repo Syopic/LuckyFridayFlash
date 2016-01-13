@@ -6,12 +6,13 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
-
+	
 	import starling.core.Starling;
 	import starling.events.Event;
+	import starling.events.EventDispatcher;
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
 	import ua.com.syo.luckyfriday.data.Globals;
@@ -26,7 +27,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.ProfileView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
-	public class UIManager  {
+	public class UIManager extends EventDispatcher  {
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
@@ -180,10 +181,10 @@ package ua.com.syo.luckyfriday.view {
 				Controller.instance.exitApplication();
 			}
 		}
-		public function resizeListener(stageWidth:int, stageHeight:int):void
+		public function resizeListener():void
 		{
-			Globals.windovWidth = stageWidth;
-			Globals.windovHeight = stageHeight;
+			
+			this.dispatchEvent(new Event(Event.RESIZE));
 			//trace("stageWidth: " + stageWidth + " stageHeight: " + stageHeight);
 			// TODO Auto Generated method stub
 			

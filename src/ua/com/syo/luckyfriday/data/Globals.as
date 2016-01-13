@@ -28,8 +28,8 @@ package ua.com.syo.luckyfriday.data
 		/**
 		 * Windov dimention
 		 */
-		public static var windovWidth:int;
-		public static var windovHeight:int;
+		public static var stageWidth:Number;
+		public static var stageHeight:Number;
 	}
 }
 
