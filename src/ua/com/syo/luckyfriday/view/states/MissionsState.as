@@ -1,7 +1,6 @@
 package ua.com.syo.luckyfriday.view.states {
-	import citrus.core.starling.StarlingState;
 
-	import flash.text.Font;
+	import citrus.core.starling.StarlingState;
 
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
@@ -13,30 +12,37 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
+	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.UIManager;
-	import ua.com.syo.luckyfriday.view.meta.MissionsButton;
+	import ua.com.syo.luckyfriday.view.meta.ImageButton;
 	import ua.com.syo.luckyfriday.view.meta.MissionsMeteor;
+	import ua.com.syo.luckyfriday.view.meta.MissionsPoint;
 
 	public class MissionsState extends StarlingState {
 
 		private var backBtn:Button;
-		private var mission1Btn:MissionsButton;
-		private var mission2Btn:MissionsButton;
-		private var mission3Btn:MissionsButton;
-		private var mission4Btn:MissionsButton;
-		private var mission5Btn:MissionsButton;
-		private var mission6Btn:MissionsButton;
+		private var mission1Btn:ImageButton;
+		private var mission2Btn:ImageButton;
+		private var mission3Btn:ImageButton;
+		private var mission4Btn:ImageButton;
+		private var mission5Btn:ImageButton;
+		private var mission6Btn:ImageButton;
 		private var container:LayoutGroup;
 		private var settingsBtn:Button;
 		private var bg:Image;
 		private var meteor:MissionsMeteor = new MissionsMeteor;
+		private var point:MissionsPoint;
+		private var point2:MissionsPoint;
+		private var px:Array = [350, 450, 550, 850, 750, 600];
+		private var py:Array = [150, 350, 150, 400, 100, 400];
 
 		override public function initialize():void {
 			super.initialize();
 			initBg();
 			initButtons();
+			initMissionPoints()
 
 		}
 
@@ -60,71 +66,6 @@ package ua.com.syo.luckyfriday.view.states {
 			container.autoSizeMode = LayoutGroup.AUTO_SIZE_MODE_STAGE;
 			this.addChild(container);
 
-			
-			
-			// mission 
-			mission1Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.MissionsC), "", Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
-			mission1Btn.fontName = Assets.fontUbuntu.fontName;
-			mission1Btn.fontSize = 50;
-			mission1Btn.fontBold = true;
-			mission1Btn.x = 500;
-			mission1Btn.y = 100;
-			mission1Btn.enabled = true;
-			mission1Btn.addEventListener(Event.TRIGGERED, bttClicked);
-			container.addChild(mission1Btn);
-
-			mission2Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.MissionsC), "", Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
-			mission2Btn.fontName = Assets.font.fontName;
-			mission2Btn.fontSize = 10;
-			mission2Btn.fontBold = true;
-			mission2Btn.x = 500;
-			mission2Btn.y = 200;
-			mission2Btn.enabled = true;
-			mission2Btn.addEventListener(Event.TRIGGERED, bttClicked);
-			container.addChild(mission2Btn);
-
-			mission3Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.MissionsC), "", Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
-			mission3Btn.fontName = Assets.font.fontName;
-			mission3Btn.fontSize = 10;
-			mission3Btn.fontBold = true;
-			mission3Btn.x = 500;
-			mission3Btn.y = 300;
-			mission3Btn.enabled = true;
-			mission3Btn.addEventListener(Event.TRIGGERED, bttClicked);
-			container.addChild(mission3Btn);
-
-
-			mission4Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.MissionsC), "", Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
-			mission4Btn.fontName = Assets.font.fontName;
-			mission4Btn.fontSize = 10;
-			mission4Btn.fontBold = true;
-			mission4Btn.x = 600;
-			mission4Btn.y = 100;
-			mission4Btn.enabled = true;
-			mission4Btn.addEventListener(Event.TRIGGERED, bttClicked);
-			container.addChild(mission4Btn);
-
-
-			mission5Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.MissionsC), "", Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
-			mission5Btn.fontName = Assets.font.fontName;
-			mission5Btn.fontSize = 10;
-			mission5Btn.fontBold = true;
-			mission5Btn.x = 600;
-			mission5Btn.y = 200;
-			mission5Btn.enabled = true;
-			mission5Btn.addEventListener(Event.TRIGGERED, bttClicked);
-			container.addChild(mission5Btn);
-
-			mission6Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.MissionsC), "", Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
-			mission6Btn.fontName = Assets.font.fontName;
-			mission6Btn.fontSize = 10;
-			mission6Btn.fontBold = true;
-			mission6Btn.x = 600;
-			mission6Btn.y = 300;
-			mission6Btn.enabled = false;
-			mission6Btn.addEventListener(Event.TRIGGERED, bttClicked);
-			container.addChild(mission6Btn);
-
 			// back
 			backBtn = new Button();
 			backBtn.label = "←";
@@ -144,27 +85,36 @@ package ua.com.syo.luckyfriday.view.states {
 			container.addChild(settingsBtn);
 		}
 
-		private function bttClicked(event:Event):void {
-			trace("triggered!");
-			switch (event.currentTarget as MissionsButton) {
-				case mission1Btn:
-					Controller.instance.startLevel("1");
-					break;
-				case mission2Btn:
-					Controller.instance.startLevel("2");
-					break;
-				case mission3Btn:
-					Controller.instance.startLevel("3");
-					break;
-				case mission4Btn:
-					Controller.instance.startLevel("4");
-					break;
-				case mission5Btn:
-					Controller.instance.startLevel("5");
-					break;
+		/**
+		 * Init Mission Point 
+		 */
+		private function initMissionPoints():void {
+			var n:String;
+			var s:int;
+			var enab:Boolean;
+
+			for (var i:int = 1; i < 7; i++) {
+				n = String(i);
+				s = i - 1;
+				if (i <= 5) {
+					enab = true;
+				} else {
+					enab = false;
+				}
+				point = new MissionsPoint(n, enab);
+				point.x = px[s];
+				point.y = py[s];
+				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
+				this.addChild(point);
 
 			}
+		}
 
+
+
+		public function isSelect(event:MissionPointEvent):void {
+			Controller.instance.startLevel(event.id);
+			trace("triggered! " + event.id);
 		}
 
 		private function buttonClicked(event:Event):void {

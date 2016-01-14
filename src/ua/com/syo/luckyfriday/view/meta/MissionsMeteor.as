@@ -8,6 +8,7 @@ package ua.com.syo.luckyfriday.view.meta {
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.UIManager;
+	
 
 	public class MissionsMeteor extends Sprite {
 		private var met:Image;
