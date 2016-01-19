@@ -66,6 +66,7 @@ package ua.com.syo.luckyfriday.view {
 			if (!aboutView) {
 				aboutView = new AboutView();
 			}
+			Controller.instance.startLoadMissions();
 			PopUpManager.addPopUp(aboutView);
 		}
 
@@ -185,7 +186,7 @@ package ua.com.syo.luckyfriday.view {
 		{
 			
 			this.dispatchEvent(new Event(Event.RESIZE));
-			//trace("stageWidth: " + stageWidth + " stageHeight: " + stageHeight);
+			
 			// TODO Auto Generated method stub
 			
 		}

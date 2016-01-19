@@ -26,6 +26,7 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller extends EventDispatcher {
@@ -91,6 +92,11 @@ package ua.com.syo.luckyfriday.controller {
 			loadProfileAssets()
 		}
 
+		public function startLoadMissions():void {
+			trace("START LOAD MISSIONS");
+			loadMissionsAssets()
+		}
+
 		public function startLevel(levelId:String):void {
 			trace("START LEVEL: " + levelId);
 			_currentLevelId = levelId;
@@ -152,6 +158,32 @@ package ua.com.syo.luckyfriday.controller {
 			ProfileStorage.profTexture = assetManager.getTexture("che");
 			ProfileStorage.ParseProfileFromJSON(assetManager.getObject("profile"));
 			this.dispatchEvent(new Event(ProfileEvent.PROFILE_LOADED));
+		}
+
+
+		/**
+		 * Load mission assets
+		 */
+		protected function loadMissionsAssets():void {
+			assetManager = new AssetManager();
+			var appDir:File = File.applicationDirectory;
+			assetManager.enqueue(appDir.resolvePath("missions"));
+			trace("loading from: " + "/missions" + appDir);
+			assetManager.loadQueue(function(ratio:Number):void {
+				trace("Loading MISSION assets, progress:", ratio);
+				// -> When the ratio equals '1', we are finished.
+				if (ratio == 1.0) {
+					loadMissionsComplete();
+
+				}
+			});
+		}
+
+		protected function loadMissionsComplete():void {
+			MissionStorage.ParseProfileFromJSON(assetManager.getObject("mission"));
+			//MissionStorage.meteorTexture = assetManager.getTexture("che");
+
+			this.dispatchEvent(new Event(ProfileEvent.MISSION_LOADED));
 		}
 
 		/**

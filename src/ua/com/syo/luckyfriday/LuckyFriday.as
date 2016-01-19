@@ -24,9 +24,11 @@ package ua.com.syo.luckyfriday {
 			stage.quality = StageQuality.LOW;
 			console.openKey = Keyboard.ENTER;
 			stage.addEventListener(Event.RESIZE, function():void {
-				UIManager.instance.resizeListener()
+				//trace("w:"+stage.stageWidth);
 				Globals.stageWidth = stage.stageWidth;
 				Globals.stageHeight = stage.stageHeight;
+				UIManager.instance.resizeListener();
+			
 			});
 			// disable ESC in fullscreen
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent):void {

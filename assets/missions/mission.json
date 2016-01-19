@@ -1,0 +1,24 @@
+{
+	
+	
+	"location":
+	{
+		"locationId":"location1",
+		"locationName":"Eros", 
+		"locationInfo":"Big \n Cool", 
+		"locationTexture":"missions/met_alpha.png", 
+		"locationWidth":1920,
+		"locationHeight":1024
+	},
+	
+    "point":
+    [
+   	  {"pointId":"1", "rate":50, "pointX":100, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+  	  {"pointId":"2", "rate":30, "pointX":200, "pointY":300, "missionEnable":true, "additionalPoint":true, "additQuantity":1},
+  	  {"pointId":"2.1", "rate":30, "pointX":150, "pointY":250, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+  	  {"pointId":"3", "rate":50, "pointX":300, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+  	  {"pointId":"4", "rate":50, "pointX":400, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+  	  {"pointId":"5", "rate":50, "pointX":500, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+  	  {"pointId":"6", "rate":50, "pointX":600, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":0}
+    ]
+}

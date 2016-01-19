@@ -49,13 +49,24 @@ package ua.com.syo.luckyfriday.view.states {
 		private function initBg():void {
 
 			bg = new Image(Texture.fromEmbeddedAsset(Assets.SpacebgC));
-			bg.width = Globals.stageWidth;
-			bg.height = Globals.stageHeight;
+			//bg.width = Globals.stageWidth;
+			//bg.height = Globals.stageHeight;
+			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 			addChild(bg);
 			addChild(meteor);
 
 		}
 
+		private function arrange():void {
+			if (Globals.stageWidth < 1920) {
+				bg.width = 1920;
+				bg.height = 1024;
+			} else {
+				trace(Globals.stageWidth)
+				bg.width = Globals.stageWidth;
+				bg.height = Globals.stageHeight;
+			}
+		}
 
 		/**
 		 * Init buttons
@@ -86,7 +97,7 @@ package ua.com.syo.luckyfriday.view.states {
 		}
 
 		/**
-		 * Init Mission Point 
+		 * Init Mission Point
 		 */
 		private function initMissionPoints():void {
 			var n:String;
