@@ -6,7 +6,7 @@
 		"locationId":"location1",
 		"locationName":"Eros", 
 		"locationInfo":"Big \n Cool", 
-		"locationTexture":"missions/met_alpha.png", 
+		"locationTexture":"met_alpha1", 
 		"locationWidth":1920,
 		"locationHeight":1024
 	},

@@ -40,7 +40,15 @@ package ua.com.syo.luckyfriday.view {
 		public function init():void {
 			// init ui theme
 			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
+			initProfileView();
 			
+			
+		}
+		public function initProfileView():void {
+			if (!profileView) {
+				profileView = new ProfileView();
+			}
+			Controller.instance.addEventListener(ProfileEvent.PROFILE_LOADED, arrageProfileView);
 		}
 
 		/**
@@ -66,7 +74,7 @@ package ua.com.syo.luckyfriday.view {
 			if (!aboutView) {
 				aboutView = new AboutView();
 			}
-			Controller.instance.startLoadMissions();
+			
 			PopUpManager.addPopUp(aboutView);
 		}
 
@@ -118,8 +126,6 @@ package ua.com.syo.luckyfriday.view {
 				profileView = new ProfileView();
 			}
 			PopUpManager.addPopUp(profileView);
-			Controller.instance.startLoadProfile();
-			Controller.instance.addEventListener(ProfileEvent.PROFILE_LOADED, arrageProfileView);
 		}
 
 		/**

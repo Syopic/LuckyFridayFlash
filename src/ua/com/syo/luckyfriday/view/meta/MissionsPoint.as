@@ -8,6 +8,11 @@ package ua.com.syo.luckyfriday.view.meta {
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
 
+	/**
+	 *
+	 * @author Alex
+	 *
+	 */
 	public class MissionsPoint extends Sprite {
 		private var s:Sprite
 		private var rate:Image;
@@ -18,14 +23,21 @@ package ua.com.syo.luckyfriday.view.meta {
 		private var e:MissionPointEvent
 
 
+		/**
+		 * Constructor Missions Point
+		 * @param id - Missions ID
+		 * @param enab - Indicate Missions enabled or disable
+		 *
+		 */
 		public function MissionsPoint(id:String, enab:Boolean) {
 
+			//Add Sprite 
 			s = new Sprite();
 			s.width = 150;
 			s.height = 150;
 			n = id;
 
-
+			//Add Rate image - TODO choise required  
 			rate = new Image(Texture.fromEmbeddedAsset(Assets.RateC));
 			rate.width = 30;
 			rate.height = 30;
@@ -50,7 +62,7 @@ package ua.com.syo.luckyfriday.view.meta {
 			rateEmpty.visible = enab;
 			addChild(rateEmpty);
 
-
+			//Add image button 
 			missionBtn = new ImageButton(Texture.fromEmbeddedAsset(Assets.MissionsC), n, Texture.fromEmbeddedAsset(Assets.MissionsDownC), null, Texture.fromEmbeddedAsset(Assets.MissionsLockC));
 			missionBtn.fontName = Assets.fontUbuntu.fontName;
 			missionBtn.fontSize = 50;
@@ -60,13 +72,13 @@ package ua.com.syo.luckyfriday.view.meta {
 			missionBtn.enabled = enab;
 			missionBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			addChild(missionBtn);
-
-
 		}
 
+		/**
+		 * 	Processing  Click Button, create dispatch event MISSION_SELECT include Mission ID
+		 * @param event
+		 */
 		private function buttonClicked(event:Event):void {
-
-
 			switch (event.currentTarget as ImageButton) {
 				case missionBtn:
 					var e:MissionPointEvent = new MissionPointEvent(MissionPointEvent.MISSION_SELECT);

@@ -12,15 +12,14 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
-	import starling.core.Starling;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import starling.utils.AssetManager;
-	import starling.utils.HAlign;
-	import starling.utils.VAlign;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
+	import ua.com.syo.luckyfriday.controller.events.MissionEvent;
+	import ua.com.syo.luckyfriday.controller.events.LevelEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
@@ -45,6 +44,8 @@ package ua.com.syo.luckyfriday.controller {
 
 			assetManager = new AssetManager();
 			startLevel(currentLevelId);
+			startLoadMissions();
+			
 
 		}
 
@@ -132,7 +133,8 @@ package ua.com.syo.luckyfriday.controller {
 			CurrentLevelData.bgTexture = assetManager.getTexture("bg");
 			CurrentLevelData.fgTexture = assetManager.getTexture("fg")
 			CurrentLevelData.setLevelData(assetManager.getObject("levelData"));
-			Controller.instance.changeState(GameState.newInstance);
+			this.dispatchEvent(new Event(LevelEvent.LEVEL_LOADED));
+			//Controller.instance.changeState(GameState.newInstance);
 			trace("loadComplete" + _currentLevelId);
 		}
 
@@ -180,11 +182,16 @@ package ua.com.syo.luckyfriday.controller {
 		}
 
 		protected function loadMissionsComplete():void {
-			MissionStorage.ParseProfileFromJSON(assetManager.getObject("mission"));
-			//MissionStorage.meteorTexture = assetManager.getTexture("che");
-
-			this.dispatchEvent(new Event(ProfileEvent.MISSION_LOADED));
+			MissionStorage.ParseLocationMisiionFromJSON(assetManager.getObject("mission"));
+			this.dispatchEvent(new Event(MissionEvent.MISSION_LOADED));
+			startLoadProfile();
 		}
+		
+		public function locationTexture(locationTexture:String):void {
+		
+					MissionStorage.locationTexture = assetManager.getTexture(locationTexture);
+		}
+		
 
 		/**
 		 * Get the keyboard, and add actions

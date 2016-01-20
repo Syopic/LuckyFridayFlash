@@ -1,18 +1,19 @@
 package ua.com.syo.luckyfriday.view.states {
 
 	import citrus.core.starling.StarlingState;
-
+	
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-
+	
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
+	import ua.com.syo.luckyfriday.controller.events.LevelEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.UIManager;
@@ -34,7 +35,6 @@ package ua.com.syo.luckyfriday.view.states {
 		private var bg:Image;
 		private var meteor:MissionsMeteor = new MissionsMeteor;
 		private var point:MissionsPoint;
-		private var point2:MissionsPoint;
 		private var px:Array = [350, 450, 550, 850, 750, 600];
 		private var py:Array = [150, 350, 150, 400, 100, 400];
 
@@ -126,8 +126,17 @@ package ua.com.syo.luckyfriday.view.states {
 		public function isSelect(event:MissionPointEvent):void {
 			Controller.instance.startLevel(event.id);
 			trace("triggered! " + event.id);
+			Controller.instance.addEventListener(LevelEvent.LEVEL_LOADED, startLevel);
+			
 		}
-
+		
+		private function startLevel():void
+		{
+			// TODO Auto Generated method stub
+			Controller.instance.changeState(GameState.newInstance);
+		}
+		
+		
 		private function buttonClicked(event:Event):void {
 			switch (event.currentTarget as Button) {
 				case backBtn:
