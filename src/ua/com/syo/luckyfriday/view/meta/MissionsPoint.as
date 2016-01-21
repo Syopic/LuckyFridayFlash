@@ -4,9 +4,12 @@ package ua.com.syo.luckyfriday.view.meta {
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
-
+	
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.model.storage.mission.Location;
+	import ua.com.syo.luckyfriday.model.storage.mission.Mission;
+	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 
 	/**
 	 *
@@ -30,7 +33,8 @@ package ua.com.syo.luckyfriday.view.meta {
 		 *
 		 */
 		public function MissionsPoint(id:String, enab:Boolean) {
-
+			
+			
 			//Add Sprite 
 			s = new Sprite();
 			s.width = 150;

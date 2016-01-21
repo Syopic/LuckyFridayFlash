@@ -9,39 +9,40 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 
 	/**
-	 * 
+	 *
 	 * @author Alex
-	 * 
+	 *
 	 */
 	public class MissionStorage {
 		private static var missionDictionary:Dictionary = new Dictionary();
+		private static var locationDictionary:Dictionary = new Dictionary();
 		public static var locationTexture:Texture;
-		private static var po:Object = new Object();
 
 		/**
 		 * Parse Location and Misiion point from Json
-		 * @param js - json object 
-		 * 
+		 * @param js - json object
+		 *
 		 */
 		public static function ParseLocationMisiionFromJSON(js:Object):void {
-			var location:Object = new Object();
-			var q:int = js.point.length;
-			for (var i:int = 0; i < js.point.length; i++) {
+			var misiionPoint:Object = new Object();
+			var quantity:int;
+			//var q:int = js.location.point.length;
+			for (var i:int = 0; i < js.location.length; i++) {
 
-				addMissionPointFromJSON(js.point[i]);
+				misiionPoint = js[i];
+				quantity = misiionPoint.length;
+				for (var n:int = 0; n < misiionPoint.length; n++) {
+					addMissionPointFromJSON(misiionPoint[n]);
+				}
+				addLocationFromJSON(js.location[i], quantity);
 			}
-			location = {locationId: js.location.locationId, quantityMission: q, locationName: js.location.locationName, locationInfo: js.location.locationInfo, locationTexture: js.location.locationTexture, locationWidth: js.location.locationWidth, locationHeight: js.location.locationHeight};
-
-			addLocationFromJSON(location)
-
-			trace("---->")
 		}
 
 		/**
 		 * Add Location variables From JSON
 		 * @param locationData - object JSON
 		 */
-		public static function addLocationFromJSON(locationData:Object):void {
+		private static function addLocationFromJSON(locationData:Object, quantity:int):void {
 			var l:Location = new Location();
 			l.locationId = locationData.locationId;
 			l.locationTexture = locationData.locationTexture;
@@ -49,8 +50,7 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 			l.locationHeight = locationData.locationHeight;
 			l.locationInfo = locationData.locationInfo;
 			l.locationName = locationData.locationName;
-			l.quantityMission = locationData.quantityMission;
-			l.point = po;
+			l.quantityMission = quantity;
 			addLocation(l);
 		}
 
@@ -58,22 +58,25 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		 *Add Location to mission Dictionary
 		 * @param l - Location variables
 		 */
-		public static function addLocation(l:Location):void {
+		private static function addLocation(l:Location):void {
 
-			missionDictionary[l.locationId] = l;
+			locationDictionary[l.locationId] = l;
 		}
 
 		/**
 		 * Add MissionPoint variables From JSON
 		 * @param pointData - object JSON
 		 */
-		public static function addMissionPointFromJSON(pointData:Object):void {
+		private static function addMissionPointFromJSON(pointData:Object):void {
 			var m:Mission = new Mission();
-			m.pointID = pointData.pointId;
+			m.location = pointData.location;
+			m.missionId = pointData.missionId;
 			m.pointX = pointData.pointX;
 			m.pointY = pointData.pointY;
 			m.rate = pointData.rate;
 			m.missionEnable = pointData.missionEnable;
+			m.additionalPoint = pointData.additionalPoint;
+			m.additQuantity = pointData.additQuantity;
 			addMissionPoint(m);
 		}
 
@@ -81,40 +84,59 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		 * Create object includet all Missions Point
 		 * @param m - Mission variables
 		 */
-		public static function addMissionPoint(m:Mission):void {
-			po[m.pointID] = m;
+		private static function addMissionPoint(m:Mission ):void {
+			missionDictionary[m.missionId] = m;
 		}
-		
+
 		/**
 		 * Get Mission Poin By Id - not checked
 		 * @param pointID
-		 * @return 
-		 * 
+		 * @return Mission
+		 *
 		 */
-		public static function getMissionPoinById(pointID:String):Mission {
+		public static function getMissionById(missionId:String):Mission {
 			var result:Mission = null;
 			for each (var m:Mission in missionDictionary) {
-				if (m.pointID == pointID) {
+				if (m.missionId == missionId) {
 					result = m;
 				}
 			}
 			return result;
 		}
+		
+		/**
+		 *  Get Mission Poin By Type - primary or additional
+		 * @param additional - Boolean true or false
+		 * @return Mission
+		 * 
+		 */
+		public static function getMissionByType(locationId:String, additional:Boolean ):Array {
+			var result:Array = new Array;
+			for each (var m:Mission in missionDictionary) {
+				if (m.location == locationId) {
+					if (m.additionalPoint == additional){
+					result.push(m.missionId);
+					}
+				}
+			}
+			return result;
+		}
+
 		/**
 		 * Get Location By Id - not checked
 		 * @param locationId
-		 * @return 
-		 * 
+		 * @return
+		 *
 		 */
 		public static function getLocationById(locationId:String):Location {
-			return missionDictionary[locationId] as Location;
+			return locationDictionary[locationId] as Location;
 		}
-		
+
 		/**
 		 * Get current lication texture - not work
 		 * @param locationId
-		 * @return 
-		 * 
+		 * @return
+		 *
 		 */
 		static public function getLocationTexture(locationId:String):Texture {
 			var location:Location = null;
@@ -123,14 +145,14 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 				if (l.locationId == locationId) {
 					location = l;
 					t = l.locationTexture;
-					trace("locationTexture-->"+ t);
+					trace("locationTexture-->" + t);
 				}
 			}
 			Controller.instance.locationTexture(t);
-			trace("locationTexture->"+ locationTexture);
+			trace("locationTexture->" + locationTexture);
 			trace();
 			return locationTexture;
-			
+
 		}
 	}
 }

@@ -12,10 +12,13 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.textures.Texture;
 	
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.controller.events.LevelEvent;
+	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.Assets;
 	import ua.com.syo.luckyfriday.data.Globals;
+	import ua.com.syo.luckyfriday.model.storage.mission.Location;
+	import ua.com.syo.luckyfriday.model.storage.mission.Mission;
+	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.meta.ImageButton;
 	import ua.com.syo.luckyfriday.view.meta.MissionsMeteor;
@@ -48,6 +51,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 		private function initBg():void {
 
+			
 			bg = new Image(Texture.fromEmbeddedAsset(Assets.SpacebgC));
 			//bg.width = Globals.stageWidth;
 			//bg.height = Globals.stageHeight;
@@ -103,7 +107,13 @@ package ua.com.syo.luckyfriday.view.states {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-
+			//var baseMissionId:Array = MissionStorage.getMissionByAdditional(true);
+			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", true);
+			trace ("->")
+			var l:Location  = MissionStorage.getLocationById("location1");
+			var m:Mission = MissionStorage.getMissionById(primaryMissionId[1]);
+			trace (m.pointX,m.pointY)
+			
 			for (var i:int = 1; i < 7; i++) {
 				n = String(i);
 				s = i - 1;

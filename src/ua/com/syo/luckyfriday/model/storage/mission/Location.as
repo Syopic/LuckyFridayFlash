@@ -14,6 +14,6 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		public var locationName:String;
 		public var locationInfo:String;
 		public var quantityMission:int;
-		public var point:Object;
+		
 	}
 }
