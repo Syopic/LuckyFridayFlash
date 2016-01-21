@@ -42,7 +42,7 @@ package ua.com.syo.luckyfriday {
 		override public function handleStarlingReady():void {
 			Controller.instance.init();
 			UIManager.instance.init();
-			//Model.instance.init();
+			Model.instance.init();
 			// TODO add loading state
 			Controller.instance.changeState(MenuState.newInstance);
 			//Controller.instance.changeState(GameState.newInstance);

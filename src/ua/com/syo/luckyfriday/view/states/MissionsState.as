@@ -112,7 +112,7 @@ package ua.com.syo.luckyfriday.view.states {
 			trace ("->")
 			var l:Location  = MissionStorage.getLocationById("location1");
 			var m:Mission = MissionStorage.getMissionById(primaryMissionId[1]);
-			trace (m.pointX,m.pointY)
+			//trace (m.pointX,m.pointY)
 
 			for (var i:int = 1; i < 7; i++) {
 				n = String(i);

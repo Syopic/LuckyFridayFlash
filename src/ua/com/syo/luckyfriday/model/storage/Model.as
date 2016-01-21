@@ -1,7 +1,5 @@
 package ua.com.syo.luckyfriday.model.storage
 {
-	import flash.events.Event;
-
 	import ua.com.syo.core.assets.Asset;
 	import ua.com.syo.core.assets.AssetsLoader;
 	import ua.com.syo.core.assets.events.AssetEvent;

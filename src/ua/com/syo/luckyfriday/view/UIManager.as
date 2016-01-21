@@ -9,10 +9,7 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.data.ListCollection;
 	import feathers.themes.MetalWorksDesktopTheme;
 
-	import starling.core.Starling;
 	import starling.events.Event;
-	import starling.utils.HAlign;
-	import starling.utils.VAlign;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;

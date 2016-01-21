@@ -26,6 +26,7 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller extends EventDispatcher {
 
@@ -42,10 +43,8 @@ package ua.com.syo.luckyfriday.controller {
 			initCommonSounds();
 
 			assetManager = new AssetManager();
-			startLevel(currentLevelId);
+			//startLevel(currentLevelId);
 			startLoadMissions();
-
-
 		}
 
 		/**
@@ -133,8 +132,8 @@ package ua.com.syo.luckyfriday.controller {
 			CurrentLevelData.fgTexture = assetManager.getTexture("fg")
 			CurrentLevelData.setLevelData(assetManager.getObject("levelData"));
 			this.dispatchEvent(new Event(LevelEvent.LEVEL_LOADED));
-			//Controller.instance.changeState(GameState.newInstance);
-			trace("loadComplete" + _currentLevelId);
+			Controller.instance.changeState(GameState.newInstance);
+			trace("loadComplete " + _currentLevelId);
 		}
 
 		/**
