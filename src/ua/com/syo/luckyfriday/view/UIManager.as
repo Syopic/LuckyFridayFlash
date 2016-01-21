@@ -1,6 +1,8 @@
 package ua.com.syo.luckyfriday.view {
 
 
+	import flash.events.EventDispatcher;
+
 	import feathers.controls.Alert;
 	import feathers.controls.Header;
 	import feathers.core.PopUpManager;
@@ -26,7 +28,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.ProfileView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
-	public class UIManager  {
+	public class UIManager extends EventDispatcher{
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;

@@ -5,7 +5,6 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 	 * Mission variables
 	 */
 	public class Mission {
-
 		public var location:String; 
 		public var missionId:String;
 		public var additionalPoint:Boolean;

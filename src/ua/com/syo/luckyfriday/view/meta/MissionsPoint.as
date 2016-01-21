@@ -31,6 +31,7 @@ package ua.com.syo.luckyfriday.view.meta {
 		 */
 		public function MissionsPoint(id:String, enab:Boolean) {
 
+
 			//Add Sprite 
 			s = new Sprite();
 			s.width = 150;
