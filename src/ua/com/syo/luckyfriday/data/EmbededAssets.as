@@ -25,7 +25,7 @@ package ua.com.syo.luckyfriday.data {
 		public static const ButtonDownC:Class;
 				
 		/**
-		 * Background MissionsView
+		 *  MissionsView
 		*/
 		
 		[Embed(source = "/../assets/img/gui/missionsview/space_bg.jpg")]
@@ -33,6 +33,27 @@ package ua.com.syo.luckyfriday.data {
 		
 		[Embed(source = "/../assets/img/gui/missionsview/met_alpha .png")]
 		public static const MissionsMetC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/mission.png")]
+		public static const MissionsC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/mission_down.png")]
+		public static const MissionsDownC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/mission_lokc.png")]
+		public static const MissionsLockC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/rate.png")]
+		public static const RateC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/rate_half.png")]
+		public static const RateHalfC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/rate_empty.png")]
+		public static const RateEmptyC:Class;
+		
+		[Embed(source = "/../assets/img/gui/missionsview/radiation.png")]
+		public static const RadiationC:Class;
 		
 		/**
 		 * Default avatar
@@ -152,6 +173,7 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/fonts/UbuntuMono-B.ttf", fontName = "UbuntuBold", mimeType = "application/x-font", fontWeight = "Bold", fontStyle = "Bold", advancedAntiAliasing = "true", embedAsCFF = "false")]
 		public static const UbuntuBoldClass:Class;
+		public static var fontUbuntu:Font = new UbuntuBoldClass();
 
 
 		/**

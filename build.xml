@@ -9,7 +9,7 @@
 		</classpath>
 	</taskdef>
 
-	<target name="> run all" depends="copy assets, copy assets profile, update build number">
+	<target name="> run all" depends="copy assets, copy assets profile, copy assets mission, update build number">
 		<copy todir="${BIN_DIR}/levels">
 			<fileset dir="${ASSETS_DIR}/levels">
 				<exclude name="*.pes"/>
@@ -41,7 +41,12 @@
 			</fileset>
 		</copy>
 	</target>
-
+	<target name="copy assets mission">
+		<copy todir="${BIN_DIR}/missions">
+			<fileset dir="${ASSETS_DIR}/missions">
+			</fileset>
+		</copy>
+	</target>
 	<target name="update build number">
 		<tstamp>
 			<format property="logtime" pattern="yyyyMMdd" />

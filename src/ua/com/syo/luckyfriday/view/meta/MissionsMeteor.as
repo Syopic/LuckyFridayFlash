@@ -12,12 +12,14 @@ package ua.com.syo.luckyfriday.view.meta {
 
 		public function MissionsMeteor() {
 			met = new Image(Texture.fromEmbeddedAsset(EmbededAssets.MissionsMetC));
-			met.width = Globals.windovWidth - 200;
-			met.height = (Globals.windovWidth - 200) / 1.875;
-			met.x = Globals.windovWidth / 2 - met.width / 2;
-			met.y = Globals.windovHeight / 2 - met.height / 2;
+			met.width = Globals.stageWidth - 200;
+			met.height = (Globals.stageWidth - 200) / 1.875;
+			met.x = Globals.stageHeight / 2 - met.width / 2;
+			met.y = Globals.stageHeight / 2 - met.height / 2;
 
 			addChild(met);
 		}
 	}
 }
+
+

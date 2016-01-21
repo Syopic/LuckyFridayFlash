@@ -41,11 +41,11 @@ package ua.com.syo.luckyfriday.view.states {
 		private function initBg():void {
 
 			bg = new Image(Texture.fromEmbeddedAsset(EmbededAssets.SpacebgC));
-			bg.width = Globals.windovWidth;
-			bg.height = Globals.windovHeight;
+			bg.width = Globals.stageWidth;
+			bg.height = Globals.stageHeight;
 			addChild(bg);
 			addChild(meteor);
-			
+
 		}
 
 

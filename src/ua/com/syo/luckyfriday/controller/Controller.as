@@ -17,13 +17,15 @@ package ua.com.syo.luckyfriday.controller {
 	import starling.utils.AssetManager;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
+	import ua.com.syo.luckyfriday.controller.events.LevelEvent;
+	import ua.com.syo.luckyfriday.controller.events.MissionEvent;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
+	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
-	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller extends EventDispatcher {
 
@@ -40,7 +42,10 @@ package ua.com.syo.luckyfriday.controller {
 			initCommonSounds();
 
 			assetManager = new AssetManager();
-			//startLevel(currentLevelId);
+			startLevel(currentLevelId);
+			startLoadMissions();
+
+
 		}
 
 		/**
@@ -49,6 +54,7 @@ package ua.com.syo.luckyfriday.controller {
 		public function get ce():LuckyFriday {
 			return LuckyFriday(CitrusEngine.getInstance());
 		}
+
 
 		/**
 		 * Pause game
@@ -86,6 +92,11 @@ package ua.com.syo.luckyfriday.controller {
 			loadProfileAssets()
 		}
 
+		public function startLoadMissions():void {
+			trace("START LOAD MISSIONS");
+			loadMissionsAssets()
+		}
+
 		public function startLevel(levelId:String):void {
 			trace("START LEVEL: " + levelId);
 			_currentLevelId = levelId;
@@ -121,7 +132,8 @@ package ua.com.syo.luckyfriday.controller {
 			CurrentLevelData.bgTexture = assetManager.getTexture("bg");
 			CurrentLevelData.fgTexture = assetManager.getTexture("fg")
 			CurrentLevelData.setLevelData(assetManager.getObject("levelData"));
-			Controller.instance.changeState(GameState.newInstance);
+			this.dispatchEvent(new Event(LevelEvent.LEVEL_LOADED));
+			//Controller.instance.changeState(GameState.newInstance);
 			trace("loadComplete" + _currentLevelId);
 		}
 
@@ -148,6 +160,37 @@ package ua.com.syo.luckyfriday.controller {
 			ProfileStorage.ParseProfileFromJSON(assetManager.getObject("profile"));
 			this.dispatchEvent(new Event(ProfileEvent.PROFILE_LOADED));
 		}
+
+
+		/**
+		 * Load mission assets
+		 */
+		protected function loadMissionsAssets():void {
+			assetManager = new AssetManager();
+			var appDir:File = File.applicationDirectory;
+			assetManager.enqueue(appDir.resolvePath("missions"));
+			trace("loading from: " + "/missions" + appDir);
+			assetManager.loadQueue(function(ratio:Number):void {
+				trace("Loading MISSION assets, progress:", ratio);
+				// -> When the ratio equals '1', we are finished.
+				if (ratio == 1.0) {
+					loadMissionsComplete();
+
+				}
+			});
+		}
+
+		protected function loadMissionsComplete():void {
+			MissionStorage.ParseLocationMisiionFromJSON(assetManager.getObject("mission"));
+			this.dispatchEvent(new Event(MissionEvent.MISSION_LOADED));
+			startLoadProfile();
+		}
+
+		public function locationTexture(locationTexture:String):void {
+
+			MissionStorage.locationTexture = assetManager.getTexture(locationTexture);
+		}
+
 
 		/**
 		 * Get the keyboard, and add actions
@@ -229,5 +272,4 @@ package ua.com.syo.luckyfriday.controller {
 
 	}
 }
-
 
