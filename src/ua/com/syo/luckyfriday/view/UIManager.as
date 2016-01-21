@@ -39,7 +39,7 @@ package ua.com.syo.luckyfriday.view {
 		public function init():void {
 			// init ui theme
 			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
-			
+
 		}
 
 		/**
@@ -182,11 +182,11 @@ package ua.com.syo.luckyfriday.view {
 		}
 		public function resizeListener(stageWidth:int, stageHeight:int):void
 		{
-			Globals.windovWidth = stageWidth;
-			Globals.windovHeight = stageHeight;
+			Globals.stageWidth = stageWidth;
+			Globals.stageHeight = stageHeight;
 			//trace("stageWidth: " + stageWidth + " stageHeight: " + stageHeight);
 			// TODO Auto Generated method stub
-			
+
 		}
 		/**
 		 * Singleton
