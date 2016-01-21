@@ -16,7 +16,7 @@ package ua.com.syo.luckyfriday.view.ui
 	import starling.textures.TextureAtlas;
 	
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
@@ -146,7 +146,7 @@ package ua.com.syo.luckyfriday.view.ui
 			}
 		}
 			private function initAnimations():void {
-				var sTextureAtlas:TextureAtlas = Assets.getShipHeroAtlas();
+				var sTextureAtlas:TextureAtlas = EmbededAssets.getShipHeroAtlas();
 				var frames:Vector.<Texture> = sTextureAtlas.getTextures(Constants.ROTATE_ANIMATION);
 				mMovie = new MovieClip(frames, 10);
 				mMovie.x = 170;

@@ -6,7 +6,7 @@ package ua.com.syo.luckyfriday.data {
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
-	public class Assets {
+	public class EmbededAssets {
 		/**
 		 * Logo assets
 		 */
@@ -167,7 +167,7 @@ package ua.com.syo.luckyfriday.data {
 
 		public static function getTexture(name:String):Texture {
 			if (gameTextures[name] == undefined) {
-				var bitmap:Bitmap = new Assets[name]();
+				var bitmap:Bitmap = new EmbededAssets[name]();
 				gameTextures[name] = Texture.fromBitmap(bitmap);
 			}
 			return gameTextures[name];

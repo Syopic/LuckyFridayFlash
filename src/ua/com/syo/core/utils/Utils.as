@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.utils {
+package ua.com.syo.core.utils {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 

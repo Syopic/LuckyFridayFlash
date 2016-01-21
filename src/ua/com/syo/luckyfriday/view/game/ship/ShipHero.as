@@ -10,7 +10,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 	import starling.display.Sprite;
 	import starling.textures.TextureAtlas;
 
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
@@ -45,7 +45,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 		}
 
 		private function initAnimations():void {
-			var ta:TextureAtlas = Assets.getShipHeroAtlas();
+			var ta:TextureAtlas = EmbededAssets.getShipHeroAtlas();
 			animSeq = new AnimationSequence(ta, [Constants.IDLE_RIGHT_ANIMATION, Constants.IDLE_LEFT_ANIMATION, Constants.KREN_ANIMATION, Constants.ROTATE_ANIMATION, Constants.RROTATER_ANIMATION], Constants.IDLE_RIGHT_ANIMATION, 80);
 			animSeq.addChild(thrustersView);
 			animSeq.onAnimationComplete.add(onAnimationOver);

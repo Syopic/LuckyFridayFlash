@@ -12,7 +12,7 @@ package ua.com.syo.luckyfriday.view.states
 	import starling.events.Event;
 	
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
@@ -86,7 +86,7 @@ package ua.com.syo.luckyfriday.view.states
 			exitBtn.width = 75;
 			exitBtn.height = 75;
 			exitBtn.layoutData = new AnchorLayoutData(NaN, NaN, 20, 20);
-			exitBtn.defaultIcon = new Image(Assets.getTexture("PowerIconC"));
+			exitBtn.defaultIcon = new Image(EmbededAssets.getTexture("PowerIconC"));
 			exitBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(exitBtn);
 
@@ -95,7 +95,7 @@ package ua.com.syo.luckyfriday.view.states
 			settingsBtn.width = 75;
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
-			settingsBtn.defaultIcon = new Image(Assets.getTexture("SettingsIconC"));
+			settingsBtn.defaultIcon = new Image(EmbededAssets.getTexture("SettingsIconC"));
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 

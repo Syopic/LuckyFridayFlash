@@ -12,16 +12,13 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
-	import starling.core.Starling;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	import starling.utils.AssetManager;
-	import starling.utils.HAlign;
-	import starling.utils.VAlign;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
@@ -43,8 +40,7 @@ package ua.com.syo.luckyfriday.controller {
 			initCommonSounds();
 
 			assetManager = new AssetManager();
-			startLevel(currentLevelId);
-
+			//startLevel(currentLevelId);
 		}
 
 		/**
@@ -53,7 +49,6 @@ package ua.com.syo.luckyfriday.controller {
 		public function get ce():LuckyFriday {
 			return LuckyFriday(CitrusEngine.getInstance());
 		}
-
 
 		/**
 		 * Pause game
@@ -207,12 +202,12 @@ package ua.com.syo.luckyfriday.controller {
 		 * Init sounds
 		 */
 		protected function initCommonSounds():void {
-			SoundManager.getInstance().addSound(Constants.LOOP_MUSIC, {sound: Assets.ThemeSoundC, loops: -1, volume: 1, group: CitrusSoundGroup.BGM});
+			SoundManager.getInstance().addSound(Constants.LOOP_MUSIC, {sound: EmbededAssets.ThemeSoundC, loops: -1, volume: 1, group: CitrusSoundGroup.BGM});
 
-			SoundManager.getInstance().addSound(Constants.LOOP_ENVIRONMENT, {sound: Assets.EnvSoundC, loops: -1, volume: 0.1, permanent: true, group: CitrusSoundGroup.SFX});
-			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, {sound: Assets.EngineSoundC, loops: -1, group: CitrusSoundGroup.SFX});
-			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, {sound: Assets.ConnectSoundC, group: CitrusSoundGroup.SFX});
-			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: Assets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.LOOP_ENVIRONMENT, {sound: EmbededAssets.EnvSoundC, loops: -1, volume: 0.1, permanent: true, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, {sound: EmbededAssets.EngineSoundC, loops: -1, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, {sound: EmbededAssets.ConnectSoundC, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: EmbededAssets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
 		}
 
 		public function get currentLevelId():String {

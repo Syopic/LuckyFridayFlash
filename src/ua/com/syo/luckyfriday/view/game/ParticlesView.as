@@ -9,7 +9,7 @@ package ua.com.syo.luckyfriday.view.game {
 	import starling.extensions.particles.PDParticleSystem;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 
 	public class ParticlesView extends Sprite {
 
@@ -18,11 +18,11 @@ package ua.com.syo.luckyfriday.view.game {
 		private var thrusterPS:Vector.<PDParticleSystem> = new Vector.<PDParticleSystem>(4); 
 
 		public function ParticlesView() {
-			var trailConfig:XML = XML(new Assets.EngineParticleConfig());
-			var thrusterConfig:XML = XML(new Assets.ThrusterParticleConfig());
-			var trailTexture:Texture = Texture.fromEmbeddedAsset(Assets.FireParticle);
+			var trailConfig:XML = XML(new EmbededAssets.EngineParticleConfig());
+			var thrusterConfig:XML = XML(new EmbededAssets.ThrusterParticleConfig());
+			var trailTexture:Texture = Texture.fromEmbeddedAsset(EmbededAssets.FireParticle);
 
-			var thrusterTexture:Texture = Texture.fromEmbeddedAsset(Assets.SmallParticle);
+			var thrusterTexture:Texture = Texture.fromEmbeddedAsset(EmbededAssets.SmallParticle);
 
 			mainEnginePS = new PDParticleSystem(trailConfig, trailTexture);
 			for (var i:int = 0; i < 4; i++) 

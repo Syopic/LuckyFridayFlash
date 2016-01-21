@@ -11,7 +11,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.meta.MissionsButton;
@@ -40,7 +40,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 		private function initBg():void {
 
-			bg = new Image(Texture.fromEmbeddedAsset(Assets.SpacebgC));
+			bg = new Image(Texture.fromEmbeddedAsset(EmbededAssets.SpacebgC));
 			bg.width = Globals.windovWidth;
 			bg.height = Globals.windovHeight;
 			addChild(bg);
@@ -60,8 +60,8 @@ package ua.com.syo.luckyfriday.view.states {
 
 
 			// mission 
-			mission1Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.LogobtnC), "1", Texture.fromEmbeddedAsset(Assets.ButtonDownC), null, Texture.fromEmbeddedAsset(Assets.ButtonDisabledC));
-			mission1Btn.fontName = Assets.font.fontName;
+			mission1Btn = new MissionsButton(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC), "1", Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.ButtonDisabledC));
+			mission1Btn.fontName = EmbededAssets.font.fontName;
 			mission1Btn.fontSize = 50;
 			mission1Btn.fontBold = true;
 			mission1Btn.x = 500;
@@ -70,8 +70,8 @@ package ua.com.syo.luckyfriday.view.states {
 			mission1Btn.addEventListener(Event.TRIGGERED, bttClicked);
 			container.addChild(mission1Btn);
 
-			mission2Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.LogobtnC), "2", Texture.fromEmbeddedAsset(Assets.ButtonDownC), null, Texture.fromEmbeddedAsset(Assets.ButtonDisabledC));
-			mission2Btn.fontName = Assets.font.fontName;
+			mission2Btn = new MissionsButton(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC), "2", Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.ButtonDisabledC));
+			mission2Btn.fontName = EmbededAssets.font.fontName;
 			mission2Btn.fontSize = 50;
 			mission2Btn.fontBold = true;
 			mission2Btn.x = 500;
@@ -80,8 +80,8 @@ package ua.com.syo.luckyfriday.view.states {
 			mission2Btn.addEventListener(Event.TRIGGERED, bttClicked);
 			container.addChild(mission2Btn);
 
-			mission3Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.LogobtnC), "3", Texture.fromEmbeddedAsset(Assets.ButtonDownC), null, Texture.fromEmbeddedAsset(Assets.ButtonDisabledC));
-			mission3Btn.fontName = Assets.font.fontName;
+			mission3Btn = new MissionsButton(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC), "3", Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.ButtonDisabledC));
+			mission3Btn.fontName = EmbededAssets.font.fontName;
 			mission3Btn.fontSize = 50;
 			mission3Btn.fontBold = true;
 			mission3Btn.x = 500;
@@ -91,8 +91,8 @@ package ua.com.syo.luckyfriday.view.states {
 			container.addChild(mission3Btn);
 
 
-			mission4Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.LogobtnC), "4", Texture.fromEmbeddedAsset(Assets.ButtonDownC), null, Texture.fromEmbeddedAsset(Assets.ButtonDisabledC));
-			mission4Btn.fontName = Assets.font.fontName;
+			mission4Btn = new MissionsButton(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC), "4", Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.ButtonDisabledC));
+			mission4Btn.fontName = EmbededAssets.font.fontName;
 			mission4Btn.fontSize = 50;
 			mission4Btn.fontBold = true;
 			mission4Btn.x = 600;
@@ -102,8 +102,8 @@ package ua.com.syo.luckyfriday.view.states {
 			container.addChild(mission4Btn);
 
 
-			mission5Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.LogobtnC), "5", Texture.fromEmbeddedAsset(Assets.ButtonDownC), null, Texture.fromEmbeddedAsset(Assets.ButtonDisabledC));
-			mission5Btn.fontName = Assets.font.fontName;
+			mission5Btn = new MissionsButton(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC), "5", Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.ButtonDisabledC));
+			mission5Btn.fontName = EmbededAssets.font.fontName;
 			mission5Btn.fontSize = 50;
 			mission5Btn.fontBold = true;
 			mission5Btn.x = 600;
@@ -112,8 +112,8 @@ package ua.com.syo.luckyfriday.view.states {
 			mission5Btn.addEventListener(Event.TRIGGERED, bttClicked);
 			container.addChild(mission5Btn);
 
-			mission6Btn = new MissionsButton(Texture.fromEmbeddedAsset(Assets.LogobtnC), "6", Texture.fromEmbeddedAsset(Assets.ButtonDownC), null, Texture.fromEmbeddedAsset(Assets.ButtonDisabledC));
-			mission6Btn.fontName = Assets.font.fontName;
+			mission6Btn = new MissionsButton(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC), "6", Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.ButtonDisabledC));
+			mission6Btn.fontName = EmbededAssets.font.fontName;
 			mission6Btn.fontSize = 50;
 			mission6Btn.fontBold = true;
 			mission6Btn.x = 600;
@@ -136,7 +136,7 @@ package ua.com.syo.luckyfriday.view.states {
 			settingsBtn.width = 75;
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
-			settingsBtn.defaultIcon = new Image(Assets.getTexture("SettingsIconC"));
+			settingsBtn.defaultIcon = new Image(EmbededAssets.getTexture("SettingsIconC"));
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 		}

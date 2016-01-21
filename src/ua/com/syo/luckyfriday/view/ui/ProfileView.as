@@ -15,7 +15,7 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.events.Event;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.ui.renderers.TopListItemRenderer;
@@ -94,7 +94,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			this.addChild(backBtn);
 
 			// add img profile
-			profimg = new Image(Texture.fromEmbeddedAsset(Assets.AvatarC));
+			profimg = new Image(Texture.fromEmbeddedAsset(EmbededAssets.AvatarC));
 			profimg.y = 25;
 			profimg.x = 20;
 			addChild(profimg);

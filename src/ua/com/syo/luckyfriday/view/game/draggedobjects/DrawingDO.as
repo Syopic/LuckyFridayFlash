@@ -15,7 +15,7 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 	import starling.display.Image;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.utils.Utils;
+	import ua.com.syo.core.utils.Utils;
 
 	/**
 	 * Physics object with drawing shape

@@ -13,7 +13,7 @@ package ua.com.syo.luckyfriday.model.storage.level
 
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.utils.Utils;
+	import ua.com.syo.core.utils.Utils;
 	import ua.com.syo.luckyfriday.view.game.draggedobjects.DrawingDO;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 

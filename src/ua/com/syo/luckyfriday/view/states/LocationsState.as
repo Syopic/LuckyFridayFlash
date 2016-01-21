@@ -11,7 +11,7 @@ package ua.com.syo.luckyfriday.view.states
 	import starling.events.Event;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Assets;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class LocationsState extends StarlingState
@@ -61,7 +61,7 @@ package ua.com.syo.luckyfriday.view.states
 			settingsBtn.width = 75;
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
-			settingsBtn.defaultIcon = new Image(Assets.getTexture("SettingsIconC"));
+			settingsBtn.defaultIcon = new Image(EmbededAssets.getTexture("SettingsIconC"));
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 		}
