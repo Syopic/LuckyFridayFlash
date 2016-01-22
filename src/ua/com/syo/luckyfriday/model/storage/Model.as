@@ -1,22 +1,30 @@
 package ua.com.syo.luckyfriday.model.storage
 {
-	import ua.com.syo.core.assets.Asset;
-	import ua.com.syo.core.assets.AssetsLoader;
-	import ua.com.syo.core.assets.events.AssetEvent;
+	import flash.filesystem.File;
+
+	import starling.utils.AssetManager;
 
 	public class Model
 	{
+
+		private var assetManager:AssetManager;
 		public function init():void
 		{
-			var lm:AssetsLoader = new AssetsLoader("test");
-			lm.addEventListener(AssetEvent.ALL_ASSETS_LOADED, assetsLoadedHandler);
-			lm.pushAsset(new Asset("logo", "../assets/img/Logo.png", Asset.SPRITE_TYPE));
-			lm.startLoading();
+			assetManager = new AssetManager();
+
+			var appDir:File = File.applicationDirectory;
+
+			assetManager.enqueue(appDir.resolvePath("missions"));
+			assetManager.loadQueue(function(ratio:Number):void {
+				if (ratio == 1.0) {
+					loadComplete();
+				}
+			});
 		}
 
-		protected function assetsLoadedHandler(event:AssetEvent):void
-		{
-			trace(event.loaderLabel + " all loaded!");
+		protected function loadComplete():void {
+			var obj:Object = assetManager.getObject("mission");
+			trace("!!!!!!!!!!!!!!!assets loadComplete");
 		}
 
 		/**
