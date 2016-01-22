@@ -1,5 +1,7 @@
 package ua.com.syo.luckyfriday.view.states {
 
+	import flash.events.Event;
+
 	import citrus.core.starling.StarlingState;
 
 	import feathers.controls.Button;
@@ -9,10 +11,11 @@ package ua.com.syo.luckyfriday.view.states {
 
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.events.ResizeEvent;
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.controller.events.LevelEvent;
+	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
@@ -51,17 +54,16 @@ package ua.com.syo.luckyfriday.view.states {
 
 		private function initBg():void {
 
-
 			bg = new Image(Texture.fromEmbeddedAsset(EmbededAssets.SpacebgC));
 			//bg.width = Globals.stageWidth;
 			//bg.height = Globals.stageHeight;
-			UIManager.instance.addEventListener(Event.RESIZE, arrange);
+			UIManager.instance.addEventListener(flash.events.Event.RESIZE, arrange);
 			addChild(bg);
 			addChild(meteor);
 
 		}
 
-		private function arrange():void {
+		private function arrange(event:flash.events.Event):void {
 			if (Globals.stageWidth < 1920) {
 				bg.width = 1920;
 				bg.height = 1024;
@@ -87,7 +89,7 @@ package ua.com.syo.luckyfriday.view.states {
 			backBtn.width = 75;
 			backBtn.height = 75;
 			backBtn.layoutData = new AnchorLayoutData(20, NaN, NaN, 20);
-			backBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			backBtn.addEventListener(starling.events.Event.TRIGGERED, buttonClicked);
 			container.addChild(backBtn);
 
 			// settings
@@ -96,7 +98,7 @@ package ua.com.syo.luckyfriday.view.states {
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
 			settingsBtn.defaultIcon = new Image(EmbededAssets.getTexture("SettingsIconC"));
-			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
+			settingsBtn.addEventListener(starling.events.Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 		}
 
@@ -134,9 +136,9 @@ package ua.com.syo.luckyfriday.view.states {
 
 
 		public function isSelect(event:MissionPointEvent):void {
-			Controller.instance.startLevel(event.id);
+			Controller.instance.startLoadLevel(event.id);
 			trace("triggered! " + event.id);
-			Controller.instance.addEventListener(LevelEvent.LEVEL_LOADED, startLevel);
+			Controller.instance.addEventListener(AssetsLoadingEvent.LEVEL_LOADED, startLevel);
 
 		}
 
@@ -147,7 +149,7 @@ package ua.com.syo.luckyfriday.view.states {
 		}
 
 
-		private function buttonClicked(event:Event):void {
+		private function buttonClicked(event:starling.events.Event):void {
 			switch (event.currentTarget as Button) {
 				case backBtn:
 					Controller.instance.changeState(LocationsState.newInstance);

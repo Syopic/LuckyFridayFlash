@@ -8,13 +8,13 @@ package ua.com.syo.luckyfriday.view.ui
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
-	
+
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
-	
+
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
@@ -23,7 +23,7 @@ package ua.com.syo.luckyfriday.view.ui
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 
 	public class MissionCompleteView extends Panel
-		
+
 	{
 		private var menuBtn:Button;
 		private var playagainBtn:Button;
@@ -32,20 +32,20 @@ package ua.com.syo.luckyfriday.view.ui
 		private var panelHeight:int = 300;
 		private var containerBtn:LayoutGroup;
 		private var mMovie:MovieClip;
-		
-		
-		
-		
+
+
+
+
 		public function MissionCompleteView()
 		{
-			
+
 			width = panelWidth;
 			height = panelHeight;
 			//title = "Settings";
-			
-				
+
+
 			this.layout = new AnchorLayout();
-			
+
 			var labelsVLayout:HorizontalLayout = new HorizontalLayout();
 			var labelsContainer:LayoutGroup = new LayoutGroup();
 			labelsVLayout.padding = 20;
@@ -55,9 +55,9 @@ package ua.com.syo.luckyfriday.view.ui
 			labelsVLayout.horizontalAlign = HorizontalLayout.HORIZONTAL_ALIGN_CENTER;
 			labelsContainer.layout = labelsVLayout;
 			this.addChild(labelsContainer);
-			
+
 			/**
-			
+
 			var controlsVLayout:VerticalLayout = new VerticalLayout();
 			var controlsContainer:LayoutGroup = new LayoutGroup();
 			controlsVLayout.padding = 15;
@@ -69,11 +69,11 @@ package ua.com.syo.luckyfriday.view.ui
 			this.addChild(controlsContainer);
 */
 			addLabel("Mission Complete", labelsContainer);
-			
+
 			initAnimations()
 			// animate them
 			Starling.juggler.add ( mMovie );
-			
+
 			initButtons()
 			// menu button
 			menuBtn = new Button();
@@ -83,7 +83,7 @@ package ua.com.syo.luckyfriday.view.ui
 			menuBtn.layoutData = new AnchorLayoutData(NaN, 12, 12, NaN, NaN);
 			menuBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			containerBtn.addChild(menuBtn);
-			
+
 			// playagain button
 			playagainBtn = new Button();
 			playagainBtn.label = "Play Again";
@@ -92,7 +92,7 @@ package ua.com.syo.luckyfriday.view.ui
 			playagainBtn.layoutData = new AnchorLayoutData(NaN, NaN, 20, NaN, NaN);
 			playagainBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			containerBtn.addChild(playagainBtn);
-			
+
 			// next button
 			nextBtn = new Button();
 			nextBtn.label = "Next";
@@ -101,9 +101,9 @@ package ua.com.syo.luckyfriday.view.ui
 			nextBtn.layoutData = new AnchorLayoutData(NaN, NaN, 12, NaN, 12);
 			nextBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			containerBtn.addChild(nextBtn);
-			
+
 		}
-		
+
 		private function initButtons():void {
 			var containerVLayout:HorizontalLayout = new HorizontalLayout();
 			containerBtn = new LayoutGroup();
@@ -117,15 +117,15 @@ package ua.com.syo.luckyfriday.view.ui
 			containerBtn.layout = containerVLayout;
 			this.addChild(containerBtn);
 		}
-		
-		
+
+
 		private function addLabel(text:String, container:LayoutGroup):void
 		{
 			var label:Label = new Label();
 			label.text = text;
 			container.addChild(label);
 		}	
-		
+
 		private function buttonClicked(event:Event):void   
 		{   
 			switch (event.currentTarget as Button)
@@ -136,7 +136,7 @@ package ua.com.syo.luckyfriday.view.ui
 					Controller.instance.ce.playing = true;
 					break;
 				case playagainBtn:
-					Controller.instance.startLevel(Controller.instance.currentLevelId);  
+					Controller.instance.startLoadLevel(Controller.instance.currentLevelId);  
 					PopUpManager.removePopUp(this);
 					Controller.instance.ce.playing = true;
 					break;
@@ -145,15 +145,16 @@ package ua.com.syo.luckyfriday.view.ui
 					break;
 			}
 		}
-			private function initAnimations():void {
-				var sTextureAtlas:TextureAtlas = EmbededAssets.getShipHeroAtlas();
-				var frames:Vector.<Texture> = sTextureAtlas.getTextures(Constants.ROTATE_ANIMATION);
-				mMovie = new MovieClip(frames, 10);
-				mMovie.x = 170;
-				mMovie.y = 60;
-				addChild(mMovie);
-			}
-			 
-		
+		private function initAnimations():void {
+			var sTextureAtlas:TextureAtlas = EmbededAssets.getShipHeroAtlas();
+			var frames:Vector.<Texture> = sTextureAtlas.getTextures(Constants.ROTATE_ANIMATION);
+			mMovie = new MovieClip(frames, 10);
+			mMovie.x = 170;
+			mMovie.y = 60;
+			addChild(mMovie);
+		}
+
+
 	}
 }
+

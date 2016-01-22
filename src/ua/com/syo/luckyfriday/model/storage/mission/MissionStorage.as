@@ -3,10 +3,7 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.model.storage.mission.Location;
-	import ua.com.syo.luckyfriday.model.storage.mission.Mission;
-	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
+	import ua.com.syo.luckyfriday.model.storage.Model;
 
 	/**
 	 *
@@ -148,9 +145,8 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 					trace("locationTexture-->" + t);
 				}
 			}
-			Controller.instance.locationTexture(t);
+			locationTexture = Model.instance.assetManager.getTexture(t);
 			trace("locationTexture->" + locationTexture);
-			trace();
 			return locationTexture;
 
 		}

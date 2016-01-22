@@ -162,7 +162,9 @@ package ua.com.syo.luckyfriday.model.storage.level
 		 * Cashing JSON object
 		 */
 		private static var levelJSON:Object;
-		public static function setLevelData(json:Object):void {
+		public static function setLevelData(fg:Texture, bg:Texture, json:Object):void {
+			fgTexture = fg;
+			bgTexture = bg;
 			levelJSON = json;
 		}
 

@@ -1,6 +1,6 @@
 package ua.com.syo.luckyfriday.view {
 
-
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 
 	import feathers.controls.Alert;
@@ -12,8 +12,9 @@ package ua.com.syo.luckyfriday.view {
 	import starling.events.Event;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
+	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.data.Globals;
+	import ua.com.syo.luckyfriday.model.storage.Model;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
@@ -115,15 +116,15 @@ package ua.com.syo.luckyfriday.view {
 				profileView = new ProfileView();
 			}
 			PopUpManager.addPopUp(profileView);
-			Controller.instance.startLoadProfile();
-			Controller.instance.addEventListener(ProfileEvent.PROFILE_LOADED, arrageProfileView);
+			Model.instance.loadProfileAssets();
+			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
 		}
 
 		/**
 		 * Arrage ProfileView Data
 		 */
 
-		public function arrageProfileView():void {
+		public function arrageProfileView(event:AssetsLoadingEvent):void {
 			profileView.arrange();
 			MenuState.instance.arrange();
 		}
@@ -171,21 +172,19 @@ package ua.com.syo.luckyfriday.view {
 			exitAlert = Alert.show("Do you want to exit?", "Exit to system", new ListCollection([{label: "OK"}, {label: "Cancel"}]));
 			exitAlert.width = 400;
 			exitAlert.height = 200;
-			exitAlert.addEventListener(Event.CLOSE, alertCloseHandler);
+			exitAlert.addEventListener(starling.events.Event.CLOSE, alertCloseHandler);
 		}
 
-		private function alertCloseHandler(event:Event, data:Object):void {
+		private function alertCloseHandler(event:starling.events.Event, data:Object):void {
 			if (data.label == "OK") {
 				Controller.instance.exitApplication();
 			}
 		}
-		public function resizeListener(stageWidth:int, stageHeight:int):void
+		public function resize(w:int, h:int):void
 		{
-			Globals.stageWidth = stageWidth;
-			Globals.stageHeight = stageHeight;
-			//trace("stageWidth: " + stageWidth + " stageHeight: " + stageHeight);
-			// TODO Auto Generated method stub
-
+			Globals.stageWidth = w;
+			Globals.stageHeight = h;
+			dispatchEvent(new flash.events.Event(flash.events.Event.RESIZE));
 		}
 		/**
 		 * Singleton

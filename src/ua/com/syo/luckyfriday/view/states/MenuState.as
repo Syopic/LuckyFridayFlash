@@ -1,16 +1,16 @@
 package ua.com.syo.luckyfriday.view.states
 {
 	import citrus.core.starling.StarlingState;
-	
+
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	
+
 	import starling.display.Image;
 	import starling.events.Event;
-	
+
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
@@ -114,7 +114,7 @@ package ua.com.syo.luckyfriday.view.states
 			super.update(timeDelta);
 
 			if (_ce.input.hasDone(Constants.PLAY_ACTION)) {
-				Controller.instance.startLevel(Controller.instance.currentLevelId);  
+				Controller.instance.startLoadLevel(Controller.instance.currentLevelId);  
 			}
 		}
 
@@ -124,7 +124,7 @@ package ua.com.syo.luckyfriday.view.states
 			{
 				case playBtn: 
 					//TODO goto location
-					Controller.instance.startLevel(Controller.instance.currentLevelId);   
+					Controller.instance.startLoadLevel(Controller.instance.currentLevelId);   
 					break;
 				case locationsBtn: 
 					Controller.instance.changeState(LocationsState.newInstance);   
@@ -142,7 +142,7 @@ package ua.com.syo.luckyfriday.view.states
 					UIManager.instance.showProfileView();
 					//UIManager.instance.showMissionComplete();
 					break;
-			
+
 
 			}
 		}   

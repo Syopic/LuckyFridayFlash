@@ -6,10 +6,11 @@ package ua.com.syo.luckyfriday {
 	import citrus.input.controllers.Keyboard;
 
 	import starling.events.Event;
+	import starling.events.ResizeEvent;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.model.storage.Model;
 	import ua.com.syo.luckyfriday.data.Globals;
+	import ua.com.syo.luckyfriday.model.storage.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 
@@ -24,13 +25,7 @@ package ua.com.syo.luckyfriday {
 
 			stage.quality = StageQuality.LOW;
 			console.openKey = Keyboard.ENTER;
-			stage.addEventListener(Event.RESIZE, function():void {
-				//trace("w:"+stage.stageWidth);
-				Globals.stageWidth = stage.stageWidth;
-				Globals.stageHeight = stage.stageHeight;
-				//UIManager.instance.resizeListener();
 
-			});
 			// disable ESC in fullscreen
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent):void {
 				if (e.keyCode == Keyboard.ESCAPE) {
@@ -38,14 +33,17 @@ package ua.com.syo.luckyfriday {
 					e.preventDefault();
 				}
 			});
+
+			stage.addEventListener(ResizeEvent.RESIZE, function():void {
+				UIManager.instance.resize(stage.stageWidth, stage.stageHeight);
+			});
 		}
+
 		override public function handleStarlingReady():void {
-			Controller.instance.init();
-			UIManager.instance.init();
 			Model.instance.init();
-			// TODO add loading state
+			UIManager.instance.init();
+			Controller.instance.init();
 			Controller.instance.changeState(MenuState.newInstance);
-			//Controller.instance.changeState(GameState.newInstance);
 		}
 	}
 }

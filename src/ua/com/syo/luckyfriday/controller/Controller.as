@@ -1,7 +1,6 @@
 package ua.com.syo.luckyfriday.controller {
 	import flash.desktop.NativeApplication;
 	import flash.display.StageDisplayState;
-	import flash.filesystem.File;
 
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
@@ -12,26 +11,19 @@ package ua.com.syo.luckyfriday.controller {
 	import citrus.sounds.CitrusSoundGroup;
 	import citrus.sounds.SoundManager;
 
-	import starling.events.Event;
 	import starling.events.EventDispatcher;
-	import starling.utils.AssetManager;
 
 	import ua.com.syo.luckyfriday.LuckyFriday;
-	import ua.com.syo.luckyfriday.controller.events.LevelEvent;
-	import ua.com.syo.luckyfriday.controller.events.MissionEvent;
-	import ua.com.syo.luckyfriday.controller.events.ProfileEvent;
+	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.SaveData;
-	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
-	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
-	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.model.storage.Model;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller extends EventDispatcher {
 
 		private var _currentLevelId:String = "5";
-		private var assetManager:AssetManager;
 
 		public function init():void {
 			// update settings from saved data in SharedObjects
@@ -41,10 +33,8 @@ package ua.com.syo.luckyfriday.controller {
 			initKeyboardActions();
 			initGamePadActions();
 			initCommonSounds();
-
-			assetManager = new AssetManager();
-			//startLevel(currentLevelId);
-			startLoadMissions();
+			//startLoadLevel(currentLevelId);
+			//startLoadMissions();
 		}
 
 		/**
@@ -83,113 +73,22 @@ package ua.com.syo.luckyfriday.controller {
 		public function changeState(nextState:StarlingState):void {
 			SoundManager.getInstance().stopAllPlayingSounds();
 			ce.state = nextState;
-			trace("changeState");
 		}
 
-		public function startLoadProfile():void {
-			trace("START LOAD PROFILE");
-			loadProfileAssets()
-		}
 
-		public function startLoadMissions():void {
-			trace("START LOAD MISSIONS");
-			loadMissionsAssets()
-		}
-
-		public function startLevel(levelId:String):void {
+		public function startLoadLevel(levelId:String):void {
 			trace("START LEVEL: " + levelId);
 			_currentLevelId = levelId;
-			loadLevelAssets();
-		}
-
-
-		/**
-		 * Load level assets
-		 */
-		protected function loadLevelAssets():void {
-			//loadComplete();
-
-			var appDir:File = File.applicationDirectory;
-			trace("loading from: " + "levels/level" + _currentLevelId);
-
-			assetManager.enqueue(appDir.resolvePath("levels/level" + _currentLevelId));
-			assetManager.loadQueue(function(ratio:Number):void {
-				//trace("Loading assets, progress:", ratio);
-
-				// -> When the ratio equals '1', we are finished.
-				if (ratio == 1.0) {
-					loadComplete();
-				}
-			});
+			Model.instance.addEventListener(AssetsLoadingEvent.LEVEL_LOADED, levelLoadedComplete);
+			Model.instance.loadLevelsAssets(levelId);
 		}
 
 		/**
-		 * Load complete
+		 * Level load complete
 		 */
-		protected function loadComplete():void {
-			//CurrentLevelData.bgTexture = Assets.getTexture("BackgroundC");
-			CurrentLevelData.bgTexture = assetManager.getTexture("bg");
-			CurrentLevelData.fgTexture = assetManager.getTexture("fg")
-			CurrentLevelData.setLevelData(assetManager.getObject("levelData"));
-			this.dispatchEvent(new Event(LevelEvent.LEVEL_LOADED));
-			Controller.instance.changeState(GameState.newInstance);
-			trace("loadComplete " + _currentLevelId);
+		protected function levelLoadedComplete(event:AssetsLoadingEvent):void {
+			changeState(GameState.newInstance);
 		}
-
-		/**
-		 * Load profile assets
-		 */
-		protected function loadProfileAssets():void {
-			assetManager = new AssetManager();
-			var appDir:File = File.applicationDirectory;
-			assetManager.enqueue(appDir.resolvePath("profile"));
-			trace("loading from: " + "/profile" + appDir);
-			assetManager.loadQueue(function(ratio:Number):void {
-				trace("Loading PROF assets, progress:", ratio);
-				// -> When the ratio equals '1', we are finished.
-				if (ratio == 1.0) {
-					loadProfileComplete();
-
-				}
-			});
-		}
-
-		protected function loadProfileComplete():void {
-			ProfileStorage.profTexture = assetManager.getTexture("che");
-			ProfileStorage.ParseProfileFromJSON(assetManager.getObject("profile"));
-			this.dispatchEvent(new Event(ProfileEvent.PROFILE_LOADED));
-		}
-
-
-		/**
-		 * Load mission assets
-		 */
-		protected function loadMissionsAssets():void {
-			assetManager = new AssetManager();
-			var appDir:File = File.applicationDirectory;
-			assetManager.enqueue(appDir.resolvePath("missions"));
-			trace("loading from: " + "/missions" + appDir);
-			assetManager.loadQueue(function(ratio:Number):void {
-				trace("Loading MISSION assets, progress:", ratio);
-				// -> When the ratio equals '1', we are finished.
-				if (ratio == 1.0) {
-					loadMissionsComplete();
-
-				}
-			});
-		}
-
-		protected function loadMissionsComplete():void {
-			MissionStorage.ParseLocationMisiionFromJSON(assetManager.getObject("mission"));
-			this.dispatchEvent(new Event(MissionEvent.MISSION_LOADED));
-			startLoadProfile();
-		}
-
-		public function locationTexture(locationTexture:String):void {
-
-			MissionStorage.locationTexture = assetManager.getTexture(locationTexture);
-		}
-
 
 		/**
 		 * Get the keyboard, and add actions
