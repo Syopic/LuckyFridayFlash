@@ -104,6 +104,7 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		/**
 		 *  Get Mission Poin By Type - primary or additional
 		 * @param additional - Boolean true or false
+		 * @param locationId - locationId
 		 * @return Mission
 		 *
 		 */
