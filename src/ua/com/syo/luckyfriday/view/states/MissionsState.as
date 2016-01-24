@@ -109,12 +109,11 @@ package ua.com.syo.luckyfriday.view.states {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-			//var baseMissionId:Array = MissionStorage.getMissionByAdditional(true);
 			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", true);
 			trace ("->")
 			var l:Location  = MissionStorage.getLocationById("location1");
 			var m:Mission = MissionStorage.getMissionById(primaryMissionId[1]);
-			//trace (m.pointX,m.pointY)
+			trace (m.pointX,m.pointY)
 
 			for (var i:int = 1; i < 7; i++) {
 				n = String(i);

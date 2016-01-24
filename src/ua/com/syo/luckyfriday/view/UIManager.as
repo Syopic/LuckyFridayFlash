@@ -39,7 +39,7 @@ package ua.com.syo.luckyfriday.view {
 		public function init():void {
 			// init ui theme
 			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
-
+			dataProfileView();
 		}
 
 		/**
@@ -116,6 +116,17 @@ package ua.com.syo.luckyfriday.view {
 				profileView = new ProfileView();
 			}
 			PopUpManager.addPopUp(profileView);
+			//Model.instance.loadProfileAssets();
+			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
+		}
+		
+		/**
+		 * Start load profile data and arrage data profile
+		 */
+		public function dataProfileView():void {
+			if (!profileView) {
+				profileView = new ProfileView();
+			}
 			Model.instance.loadProfileAssets();
 			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
 		}

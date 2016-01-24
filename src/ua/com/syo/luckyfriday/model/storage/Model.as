@@ -16,6 +16,8 @@ package ua.com.syo.luckyfriday.model.storage
 		public function init():void
 		{
 			_assetManager = new AssetManager();
+			loadProfileAssets();
+			loadMissionAssets();
 		}
 
 		public function loadLevelsAssets(currentLevelId:String):void
