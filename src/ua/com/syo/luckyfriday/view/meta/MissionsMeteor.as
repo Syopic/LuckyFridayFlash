@@ -13,27 +13,28 @@ package ua.com.syo.luckyfriday.view.meta {
 	public class MissionsMeteor extends Sprite {
 		private var met:Image;
 		public var resize:Number;
-		private var locatId:String;
+		private var l:Location;
+	
 
 		public function MissionsMeteor(locationId:String) {
 			var locationTexture:Texture = MissionStorage.getLocationTexture(locationId);
-			locatId = locationId;
+			l = MissionStorage.getLocationById(locationId);
 			met = new Image(locationTexture);
 			met.width = Globals.stageWidth - 200;
 			met.height = (Globals.stageWidth - 200) / 1.875;
 			met.x = Globals.stageWidth / 2 - met.width / 2;
 			met.y = Globals.stageHeight / 2 - met.height / 2;
+			resize = met.width /l.locationWidth;
 			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 			addChild(met);
 		}
 
 		private function arrange():void {
-			var l:Location = MissionStorage.getLocationById(locatId);
 			met.width = Globals.stageWidth - 200;
 			met.height = (Globals.stageWidth - 200) / 1.875;
 			met.x = Globals.stageWidth / 2 - met.width / 2;
 			met.y = Globals.stageHeight / 2 - met.height / 2;
-			resize = ( met.width /l.locationWidth ) * 100;
+			resize = met.width /l.locationWidth;
 			trace ("resize - "+resize+"%");
 			trace("");
 		}

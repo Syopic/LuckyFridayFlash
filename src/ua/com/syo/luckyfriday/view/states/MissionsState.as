@@ -100,23 +100,16 @@ package ua.com.syo.luckyfriday.view.states {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", true);
-			trace ("->")
-			var l:Location  = MissionStorage.getLocationById("location1");
-			var m:Mission = MissionStorage.getMissionById(primaryMissionId[1]);
-			trace (m.pointX,m.pointY)
-
-			for (var i:int = 1; i < 7; i++) {
-				n = String(i);
-				s = i - 1;
-				if (i <= 5) {
-					enab = true;
-				} else {
-					enab = false;
-				}
-				point = new MissionsPoint(n, enab);
-				point.x = px[s];
-				point.y = py[s];
+			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", false);
+			//var l:Location  = MissionStorage.getLocationById("location1");
+			for (var i:int = 0; i < primaryMissionId.length; i++) {
+				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
+				var params:Array = m.missionId.split(".", 2);
+				n = params[1];
+				trace ("Mission "+n+" in Location + locationId");
+				point = new MissionsPoint(n, m.missionEnable);
+				point.x = m.pointX * meteor.resize;
+				point.y = m.pointY * meteor.resize;
 				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
 				this.addChild(point);
 
