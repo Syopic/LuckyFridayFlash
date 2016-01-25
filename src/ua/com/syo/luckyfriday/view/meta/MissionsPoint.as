@@ -7,6 +7,7 @@ package ua.com.syo.luckyfriday.view.meta {
 
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	
 
 	/**
 	 *

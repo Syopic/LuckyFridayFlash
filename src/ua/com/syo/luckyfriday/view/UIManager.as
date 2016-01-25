@@ -1,7 +1,6 @@
 package ua.com.syo.luckyfriday.view {
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import starling.events.EventDispatcher;
 
 	import feathers.controls.Alert;
 	import feathers.controls.Header;
@@ -195,7 +194,7 @@ package ua.com.syo.luckyfriday.view {
 		{
 			Globals.stageWidth = w;
 			Globals.stageHeight = h;
-			dispatchEvent(new flash.events.Event(flash.events.Event.RESIZE));
+			dispatchEvent(new Event(Event.RESIZE));
 		}
 		/**
 		 * Singleton
