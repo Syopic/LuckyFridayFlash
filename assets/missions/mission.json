@@ -32,12 +32,12 @@
  	  ],
  	  "1":
 	  [
-	   	  {"location":"location2", "missionId":"2.1", "rate":50, "pointX":100, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
-	  	  {"location":"location2", "missionId":"2.2", "rate":30, "pointX":200, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":1},
-	  	  {"location":"location2", "missionId":"2.2.1", "rate":30, "pointX":150, "pointY":250, "missionEnable":true, "additionalPoint":true, "additQuantity":0},
-	  	  {"location":"location2", "missionId":"2.3", "rate":50, "pointX":300, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
-	  	  {"location":"location2", "missionId":"2.4", "rate":50, "pointX":400, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
-	  	  {"location":"location2", "missionId":"2.5", "rate":50, "pointX":500, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+	   	  {"location":"location2", "missionId":"2.1", "rate":50, "pointX":100, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":0},
+	  	  {"location":"location2", "missionId":"2.2", "rate":30, "pointX":200, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":1},
+	  	  {"location":"location2", "missionId":"2.2.1", "rate":30, "pointX":150, "pointY":250, "missionEnable":false, "additionalPoint":true, "additQuantity":0},
+	  	  {"location":"location2", "missionId":"2.3", "rate":50, "pointX":300, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":0},
+	  	  {"location":"location2", "missionId":"2.4", "rate":50, "pointX":400, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":0},
+	  	  {"location":"location2", "missionId":"2.5", "rate":50, "pointX":500, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":0},
 	  	  {"location":"location2", "missionId":"2.6", "rate":50, "pointX":600, "pointY":300, "missionEnable":false, "additionalPoint":false, "additQuantity":0}
  	  ]
  	 

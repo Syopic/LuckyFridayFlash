@@ -1,17 +1,17 @@
 package ua.com.syo.luckyfriday.view.states {
 
 	import citrus.core.starling.StarlingState;
-
+	
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-
+	
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
@@ -30,8 +30,6 @@ package ua.com.syo.luckyfriday.view.states {
 		private var bg:Image;
 		private var meteor:MissionsMeteor;
 		private var point:MissionsPoint;
-		private var px:Array = [350, 450, 550, 850, 750, 600];
-		private var py:Array = [150, 350, 150, 400, 100, 400];
 		private var containerPoint:Sprite = new Sprite();
 
 		override public function initialize():void {
@@ -84,12 +82,20 @@ package ua.com.syo.luckyfriday.view.states {
 
 		/**
 		 * Init Mission Point
+		 * 
 		 */
 		private function initMissionPoints():void {
+			primaryMissionPoints();
+		}
+		
+		/**
+		 * Add in state primary Mission
+		 */
+		private function primaryMissionPoints():void {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-
+			//var additionalMissionId:Array =  MissionStorage.getMissionIdByType("location1", true);
 			var primaryMissionId:Array = MissionStorage.getMissionIdByType("location1", false);
 			//var l:Location  = MissionStorage.getLocationById("location1");
 			for (var i:int = 0; i < primaryMissionId.length; i++) {
@@ -107,6 +113,10 @@ package ua.com.syo.luckyfriday.view.states {
 			addChild(containerPoint);
 		}
 
+		/**
+		 * Function arrange change scale background and  psition coordinats missions when changes stage width
+		 * @param event
+		 */
 		private function arrange(event:Event):void {
 
 			if (Globals.stageWidth < 1920) {
@@ -119,7 +129,8 @@ package ua.com.syo.luckyfriday.view.states {
 			}
 			var n:String;
 			var primaryMissionId:Array = MissionStorage.getMissionIdByType("location1", false);
-			for (var i:int = 0; i < primaryMissionId.length; i++) {
+			//arange primary point
+				for (var i:int = 0; i < primaryMissionId.length; i++) {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.missionId.split(".", 2);
 				n = params[1];
@@ -132,11 +143,20 @@ package ua.com.syo.luckyfriday.view.states {
 
 
 
+		/**
+		 *  Function isSelect - is start selection mission
+		 * @param event
+		 */
 		public function isSelect(event:MissionPointEvent):void {
 			Controller.instance.startLoadLevel(event.id);
 			trace("triggered! " + event.id);
 		}
 
+		/**
+		 * Handling button clicked
+		 * @param event
+		 * 
+		 */
 		private function buttonClicked(event:starling.events.Event):void {
 			switch (event.currentTarget as Button) {
 				case backBtn:

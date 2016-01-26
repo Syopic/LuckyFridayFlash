@@ -10,6 +10,10 @@ package ua.com.syo.luckyfriday.view.meta {
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.model.storage.mission.Location;
 
+	/**
+	 * Class MissionsMeteor create and resize view meteorite for MissionsState view
+	 * @author Alex
+	 */
 	public class MissionsMeteor extends Sprite {
 		private var met:Image;
 		public var resizeY:Number;
@@ -17,6 +21,10 @@ package ua.com.syo.luckyfriday.view.meta {
 		private var l:Location;
 
 
+		/**
+		 * Constructor
+	 	 * @param locationId
+		 */
 		public function MissionsMeteor(locationId:String) {
 			var locationTexture:Texture = MissionStorage.getLocationTexture(locationId);
 			l = MissionStorage.getLocationById(locationId);
@@ -32,6 +40,9 @@ package ua.com.syo.luckyfriday.view.meta {
 			addChild(met);
 		}
 
+		/**
+		 * Function arrange change scale when changes stage width
+		 */
 		private function arrange():void {
 			resizeY = (Globals.stageHeight - 200) / l.locationHeight;
 			met.scaleX = resizeY;
@@ -39,8 +50,6 @@ package ua.com.syo.luckyfriday.view.meta {
 			met.x = Globals.stageWidth / 2 - met.width / 2;
 			met.y = 100;
 			psitionX = met.x;
-			trace("resize - " + resizeY + "%");
-			trace("");
 		}
 
 	}
