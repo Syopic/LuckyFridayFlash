@@ -56,7 +56,6 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		 * @param l - Location variables
 		 */
 		private static function addLocation(l:Location):void {
-
 			locationDictionary[l.locationId] = l;
 		}
 
@@ -81,7 +80,7 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		 * Create object includet all Missions Point
 		 * @param m - Mission variables
 		 */
-		private static function addMissionPoint(m:Mission ):void {
+		private static function addMissionPoint(m:Mission):void {
 			missionDictionary[m.missionId] = m;
 		}
 
@@ -104,14 +103,15 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		/**
 		 *  Get Mission Poin By Type - primary or additional
 		 * @param additional - Boolean true or false
+		 * @param locationId - locationId
 		 * @return Mission
 		 *
 		 */
-		public static function getMissionByType(locationId:String, additional:Boolean ):Array {
+		public static function getMissionByType(locationId:String, additional:Boolean):Array {
 			var result:Array = new Array;
 			for each (var m:Mission in missionDictionary) {
 				if (m.location == locationId) {
-					if (m.additionalPoint == additional){
+					if (m.additionalPoint == additional) {
 						result.push(m.missionId);
 					}
 				}
@@ -130,23 +130,21 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		}
 
 		/**
-		 * Get current lication texture - not work
+		 * Get current location texture
 		 * @param locationId
-		 * @return
+		 * @return - location texture
 		 *
 		 */
 		static public function getLocationTexture(locationId:String):Texture {
 			var location:Location = null;
 			var t:String = null;
-			for each (var l:Location in missionDictionary) {
+			for each (var l:Location in locationDictionary) {
 				if (l.locationId == locationId) {
 					location = l;
 					t = l.locationTexture;
-					trace("locationTexture-->" + t);
 				}
 			}
 			locationTexture = Model.instance.assetManager.getTexture(t);
-			trace("locationTexture->" + locationTexture);
 			return locationTexture;
 
 		}

@@ -1,5 +1,4 @@
-package ua.com.syo.luckyfriday.model.storage
-{
+package ua.com.syo.luckyfriday.model.storage {
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
 
@@ -10,16 +9,16 @@ package ua.com.syo.luckyfriday.model.storage
 	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
 
-	public class Model extends EventDispatcher
-	{
+	public class Model extends EventDispatcher {
 		private var _assetManager:AssetManager;
-		public function init():void
-		{
+
+		public function init():void {
 			_assetManager = new AssetManager();
+			loadProfileAssets();
+			loadMissionAssets();
 		}
 
-		public function loadLevelsAssets(currentLevelId:String):void
-		{
+		public function loadLevelsAssets(currentLevelId:String):void {
 			_assetManager.enqueue(File.applicationDirectory.resolvePath("assets/levels/level" + currentLevelId));
 			_assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
@@ -29,8 +28,7 @@ package ua.com.syo.luckyfriday.model.storage
 			});
 		}
 
-		public function loadProfileAssets():void
-		{
+		public function loadProfileAssets():void {
 			_assetManager.enqueue(File.applicationDirectory.resolvePath("assets/profile"));
 			_assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
@@ -41,8 +39,7 @@ package ua.com.syo.luckyfriday.model.storage
 			});
 		}
 
-		public function loadMissionAssets():void
-		{
+		public function loadMissionAssets():void {
 			_assetManager.enqueue(File.applicationDirectory.resolvePath("assets/missions"));
 			_assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
@@ -52,8 +49,7 @@ package ua.com.syo.luckyfriday.model.storage
 			});
 		}
 
-		public function get assetManager():AssetManager
-		{
+		public function get assetManager():AssetManager {
 			return _assetManager;
 		}
 
@@ -70,4 +66,5 @@ package ua.com.syo.luckyfriday.model.storage
 		}
 	}
 }
+
 

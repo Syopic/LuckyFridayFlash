@@ -1,7 +1,5 @@
 package ua.com.syo.luckyfriday.view.states {
 
-	import flash.events.Event;
-
 	import citrus.core.starling.StarlingState;
 
 	import feathers.controls.Button;
@@ -11,35 +9,25 @@ package ua.com.syo.luckyfriday.view.states {
 
 	import starling.display.Image;
 	import starling.events.Event;
-	import starling.events.ResizeEvent;
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
-	import ua.com.syo.luckyfriday.model.storage.mission.Location;
 	import ua.com.syo.luckyfriday.model.storage.mission.Mission;
 	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
-	import ua.com.syo.luckyfriday.view.meta.ImageButton;
 	import ua.com.syo.luckyfriday.view.meta.MissionsMeteor;
 	import ua.com.syo.luckyfriday.view.meta.MissionsPoint;
 
 	public class MissionsState extends StarlingState {
 
 		private var backBtn:Button;
-		private var mission1Btn:ImageButton;
-		private var mission2Btn:ImageButton;
-		private var mission3Btn:ImageButton;
-		private var mission4Btn:ImageButton;
-		private var mission5Btn:ImageButton;
-		private var mission6Btn:ImageButton;
 		private var container:LayoutGroup;
 		private var settingsBtn:Button;
 		private var bg:Image;
-		private var meteor:MissionsMeteor = new MissionsMeteor;
+		private var meteor:MissionsMeteor;
 		private var point:MissionsPoint;
 		private var px:Array = [350, 450, 550, 850, 750, 600];
 		private var py:Array = [150, 350, 150, 400, 100, 400];
@@ -55,15 +43,14 @@ package ua.com.syo.luckyfriday.view.states {
 		private function initBg():void {
 
 			bg = new Image(Texture.fromEmbeddedAsset(EmbededAssets.SpacebgC));
-			//bg.width = Globals.stageWidth;
-			//bg.height = Globals.stageHeight;
-			UIManager.instance.addEventListener(flash.events.Event.RESIZE, arrange);
+			meteor = new MissionsMeteor("location1");
+			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 			addChild(bg);
 			addChild(meteor);
 
 		}
 
-		private function arrange(event:flash.events.Event):void {
+		private function arrange(event:Event):void {
 			if (Globals.stageWidth < 1920) {
 				bg.width = 1920;
 				bg.height = 1024;
@@ -109,24 +96,16 @@ package ua.com.syo.luckyfriday.view.states {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-			//var baseMissionId:Array = MissionStorage.getMissionByAdditional(true);
-			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", true);
-			trace ("->")
-			var l:Location  = MissionStorage.getLocationById("location1");
-			var m:Mission = MissionStorage.getMissionById(primaryMissionId[1]);
-			//trace (m.pointX,m.pointY)
-
-			for (var i:int = 1; i < 7; i++) {
-				n = String(i);
-				s = i - 1;
-				if (i <= 5) {
-					enab = true;
-				} else {
-					enab = false;
-				}
-				point = new MissionsPoint(n, enab);
-				point.x = px[s];
-				point.y = py[s];
+			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", false);
+			//var l:Location  = MissionStorage.getLocationById("location1");
+			for (var i:int = 0; i < primaryMissionId.length; i++) {
+				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
+				var params:Array = m.missionId.split(".", 2);
+				n = params[1];
+				trace ("Mission "+n+" in Location + locationId");
+				point = new MissionsPoint(n, m.missionEnable);
+				point.x = m.pointX * meteor.resize;
+				point.y = m.pointY * meteor.resize;
 				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
 				this.addChild(point);
 
@@ -138,16 +117,7 @@ package ua.com.syo.luckyfriday.view.states {
 		public function isSelect(event:MissionPointEvent):void {
 			Controller.instance.startLoadLevel(event.id);
 			trace("triggered! " + event.id);
-			Controller.instance.addEventListener(AssetsLoadingEvent.LEVEL_LOADED, startLevel);
-
 		}
-
-		private function startLevel():void
-		{
-			// TODO Auto Generated method stub
-			Controller.instance.changeState(GameState.newInstance);
-		}
-
 
 		private function buttonClicked(event:starling.events.Event):void {
 			switch (event.currentTarget as Button) {
@@ -183,5 +153,4 @@ package ua.com.syo.luckyfriday.view.states {
 		}
 	}
 }
-
 

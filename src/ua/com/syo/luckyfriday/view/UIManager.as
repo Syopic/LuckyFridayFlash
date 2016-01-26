@@ -1,7 +1,6 @@
 package ua.com.syo.luckyfriday.view {
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import starling.events.EventDispatcher;
 
 	import feathers.controls.Alert;
 	import feathers.controls.Header;
@@ -41,7 +40,7 @@ package ua.com.syo.luckyfriday.view {
 		public function init():void {
 			// init ui theme
 			var theme:MetalWorksDesktopTheme = new MetalWorksDesktopTheme();
-
+			dataProfileView();
 		}
 
 		/**
@@ -118,6 +117,17 @@ package ua.com.syo.luckyfriday.view {
 				profileView = new ProfileView();
 			}
 			PopUpManager.addPopUp(profileView);
+			//Model.instance.loadProfileAssets();
+			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
+		}
+
+		/**
+		 * Start load profile data and arrage data profile
+		 */
+		public function dataProfileView():void {
+			if (!profileView) {
+				profileView = new ProfileView();
+			}
 			Model.instance.loadProfileAssets();
 			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
 		}
@@ -194,9 +204,7 @@ package ua.com.syo.luckyfriday.view {
 		{
 			Globals.stageWidth = w;
 			Globals.stageHeight = h;
-			if (joystick)
-				joystick.setPosition(joystick.minOffsetX, Globals.stageHeight - joystick.minOffsetY);
-			dispatchEvent(new flash.events.Event(flash.events.Event.RESIZE));
+			dispatchEvent(new Event(Event.RESIZE));
 		}
 		/**
 		 * Singleton
