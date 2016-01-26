@@ -8,6 +8,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import feathers.layout.AnchorLayoutData;
 
 	import starling.display.Image;
+	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
 
@@ -31,6 +32,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var point:MissionsPoint;
 		private var px:Array = [350, 450, 550, 850, 750, 600];
 		private var py:Array = [150, 350, 150, 400, 100, 400];
+		private var containerPoint:Sprite = new Sprite();
 
 		override public function initialize():void {
 			super.initialize();
@@ -50,16 +52,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 		}
 
-		private function arrange(event:Event):void {
-			if (Globals.stageWidth < 1920) {
-				bg.width = 1920;
-				bg.height = 1024;
-			} else {
-				trace(Globals.stageWidth)
-				bg.width = Globals.stageWidth;
-				bg.height = Globals.stageHeight;
-			}
-		}
+
 
 		/**
 		 * Init buttons
@@ -96,18 +89,43 @@ package ua.com.syo.luckyfriday.view.states {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-			var primaryMissionId:Array = MissionStorage.getMissionByType("location1", false);
+
+			var primaryMissionId:Array = MissionStorage.getMissionIdByType("location1", false);
 			//var l:Location  = MissionStorage.getLocationById("location1");
 			for (var i:int = 0; i < primaryMissionId.length; i++) {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.missionId.split(".", 2);
 				n = params[1];
-				trace ("Mission "+n+" in Location + locationId");
+				trace("Mission " + n + " in Location + locationId");
 				point = new MissionsPoint(n, m.missionEnable);
-				point.x = m.pointX * meteor.resize;
-				point.y = m.pointY * meteor.resize;
+				point.name = n;
+				point.x = (m.pointX * meteor.resizeY) + meteor.psitionX;
+				point.y = (m.pointY * meteor.resizeY) + 100;
 				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
-				this.addChild(point);
+				containerPoint.addChild(point);
+			}
+			addChild(containerPoint);
+		}
+
+		private function arrange(event:Event):void {
+
+			if (Globals.stageWidth < 1920) {
+				bg.width = 1920;
+				bg.height = 1024;
+			} else {
+				trace(Globals.stageWidth)
+				bg.width = Globals.stageWidth;
+				bg.height = Globals.stageHeight;
+			}
+			var n:String;
+			var primaryMissionId:Array = MissionStorage.getMissionIdByType("location1", false);
+			for (var i:int = 0; i < primaryMissionId.length; i++) {
+				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
+				var params:Array = m.missionId.split(".", 2);
+				n = params[1];
+				point = containerPoint.getChildByName(n) as MissionsPoint;
+				point.x = (m.pointX * meteor.resizeY) + meteor.psitionX;
+				point.y = (m.pointY * meteor.resizeY) + 100;
 
 			}
 		}

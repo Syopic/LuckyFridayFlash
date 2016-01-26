@@ -12,30 +12,34 @@ package ua.com.syo.luckyfriday.view.meta {
 
 	public class MissionsMeteor extends Sprite {
 		private var met:Image;
-		public var resize:Number;
+		public var resizeY:Number;
+		public var psitionX:Number;
 		private var l:Location;
-	
+
 
 		public function MissionsMeteor(locationId:String) {
 			var locationTexture:Texture = MissionStorage.getLocationTexture(locationId);
 			l = MissionStorage.getLocationById(locationId);
 			met = new Image(locationTexture);
-			met.width = Globals.stageWidth - 200;
-			met.height = (Globals.stageWidth - 200) / 1.875;
+
+			resizeY = (Globals.stageHeight - 200) / l.locationHeight;
+			met.scaleX = resizeY;
+			met.scaleY = resizeY;
 			met.x = Globals.stageWidth / 2 - met.width / 2;
-			met.y = Globals.stageHeight / 2 - met.height / 2;
-			resize = met.width /l.locationWidth;
+			met.y = 100;
+			psitionX = met.x;
 			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 			addChild(met);
 		}
 
 		private function arrange():void {
-			met.width = Globals.stageWidth - 200;
-			met.height = (Globals.stageWidth - 200) / 1.875;
+			resizeY = (Globals.stageHeight - 200) / l.locationHeight;
+			met.scaleX = resizeY;
+			met.scaleY = resizeY;
 			met.x = Globals.stageWidth / 2 - met.width / 2;
-			met.y = Globals.stageHeight / 2 - met.height / 2;
-			resize = met.width /l.locationWidth;
-			trace ("resize - "+resize+"%");
+			met.y = 100;
+			psitionX = met.x;
+			trace("resize - " + resizeY + "%");
 			trace("");
 		}
 

@@ -101,13 +101,13 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 		}
 
 		/**
-		 *  Get Mission Poin By Type - primary or additional
+		 *  Get Mission Id Array By Type - primary or additional
 		 * @param additional - Boolean true or false
 		 * @param locationId - locationId
-		 * @return Mission
+		 * @return Mission -  array mission Id
 		 *
 		 */
-		public static function getMissionByType(locationId:String, additional:Boolean):Array {
+		public static function getMissionIdByType(locationId:String, additional:Boolean):Array {
 			var result:Array = new Array;
 			for each (var m:Mission in missionDictionary) {
 				if (m.location == locationId) {
