@@ -10,10 +10,12 @@ package ua.com.syo.luckyfriday.view.game.ship {
 	import starling.display.Sprite;
 	import starling.textures.TextureAtlas;
 
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
+	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 
@@ -100,7 +102,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			super.createShape();
 		}
 
-		private function flip(dir = 1):void {
+		private function flip(dir:int = 1):void {
 			var oldPosition:Vec2 = body.position;
 			var oldRotation:Number = body.rotation;
 			var oldVelocity:Vec2 = body.velocity;
@@ -125,7 +127,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			thrustersView.scaleX = direction;
 		}
 
-		private function testFlip(dir):Boolean {
+		private function testFlip(dir:int):Boolean {
 			var result:Boolean = true;
 			body.shapes.clear();
 			if (dir == 1) {
@@ -165,7 +167,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			GameState.instance.particles.mainEnginePS.stop();
 
 			//user input
-			if (_ce.input.isDoing(Constants.ROTATECW_ACTION)) {
+			if (Controller.instance.isDoing(Constants.ROTATECW_ACTION)) {
 				body.applyAngularImpulse(-Globals.rotateImpulse);
 
 				if (direction > 0) {
@@ -177,7 +179,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				}
 			}
 
-			if (_ce.input.isDoing(Constants.ROTATECCW_ACTION)) {
+			if (Controller.instance.isDoing(Constants.ROTATECCW_ACTION)) {
 				body.applyAngularImpulse(Globals.rotateImpulse);
 				if (direction > 0) {
 					thrusters[1].angle = 0;
@@ -188,7 +190,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				}
 			}
 
-			if (_ce.input.isDoing(Constants.FORWARD_ACTION)) {
+			if (Controller.instance.isDoing(Constants.FORWARD_ACTION)) {
 				impulse = new Vec2(1, 0);
 				impulse.length = (direction == 1 ? Globals.moveForwardImpulse : Globals.moveBackwardImpulse);
 				impulse.angle = body.rotation;
@@ -207,7 +209,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				}
 			}
 
-			if (_ce.input.isDoing(Constants.BACKWARD_ACTION)) {
+			if (Controller.instance.isDoing(Constants.BACKWARD_ACTION)) {
 				impulse = new Vec2(-1, 0);
 				impulse.length = (direction == -1 ? Globals.moveForwardImpulse : Globals.moveBackwardImpulse);
 				impulse.angle = body.rotation;
@@ -228,42 +230,41 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				}
 			}
 
-			if (_ce.input.isDoing(Constants.UP_ACTION)) {
+			if (Controller.instance.isDoing(Constants.UP_ACTION)) {
 				impulse = new Vec2(0, 1);
 				impulse.length = Globals.moveUpImpulse;
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.reflect(impulse).perp(), body.position);
-
-				if (_ce.input.isDoing(Constants.FORWARD_ACTION))
+				if (Controller.instance.isDoing(Constants.FORWARD_ACTION))
 					thrusters[2].angle = -Math.PI / 4 - Math.PI / 2;
 				else
 					thrusters[2].angle = -Math.PI;
 
-				if (_ce.input.isDoing(Constants.BACKWARD_ACTION))
+				if (Controller.instance.isDoing(Constants.BACKWARD_ACTION))
 					thrusters[3].angle = Math.PI / 4 + Math.PI / 2;
 				else
 					thrusters[3].angle = Math.PI;
 			}
 
-			if (_ce.input.isDoing(Constants.DOWN_ACTION)) {
+			if (Controller.instance.isDoing(Constants.DOWN_ACTION)) {
 				impulse = new Vec2(0, 1);
 				impulse.length = Globals.moveDownImpulse;
 				impulse.angle = body.rotation;
 				body.applyImpulse(impulse.perp(), body.position);
 
 
-				if (_ce.input.isDoing(Constants.FORWARD_ACTION))
+				if (Controller.instance.isDoing(Constants.FORWARD_ACTION))
 					thrusters[0].angle = -Math.PI / 4;
 				else
 					thrusters[0].angle = 0;
 
-				if (_ce.input.isDoing(Constants.BACKWARD_ACTION))
+				if (Controller.instance.isDoing(Constants.BACKWARD_ACTION))
 					thrusters[1].angle = Math.PI / 4;
 				else
 					thrusters[1].angle = 0;
 			}
 
-			/*if (_ce.input.hasDone(Constants.RIGHT_ACTION)) {
+			/*if (Controller.instance.hasDone(Constants.RIGHT_ACTION)) {
 				// double tap
 				if (prevButton == Constants.RIGHT_ACTION && (getTimer() - dt) < Globals.doubleTapDelay) {
 					flip(1);
@@ -273,7 +274,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				}
 			}
 
-			if (_ce.input.hasDone(Constants.LEFT_ACTION)) {
+			if (Controller.instance.hasDone(Constants.LEFT_ACTION)) {
 				// double tap
 				if (prevButton == Constants.LEFT_ACTION && (getTimer() - dt) < Globals.doubleTapDelay) {
 					flip(-1);
@@ -283,11 +284,11 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				}
 			}*/
 
-			if (_ce.input.hasDone(Constants.RIGHT_TURN_ACTION)) {
+			if (Controller.instance.hasDone(Constants.RIGHT_TURN_ACTION)) {
 				flip(1);
 			}
 
-			if (_ce.input.hasDone(Constants.LEFT_TURN_ACTION)) {
+			if (Controller.instance.hasDone(Constants.LEFT_TURN_ACTION)) {
 				flip(-1);
 			}
 

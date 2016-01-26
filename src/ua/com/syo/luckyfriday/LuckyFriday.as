@@ -5,11 +5,9 @@ package ua.com.syo.luckyfriday {
 	import citrus.core.starling.StarlingCitrusEngine;
 	import citrus.input.controllers.Keyboard;
 
-	import starling.events.Event;
 	import starling.events.ResizeEvent;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.storage.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.MenuState;

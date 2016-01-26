@@ -9,6 +9,7 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 
 	import nape.geom.Vec2;
 	import nape.phys.Material;
+	import nape.shape.Edge;
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
@@ -30,6 +31,8 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 
 		public var img:Image;
 		public var shapeType:String;
+		public var shape:Sprite;
+		public var polygon:Polygon;
 
 		public function DrawingDO(shapeType:String, name:String, params:Object = null) {
 			points = params as Array;
@@ -41,7 +44,7 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 
 			var bounds:Rectangle = Utils.getBoundingBox(points);
 
-			var shape:Sprite = new flash.display.Sprite();
+			shape = new flash.display.Sprite();
 			shape.graphics.lineStyle(3, strokeColor);
 			shape.graphics.beginFill(Utils.darkenColor(strokeColor, 80));
 			var px:Vec2;
@@ -50,15 +53,17 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 			for (var i:int = 0; i < body.shapes.length; i++) 
 			{
 				var s:Shape = body.shapes.at(i);
-				var p:Polygon = s.castPolygon;
+				var p:Polygon = polygon = s.castPolygon;
 				bounds = p.bounds.toRect();
 				px = p.localVerts.at(0)
 				shape.graphics.moveTo(px.x, px.y);
+
 				if (yMin > px.y) yMin = px.y;
 				if (yMax < px.y) yMax = px.y;
 				for (var k:int = 0; k < p.worldVerts.length; k++) 
 				{
 					px = p.localVerts.at(k);
+					vertexes.push(px);
 					if (yMin > px.y) yMin = px.y;
 					if (yMax < px.y) yMax = px.y;
 					shape.graphics.lineTo(px.x,px.y);
@@ -77,14 +82,13 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 			{
 				// add braces
 				shape.graphics.lineStyle(3, 0x999999);
-
-				braces.push(new Vec2(0, yMin));
-				braces.push(new Vec2(0, yMax));
 				// draw braces
+				defineBraces();
 				for (var j:int = 0; j < braces.length; j++)
 				{
-					shape.graphics.drawCircle(braces[j].x, braces[j].y, 3);
+					shape.graphics.drawCircle(braces[j].x, braces[j].y, 2);
 				}
+
 			}
 			var bmd:BitmapData = new BitmapData(bounds.width + 30, bounds.height + 30, true, 0x00000000);
 
@@ -99,6 +103,20 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 			img = new Image(tex);
 			view = img;
 			_material = new Material(0.8, 1.0, 1.4, 1.5, 0.01);
+		}
+
+		private function defineBraces():void
+		{
+			for (var i:int = 0; i < vertexes.length; i++) 
+			{
+				braces.push(vertexes[i].copy());
+			}
+			for (var j:int = 0; j < polygon.edges.length; j++) {
+				var edge:Edge = polygon.edges.at(j);
+					//braces.push(new Vec2(edge.edge.localNormal);
+			}
+
+			braces.push(body.localCOM.copy());
 		}
 	}
 }

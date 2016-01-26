@@ -3,50 +3,91 @@
 
 	<property file="properties/local.properties" />
 
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/> 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
 			<pathelement location="properties/ant-contrib-1.0b3.jar" />
 		</classpath>
 	</taskdef>
 
-	<target name="> run all" depends="copy assets, copy assets profile, copy assets mission, update build number">
-		<copy todir="${BIN_DIR}/levels">
-			<fileset dir="${ASSETS_DIR}/levels">
-				<exclude name="*.pes"/>
-				<exclude name="**/mask.png"/>
-			</fileset>
-		</copy>
-		<copy todir="${BIN_DIR}/sounds">
-			<fileset dir="${ASSETS_DIR}/sounds">
-			</fileset>
-		</copy>
+	<target name="> run all" depends="init, copy assets, update build number, compile swf" />
+
+	<target name="init">
+		<delete dir="${DEPLOY_DIR}"/>
+		<mkdir dir="${DEPLOY_DIR}"/>
 	</target>
 
 	<target name="copy assets">
-		<copy todir="${BIN_DIR}/levels">
+		<copy todir="${BIN_DIR}/assets/levels">
 			<fileset dir="${ASSETS_DIR}/levels">
 				<exclude name="*.pes"/>
 				<exclude name="**/mask.png"/>
 			</fileset>
 		</copy>
-		<copy todir="${BIN_DIR}/sounds">
+		<copy todir="${BIN_DIR}/assets/sounds">
 			<fileset dir="${ASSETS_DIR}/sounds">
 			</fileset>
 		</copy>
-	</target>
-
-	<target name="copy assets profile">
-		<copy todir="${BIN_DIR}/profile">
+		<copy todir="${BIN_DIR}/assets/profile">
 			<fileset dir="${ASSETS_DIR}/profile">
 			</fileset>
 		</copy>
-	</target>
-	<target name="copy assets mission">
-		<copy todir="${BIN_DIR}/missions">
+		<copy todir="${BIN_DIR}/assets/missions">
 			<fileset dir="${ASSETS_DIR}/missions">
 			</fileset>
 		</copy>
 	</target>
+
+	<target name="compile swf" depends="init">
+		<mxmlc  file="${SRC_DIR}/${PACKAGE_DIR}/${APP_NAME}.as"
+			   output="${DEPLOY_DIR}/${APP_NAME}.swf"
+			   optimize="true"
+			   locale="en_US"
+			   configname="air">
+			<load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
+			<source-path path-element="${SRC_DIR}"/>
+			<library-path dir="${LIBS_DIR}" includes="*.swc" append="true"/>
+			<library-path dir="${FLEX_HOME}/frameworks/libs" includes="*.swc" append="true"/>
+			<library-path dir="${FLEX_HOME}/frameworks/libs/air" includes="*.swc" append="true"/>
+			<library-path dir="${FLEX_HOME}/frameworks/locale" includes="${LOCALE}" append="true"/>
+		</mxmlc>
+	</target>
+
+	<target name="package air">
+		<exec executable="${FLEX_HOME}/bin/adt.bat" failonerror="true">
+			<arg line="-package" />
+			<arg line="-tsa none" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore ${ASSETS_DIR}/cert.p12" />
+			<arg line="-storepass berko23C" />
+			<arg line="${DEPLOY_DIR}/${APP_NAME}" />
+			<arg line="${SRC_DIR}/${PACKAGE_DIR}/${APP_NAME}-app.xml" />
+			<arg line="${ASSETS_DIR}/levels" />
+			<arg line="${ASSETS_DIR}/sounds" />
+			<arg line="${ASSETS_DIR}/profile" />
+			<arg line="${ASSETS_DIR}/missions" />
+			<arg line="-C ${DEPLOY_DIR} ${APP_NAME}.swf" />
+		</exec>
+	</target>
+
+	<target name="package android">
+		<echo message="Packaging for Android"/>
+		<exec executable="${FLEX_HOME}/bin/adt.bat">
+			<arg value="-package"/>
+			<arg line="-target apk"/>
+			<arg line="-storetype pkcs12"/>
+			<arg line="-keystore ${ASSETS_DIR}/cert.p12" />
+			<arg line="-storepass berko23C" />
+			<arg line="${DEPLOY_DIR}/${APP_NAME}" />
+			<arg line="${SRC_DIR}/${PACKAGE_DIR}/${APP_NAME}-app.xml" />
+			<arg line="${ASSETS_DIR}/levels" />
+			<arg line="${ASSETS_DIR}/sounds" />
+			<arg line="${ASSETS_DIR}/profile" />
+			<arg line="${ASSETS_DIR}/missions" />
+			<arg line="-C ${DEPLOY_DIR} ${APP_NAME}.swf" />
+		</exec>
+	</target>
+
 	<target name="update build number">
 		<tstamp>
 			<format property="logtime" pattern="yyyyMMdd" />

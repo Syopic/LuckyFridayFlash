@@ -10,6 +10,7 @@ package ua.com.syo.luckyfriday.view {
 	import feathers.themes.MetalWorksDesktopTheme;
 
 	import starling.events.Event;
+	import starling.extensions.advancedjoystick.JoyStick;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
@@ -35,6 +36,7 @@ package ua.com.syo.luckyfriday.view {
 		private var missionComplete:MissionCompleteView;
 		private var gameOver:GameOverView;
 		private var profileView:ProfileView;
+		public var joystick:JoyStick;
 
 		public function init():void {
 			// init ui theme
@@ -180,10 +182,20 @@ package ua.com.syo.luckyfriday.view {
 				Controller.instance.exitApplication();
 			}
 		}
+
+		public function showJoystick():void
+		{
+			joystick = new JoyStick();
+			joystick.setPosition(joystick.minOffsetX, Globals.stageHeight - joystick.minOffsetY);
+			GameState.instance.addChild(joystick);
+		}
+
 		public function resize(w:int, h:int):void
 		{
 			Globals.stageWidth = w;
 			Globals.stageHeight = h;
+			if (joystick)
+				joystick.setPosition(joystick.minOffsetX, Globals.stageHeight - joystick.minOffsetY);
 			dispatchEvent(new flash.events.Event(flash.events.Event.RESIZE));
 		}
 		/**

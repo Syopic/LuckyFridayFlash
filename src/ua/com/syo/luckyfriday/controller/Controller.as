@@ -1,6 +1,7 @@
 package ua.com.syo.luckyfriday.controller {
 	import flash.desktop.NativeApplication;
 	import flash.display.StageDisplayState;
+	import flash.filesystem.File;
 
 	import citrus.core.CitrusEngine;
 	import citrus.core.starling.StarlingState;
@@ -19,11 +20,12 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.storage.Model;
+	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 	public class Controller extends EventDispatcher {
 
-		private var _currentLevelId:String = "5";
+		private var _currentLevelId:String = "1";
 
 		public function init():void {
 			// update settings from saved data in SharedObjects
@@ -33,7 +35,12 @@ package ua.com.syo.luckyfriday.controller {
 			initKeyboardActions();
 			initGamePadActions();
 			initCommonSounds();
-			//startLoadLevel(currentLevelId);
+
+			trace("File.userDirectory.name: " + File.userDirectory.name)
+			if (File.userDirectory.name == "Syo")
+			{
+				startLoadLevel(currentLevelId);
+			}
 			//startLoadMissions();
 		}
 
@@ -153,6 +160,49 @@ package ua.com.syo.luckyfriday.controller {
 
 		public function get currentLevelId():String {
 			return _currentLevelId;
+		}
+
+		public function isDoing(actionName:String, channel:int = -1):Boolean
+		{
+			var result:Boolean = false;
+			if(ce.input.isDoing(actionName, channel))
+			{
+				result = true;
+			}
+
+			if (UIManager.instance.joystick)
+			{
+
+				if (actionName == Constants.UP_ACTION && UIManager.instance.joystick.velocityY < 0)
+				{
+					result = true;
+				}
+				if (actionName == Constants.DOWN_ACTION && UIManager.instance.joystick.velocityY > 0)
+				{
+					result = true;
+				}
+				if (actionName == Constants.BACKWARD_ACTION && UIManager.instance.joystick.velocityX < 0)
+				{
+					result = true;
+				}
+				if (actionName == Constants.FORWARD_ACTION && UIManager.instance.joystick.velocityX > 0)
+				{
+					result = true;
+				}
+			}
+
+			return result;
+		}
+
+		public function hasDone(actionName:String, channel:int = -1):Boolean
+		{
+			var result:Boolean = false;
+			if(ce.input.hasDone(actionName, channel))
+			{
+				result = true;
+			}
+
+			return result;
 		}
 
 

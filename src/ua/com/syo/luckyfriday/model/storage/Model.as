@@ -20,7 +20,7 @@ package ua.com.syo.luckyfriday.model.storage
 
 		public function loadLevelsAssets(currentLevelId:String):void
 		{
-			_assetManager.enqueue(File.applicationDirectory.resolvePath("levels/level" + currentLevelId));
+			_assetManager.enqueue(File.applicationDirectory.resolvePath("assets/levels/level" + currentLevelId));
 			_assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
 					CurrentLevelData.setLevelData(_assetManager.getTexture("fg"), _assetManager.getTexture("bg"), _assetManager.getObject("levelData"));
@@ -31,7 +31,7 @@ package ua.com.syo.luckyfriday.model.storage
 
 		public function loadProfileAssets():void
 		{
-			_assetManager.enqueue(File.applicationDirectory.resolvePath("profile"));
+			_assetManager.enqueue(File.applicationDirectory.resolvePath("assets/profile"));
 			_assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
 					ProfileStorage.profTexture = _assetManager.getTexture("che");
@@ -43,7 +43,7 @@ package ua.com.syo.luckyfriday.model.storage
 
 		public function loadMissionAssets():void
 		{
-			_assetManager.enqueue(File.applicationDirectory.resolvePath("missions"));
+			_assetManager.enqueue(File.applicationDirectory.resolvePath("assets/missions"));
 			_assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
 					MissionStorage.ParseLocationMisiionFromJSON(assetManager.getObject("mission"));

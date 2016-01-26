@@ -50,7 +50,7 @@
 	<initialWindow>
 		<!-- The main SWF or HTML file of the application. Required. -->
 		<!-- Note: In Flash Builder, the SWF reference is set automatically. -->
-		<content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+		<content>LuckyFriday.swf</content>
 
 		<!-- The title of the main window. Optional. -->
 		<!-- <title></title> -->
@@ -93,7 +93,7 @@
 
 		<!-- The aspect ratio of the app ("portrait" or "landscape" or "any"). Optional. Mobile only. Default is the natural orientation of the device -->
 
-		<!-- <aspectRatio></aspectRatio> -->
+		<aspectRatio>landscape</aspectRatio>
 
 		<!-- Whether the app will begin auto-orienting on launch. Optional. Mobile only. Default false -->
 
@@ -246,9 +246,9 @@
 	<!-- </iPhone> -->
 
 	<!-- Specify Android specific tags that get passed to AndroidManifest.xml file. -->
-	<!--<android> -->
-	<!--	<manifestAdditions>
-		<![CDATA[
+	<android>
+		<manifestAdditions>
+			<![CDATA[
 			<manifest android:installLocation="auto">
 				<uses-permission android:name="android.permission.INTERNET"/>
 				<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -264,12 +264,12 @@
 				</application>
 			</manifest>
 		]]>
-		</manifestAdditions> -->
-	<!-- Color depth for the app (either "32bit" or "16bit"). Optional. Default 16bit before namespace 3.0, 32bit after -->
-	<!-- <colorDepth></colorDepth> -->
-	<!-- Indicates if the app contains video or not. Necessary for ordering of video planes with graphics plane, especially in Jellybean - if you app does video this must be set to true - valid values are true or false -->
-	<!-- <containsVideo></containsVideo> -->
-	<!-- </android> -->
+		</manifestAdditions>
+		<!-- Color depth for the app (either "32bit" or "16bit"). Optional. Default 16bit before namespace 3.0, 32bit after -->
+		<!-- <colorDepth></colorDepth> -->
+		<!-- Indicates if the app contains video or not. Necessary for ordering of video planes with graphics plane, especially in Jellybean - if you app does video this must be set to true - valid values are true or false -->
+		<!-- <containsVideo></containsVideo> -->
+	</android>
 	<!-- End of the schema for adding the android specific tags in AndroidManifest.xml file -->
 
 </application>

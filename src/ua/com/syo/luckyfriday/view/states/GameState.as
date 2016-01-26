@@ -4,6 +4,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.system.Capabilities;
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
 
@@ -30,15 +31,17 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.display.Sprite;
+	import starling.extensions.advancedjoystick.JoyStick;
 	import starling.extensions.lighting.core.LightLayer;
 	import starling.extensions.lighting.lights.PointLight;
 	import starling.filters.BlurFilter;
 
+	import ua.com.syo.core.utils.Utils;
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
-	import ua.com.syo.core.utils.Utils;
+	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
 	import ua.com.syo.luckyfriday.view.game.draggedobjects.DrawingDO;
 	import ua.com.syo.luckyfriday.view.game.ship.ShipHero;
@@ -136,7 +139,9 @@ package ua.com.syo.luckyfriday.view.states {
 			SoundManager.getInstance().playSound(Constants.ENGINE_SFX);
 			SoundManager.getInstance().pauseSound(Constants.ENGINE_SFX);
 
-			//UIManager.instance.showSettings();
+			trace("manufacturer: " + Capabilities.manufacturer);
+			if (Capabilities.manufacturer != "Adobe Windows")
+				UIManager.instance.showJoystick();
 		}
 
 		private function OnCollision(e:InteractionCallback):void {
