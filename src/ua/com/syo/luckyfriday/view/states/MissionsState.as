@@ -22,6 +22,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import ua.com.syo.luckyfriday.view.meta.MissionsMeteor;
 	import ua.com.syo.luckyfriday.view.meta.MissionsPoint;
 	import ua.com.syo.luckyfriday.view.meta.AdditionalMissionPoint;
+	import flash.display.Shape;
 
 	public class MissionsState extends StarlingState {
 
@@ -33,6 +34,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var point:MissionsPoint;
 		private var additPoint:AdditionalMissionPoint;
 		private var containerPoint:Sprite = new Sprite();
+		private var myShape:Shape = new Shape();
 
 		override public function initialize():void {
 			super.initialize();
@@ -94,6 +96,8 @@ package ua.com.syo.luckyfriday.view.states {
 		 * Add in state  Mission
 		 */
 		private function primaryMissionPoints():void {
+			
+			//curves();
 			var n:String;
 			var s:int;
 			var enab:Boolean;
@@ -164,9 +168,12 @@ package ua.com.syo.luckyfriday.view.states {
 			} else {
 			}
 		}
-
-
-
+		private function curves():void {
+		myShape.graphics.beginFill(0xFF0000);
+		myShape.graphics.moveTo(100, 100); 
+		myShape.graphics.curveTo(175, 125, 200, 200);
+		//addChild(myShape);
+		}
 		/**
 		 * Function isSelect - is start selection mission
 		 * @param event
