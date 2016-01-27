@@ -1,17 +1,17 @@
 package ua.com.syo.luckyfriday.view.states {
 
 	import citrus.core.starling.StarlingState;
-	
+
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	
+
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
-	
+
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
@@ -21,6 +21,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.meta.MissionsMeteor;
 	import ua.com.syo.luckyfriday.view.meta.MissionsPoint;
+	import ua.com.syo.luckyfriday.view.meta.AdditionalMissionPoint;
 
 	public class MissionsState extends StarlingState {
 
@@ -30,6 +31,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var bg:Image;
 		private var meteor:MissionsMeteor;
 		private var point:MissionsPoint;
+		private var additPoint:AdditionalMissionPoint;
 		private var containerPoint:Sprite = new Sprite();
 
 		override public function initialize():void {
@@ -82,28 +84,42 @@ package ua.com.syo.luckyfriday.view.states {
 
 		/**
 		 * Init Mission Point
-		 * 
+		 *
 		 */
 		private function initMissionPoints():void {
 			primaryMissionPoints();
 		}
-		
+
 		/**
-		 * Add in state primary Mission
+		 * Add in state  Mission
 		 */
 		private function primaryMissionPoints():void {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-			//var additionalMissionId:Array =  MissionStorage.getMissionIdByType("location1", true);
+			var additionalMissionId:Array = MissionStorage.getMissionIdByType("location1", true);
+			if (additionalMissionId.length > 0) {
+				for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
+					var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
+					//var par:Array = am.missionId.split(".", 3);
+					//n = par[2];
+					trace("Additional Mission " + additionalMissionId[ai] + " in Location + locationId");
+					additPoint = new AdditionalMissionPoint(additionalMissionId[ai], am.missionEnable);
+					additPoint.name = additionalMissionId[ai];
+					additPoint.x = (am.pointX * meteor.resizeY) + meteor.psitionX;
+					additPoint.y = (am.pointY * meteor.resizeY) + 100;
+					additPoint.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
+					containerPoint.addChild(additPoint);
+				}
+			} else {
+			}
 			var primaryMissionId:Array = MissionStorage.getMissionIdByType("location1", false);
-			//var l:Location  = MissionStorage.getLocationById("location1");
 			for (var i:int = 0; i < primaryMissionId.length; i++) {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.missionId.split(".", 2);
 				n = params[1];
 				trace("Mission " + n + " in Location + locationId");
-				point = new MissionsPoint(n, m.missionEnable);
+				point = new MissionsPoint(n, m.missionEnable, m.rate);
 				point.name = n;
 				point.x = (m.pointX * meteor.resizeY) + meteor.psitionX;
 				point.y = (m.pointY * meteor.resizeY) + 100;
@@ -123,28 +139,36 @@ package ua.com.syo.luckyfriday.view.states {
 				bg.width = 1920;
 				bg.height = 1024;
 			} else {
-				trace(Globals.stageWidth)
 				bg.width = Globals.stageWidth;
 				bg.height = Globals.stageHeight;
 			}
 			var n:String;
 			var primaryMissionId:Array = MissionStorage.getMissionIdByType("location1", false);
 			//arange primary point
-				for (var i:int = 0; i < primaryMissionId.length; i++) {
+			for (var i:int = 0; i < primaryMissionId.length; i++) {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.missionId.split(".", 2);
 				n = params[1];
 				point = containerPoint.getChildByName(n) as MissionsPoint;
 				point.x = (m.pointX * meteor.resizeY) + meteor.psitionX;
 				point.y = (m.pointY * meteor.resizeY) + 100;
-
+			}
+			var additionalMissionId:Array = MissionStorage.getMissionIdByType("location1", true);
+			if (additionalMissionId.length > 0) {
+				for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
+					var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
+					additPoint = containerPoint.getChildByName(additionalMissionId[ai]) as AdditionalMissionPoint;
+					additPoint.x = (am.pointX * meteor.resizeY) + meteor.psitionX;
+					additPoint.y = (am.pointY * meteor.resizeY) + 100;
+				}
+			} else {
 			}
 		}
 
 
 
 		/**
-		 *  Function isSelect - is start selection mission
+		 * Function isSelect - is start selection mission
 		 * @param event
 		 */
 		public function isSelect(event:MissionPointEvent):void {
@@ -155,7 +179,7 @@ package ua.com.syo.luckyfriday.view.states {
 		/**
 		 * Handling button clicked
 		 * @param event
-		 * 
+		 *
 		 */
 		private function buttonClicked(event:starling.events.Event):void {
 			switch (event.currentTarget as Button) {

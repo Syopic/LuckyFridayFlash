@@ -21,14 +21,14 @@
 	
 	 "0":
 	  [
-	   	  {"location":"location1", "missionId":"1.1", "rate":50, "pointX":500, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+	   	  {"location":"location1", "missionId":"1.1", "rate":10, "pointX":500, "pointY":300, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
 	  	  {"location":"location1", "missionId":"1.2", "rate":30, "pointX":800, "pointY":275, "missionEnable":true, "additionalPoint":false, "additQuantity":2},
-	  	  {"location":"location1", "missionId":"1.2.1", "rate":30, "pointX":150, "pointY":140, "missionEnable":true, "additionalPoint":true, "additQuantity":0},
-	  	   {"location":"location1", "missionId":"1.2.2", "rate":30, "pointX":150, "pointY":680, "missionEnable":true, "additionalPoint":true, "additQuantity":0},
+	  	  {"location":"location1", "missionId":"1.2.1", "rate":45, "pointX":650, "pointY":100, "missionEnable":false, "additionalPoint":true, "additQuantity":0},
+	  	   {"location":"location1", "missionId":"1.2.2", "rate":50, "pointX":950, "pointY":100, "missionEnable":false, "additionalPoint":true, "additQuantity":0},
 	  	  {"location":"location1", "missionId":"1.3", "rate":50, "pointX":1350, "pointY":140, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
-	  	  {"location":"location1", "missionId":"1.4", "rate":50, "pointX":1230, "pointY":680, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
-	  	  {"location":"location1", "missionId":"1.5", "rate":50, "pointX":850, "pointY":750, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
-	  	  {"location":"location1", "missionId":"1.60", "rate":50, "pointX":450, "pointY":650, "missionEnable":false, "additionalPoint":false, "additQuantity":0}
+	  	  {"location":"location1", "missionId":"1.4", "rate":52, "pointX":1230, "pointY":680, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+	  	  {"location":"location1", "missionId":"1.5", "rate":67, "pointX":850, "pointY":750, "missionEnable":true, "additionalPoint":false, "additQuantity":0},
+	  	  {"location":"location1", "missionId":"1.6", "rate":80, "pointX":450, "pointY":650, "missionEnable":false, "additionalPoint":false, "additQuantity":0}
  	  ],
  	  "1":
 	  [

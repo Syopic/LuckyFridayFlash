@@ -23,38 +23,38 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/img/LogoBtnDown.png")]
 		public static const ButtonDownC:Class;
-				
+
 		/**
 		 *  MissionsView
 		*/
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/space_bg.jpg")]
 		public static const SpacebgC:Class;
-		
-		[Embed(source = "/../assets/img/gui/missionsview/met_alpha .png")]
-		public static const MissionsMetC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/mission.png")]
 		public static const MissionsC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/mission_down.png")]
 		public static const MissionsDownC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/mission_lokc.png")]
 		public static const MissionsLockC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/rate.png")]
 		public static const RateC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/rate_half.png")]
 		public static const RateHalfC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/rate_empty.png")]
 		public static const RateEmptyC:Class;
-		
+
 		[Embed(source = "/../assets/img/gui/missionsview/radiation.png")]
 		public static const RadiationC:Class;
 		
+		[Embed(source = "/../assets/img/gui/missionsview/radiation_loc.png")]
+		public static const RadiationLocC:Class;
+
 		/**
 		 * Default avatar
 		 */
