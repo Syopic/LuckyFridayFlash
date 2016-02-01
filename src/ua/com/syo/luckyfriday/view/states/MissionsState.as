@@ -1,5 +1,7 @@
 package ua.com.syo.luckyfriday.view.states {
 
+	import flash.geom.Point;
+
 	import citrus.core.starling.StarlingState;
 
 	import feathers.controls.Button;
@@ -8,6 +10,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import feathers.layout.AnchorLayoutData;
 
 	import starling.display.Image;
+	import starling.display.Shape;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
@@ -19,10 +22,10 @@ package ua.com.syo.luckyfriday.view.states {
 	import ua.com.syo.luckyfriday.model.storage.mission.Mission;
 	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
+	import ua.com.syo.luckyfriday.view.meta.AdditionalMissionPoint;
 	import ua.com.syo.luckyfriday.view.meta.MissionsMeteor;
 	import ua.com.syo.luckyfriday.view.meta.MissionsPoint;
-	import ua.com.syo.luckyfriday.view.meta.AdditionalMissionPoint;
-	import flash.display.Shape;
+	import flash.utils.Dictionary;
 
 	public class MissionsState extends StarlingState {
 
@@ -35,6 +38,7 @@ package ua.com.syo.luckyfriday.view.states {
 		private var additPoint:AdditionalMissionPoint;
 		private var containerPoint:Sprite = new Sprite();
 		private var myShape:Shape = new Shape();
+		private var pointDictionary:Dictionary = new Dictionary();
 
 		override public function initialize():void {
 			super.initialize();
@@ -96,8 +100,8 @@ package ua.com.syo.luckyfriday.view.states {
 		 * Add in state  Mission
 		 */
 		private function primaryMissionPoints():void {
-			
-			//curves();
+
+
 			var n:String;
 			var s:int;
 			var enab:Boolean;
@@ -127,10 +131,12 @@ package ua.com.syo.luckyfriday.view.states {
 				point.name = n;
 				point.x = (m.pointX * meteor.resizeY) + meteor.psitionX;
 				point.y = (m.pointY * meteor.resizeY) + 100;
+				pointDictionary[n] = {x: (point.x + 50), y: (point.y + 50)};
 				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
 				containerPoint.addChild(point);
 			}
 			addChild(containerPoint);
+			curves();
 		}
 
 		/**
@@ -168,12 +174,22 @@ package ua.com.syo.luckyfriday.view.states {
 			} else {
 			}
 		}
+
 		private function curves():void {
-		myShape.graphics.beginFill(0xFF0000);
-		myShape.graphics.moveTo(100, 100); 
-		myShape.graphics.curveTo(175, 125, 200, 200);
-		//addChild(myShape);
+
+			for (var i:int = 1; i < 8; i++) {
+				//myShape.graphics.moveTo(pointDictionary[1].x, pointDictionary[1].y);
+				trace(pointDictionary[i].x, pointDictionary[i].y);
+				myShape.graphics.curveTo(Globals.stageWidth / 2 , Globals.stageHeight / 2, pointDictionary[i].x, pointDictionary[i].y);
+				myShape.graphics.moveTo(pointDictionary[i].x, pointDictionary[i].y);
+				myShape.graphics.lineStyle(10, 0xF6BF50);
+				//myShape.graphics.lineTo(100, 100);
+				containerPoint.addChild(myShape);
+				trace(containerPoint.getChildIndex(myShape));
+				containerPoint.setChildIndex(myShape,0);
+			}
 		}
+
 		/**
 		 * Function isSelect - is start selection mission
 		 * @param event
