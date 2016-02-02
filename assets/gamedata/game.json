@@ -1,8 +1,10 @@
 {
     "game":{
         "settings":{
-            "musicVolume":0.5,
-            "vfxVolume":0.5,
+            "defaultMusicVolume":0.5,
+            "musicVolume":0.3,
+            "defaultvfxVolume":0.5,
+            "vfxVolume":0.6,
             "windowled":true
         },
         "profile":{
