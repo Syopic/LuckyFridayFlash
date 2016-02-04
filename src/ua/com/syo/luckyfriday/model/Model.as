@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.model.storage {
+package ua.com.syo.luckyfriday.model {
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
 
@@ -7,7 +7,7 @@ package ua.com.syo.luckyfriday.model.storage {
 	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
 	import ua.com.syo.luckyfriday.model.storage.mission.MissionStorage;
-	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.model.profile.ProfileStorage;
 
 	public class Model extends EventDispatcher {
 		private var _assetManager:AssetManager;

@@ -180,9 +180,9 @@ package ua.com.syo.luckyfriday.view.states {
 			for (var i:int = 1; i < 8; i++) {
 				//myShape.graphics.moveTo(pointDictionary[1].x, pointDictionary[1].y);
 				trace(pointDictionary[i].x, pointDictionary[i].y);
-				myShape.graphics.curveTo(Globals.stageWidth / 2 , Globals.stageHeight / 2, pointDictionary[i].x, pointDictionary[i].y);
+				myShape.graphics.lineTo(pointDictionary[i].x, pointDictionary[i].y);
 				myShape.graphics.moveTo(pointDictionary[i].x, pointDictionary[i].y);
-				myShape.graphics.lineStyle(10, 0xF6BF50);
+				myShape.graphics.lineStyle(3, 0xF6BF50);
 				//myShape.graphics.lineTo(100, 100);
 				containerPoint.addChild(myShape);
 				trace(containerPoint.getChildIndex(myShape));

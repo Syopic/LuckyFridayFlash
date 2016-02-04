@@ -14,7 +14,7 @@ package ua.com.syo.luckyfriday.view.states
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.model.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class MenuState extends StarlingState

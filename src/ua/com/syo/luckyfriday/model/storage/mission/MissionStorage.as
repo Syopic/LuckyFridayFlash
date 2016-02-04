@@ -3,7 +3,7 @@ package ua.com.syo.luckyfriday.model.storage.mission {
 
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.model.storage.Model;
+	import ua.com.syo.luckyfriday.model.Model;
 
 	/**
 	 *

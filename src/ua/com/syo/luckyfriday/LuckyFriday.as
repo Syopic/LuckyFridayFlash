@@ -8,7 +8,7 @@ package ua.com.syo.luckyfriday {
 	import starling.events.ResizeEvent;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.model.storage.Model;
+	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 

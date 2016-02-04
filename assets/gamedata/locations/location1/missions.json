@@ -1,0 +1,42 @@
+[
+    {
+        "id":"mission1.1",
+        "name":"Mission Name",
+        "description":"Big \n Cool",
+        "bg":"locations/location1/mission1.1/bg.png",
+        "fg":"locations/location1/mission1.1/fg.png",
+        "rate":10,
+        "x":500,
+        "y":300,
+        "width":3840,
+        "height":3840,
+        "isComplete":false
+    },
+    {
+        "id":"mission1.2",
+        "name":"Mission Name",
+        "description":"Big \n Cool",
+        "bg":"locations/location1/mission1.2/bg.png",
+        "fg":"locations/location1/mission1.2/fg.png",
+        "rate":10,
+        "x":500,
+        "y":300,
+        "width":3840,
+        "height":3840,
+        "isComplete":false
+    },
+    {
+        "id":"mission1.2.1",
+        "linkId":"mission1.2",
+        "name":"Additional Mission Name",
+        "description":"Big \n Cool",
+        "bg":"locations/location1/mission1.2.1/bg.png",
+        "fg":"locations/location1/mission1.2.1/fg.png",
+        "rate":10,
+        "x":500,
+        "y":300,
+        "width":3840,
+        "height":3840,
+        "isComplete":false
+    }
+]

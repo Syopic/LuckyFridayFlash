@@ -1,4 +1,4 @@
-package ua.com.syo.luckyfriday.model.storage.profile {
+package ua.com.syo.luckyfriday.model.profile {
 
 	public class Profile {
 

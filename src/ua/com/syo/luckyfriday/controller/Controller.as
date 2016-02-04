@@ -19,7 +19,7 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.SaveData;
-	import ua.com.syo.luckyfriday.model.storage.Model;
+	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 

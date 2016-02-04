@@ -16,8 +16,8 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.data.EmbededAssets;
-	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
-	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.model.profile.Profile;
+	import ua.com.syo.luckyfriday.model.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.ui.renderers.TopListItemRenderer;
 
 	/**

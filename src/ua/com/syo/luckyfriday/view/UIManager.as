@@ -14,7 +14,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.data.Globals;
-	import ua.com.syo.luckyfriday.model.storage.Model;
+	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.LocationsState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
