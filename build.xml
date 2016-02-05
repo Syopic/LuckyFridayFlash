@@ -19,7 +19,7 @@
 
 	<target name="copy assets">
 		<copy todir="${BIN_DIR}/gamedata">
-			<fileset dir="${ASSETS_DIR}/gamedata">
+			<fileset dir="${GAMEDATA_DIR}">
 			</fileset>
 		</copy>
 	</target>
@@ -48,10 +48,7 @@
 			<arg line="-storepass berko23C" />
 			<arg line="${DEPLOY_DIR}/${APP_NAME}" />
 			<arg line="${SRC_DIR}/${PACKAGE_DIR}/${APP_NAME}-app.xml" />
-			<arg line="${ASSETS_DIR}/levels" />
-			<arg line="${ASSETS_DIR}/sounds" />
-			<arg line="${ASSETS_DIR}/profile" />
-			<arg line="${ASSETS_DIR}/missions" />
+			<arg line="${GAMEDATA_DIR}" />
 			<arg line="-C ${DEPLOY_DIR} ${APP_NAME}.swf" />
 		</exec>
 	</target>
@@ -66,10 +63,7 @@
 			<arg line="-storepass berko23C" />
 			<arg line="${DEPLOY_DIR}/${APP_NAME}" />
 			<arg line="${SRC_DIR}/${PACKAGE_DIR}/${APP_NAME}-app.xml" />
-			<arg line="${ASSETS_DIR}/levels" />
-			<arg line="${ASSETS_DIR}/sounds" />
-			<arg line="${ASSETS_DIR}/profile" />
-			<arg line="${ASSETS_DIR}/missions" />
+			<arg line="${GAMEDATA_DIR}" />
 			<arg line="-C ${DEPLOY_DIR} ${APP_NAME}.swf" />
 		</exec>
 	</target>

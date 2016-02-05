@@ -40,7 +40,7 @@ package ua.com.syo.luckyfriday.controller {
 			trace("File.userDirectory.name: " + File.userDirectory.name)
 			if (File.userDirectory.name == "Syo")
 			{
-				//startLoadLevel(currentLevelId);
+				startLoadLevel(currentMissionId);
 			}
 			//startLoadMissions();
 		}
