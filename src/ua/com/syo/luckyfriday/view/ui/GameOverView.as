@@ -19,7 +19,7 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 
 	public class GameOverView extends Panel {
@@ -46,10 +46,10 @@ package ua.com.syo.luckyfriday.view.ui {
 			// add Image
 
 			imglegend = new Array;
-			imglegend[0] = Texture.fromEmbeddedAsset(EmbededAssets.GameOver1C);
-			imglegend[1] = Texture.fromEmbeddedAsset(EmbededAssets.GameOver2C);
-			imglegend[2] = Texture.fromEmbeddedAsset(EmbededAssets.GameOver3C);
-			imglegend[3] = Texture.fromEmbeddedAsset(EmbededAssets.GameOver4C);
+			imglegend[0] = Texture.fromEmbeddedAsset(EmbeddedAssets.GameOver1C);
+			imglegend[1] = Texture.fromEmbeddedAsset(EmbeddedAssets.GameOver2C);
+			imglegend[2] = Texture.fromEmbeddedAsset(EmbeddedAssets.GameOver3C);
+			imglegend[3] = Texture.fromEmbeddedAsset(EmbeddedAssets.GameOver4C);
 
 
 
@@ -64,7 +64,7 @@ package ua.com.syo.luckyfriday.view.ui {
 
 
 			sText = new Sprite();
-			legend = new TextField(540, 200, " ", EmbededAssets.font.fontName, 15, 0xFFFFFF, true);
+			legend = new TextField(540, 200, " ", EmbeddedAssets.font.fontName, 15, 0xFFFFFF, true);
 			arrange();
 			sText.addChild(legend);
 			sText.x = 10;

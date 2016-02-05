@@ -8,7 +8,7 @@ package ua.com.syo.luckyfriday.view.meta {
 	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 
 
 	/**
@@ -42,8 +42,8 @@ package ua.com.syo.luckyfriday.view.meta {
 			}
 
 			//Add image button 
-			missionBtn = new ImageButton(Texture.fromEmbeddedAsset(EmbededAssets.MissionsC), n, Texture.fromEmbeddedAsset(EmbededAssets.MissionsDownC), null, Texture.fromEmbeddedAsset(EmbededAssets.MissionsLockC));
-			missionBtn.fontName = EmbededAssets.fontUbuntu.fontName;
+			missionBtn = new ImageButton(Texture.fromEmbeddedAsset(EmbeddedAssets.MissionsC), n, Texture.fromEmbeddedAsset(EmbeddedAssets.MissionsDownC), null, Texture.fromEmbeddedAsset(EmbeddedAssets.MissionsLockC));
+			missionBtn.fontName = EmbeddedAssets.fontUbuntu.fontName;
 			missionBtn.fontSize = 50;
 			missionBtn.fontBold = true;
 			missionBtn.x = 1;
@@ -90,7 +90,7 @@ package ua.com.syo.luckyfriday.view.meta {
 		 * @param positionX
 		 */
 		private function fullRate(positionX:Number):void {
-			rateFull = new Image(Texture.fromEmbeddedAsset(EmbededAssets.RateC));
+			rateFull = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.RateC));
 			rateFull.width = 30;
 			rateFull.height = 30;
 			rateFull.y = 100;
@@ -104,7 +104,7 @@ package ua.com.syo.luckyfriday.view.meta {
 		 * @param positionX
 		 */
 		private function halfRate(positionX:Number):void {
-			rateHalf = new Image(Texture.fromEmbeddedAsset(EmbededAssets.RateHalfC));
+			rateHalf = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.RateHalfC));
 			rateHalf.width = 30;
 			rateHalf.height = 30;
 			rateHalf.y = 100;
@@ -118,7 +118,7 @@ package ua.com.syo.luckyfriday.view.meta {
 		 * @param positionX
 		 */
 		private function emptyRate(positionX:Number):void {
-			rateEmpty = new Image(Texture.fromEmbeddedAsset(EmbededAssets.RateEmptyC));
+			rateEmpty = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.RateEmptyC));
 			rateEmpty.width = 30;
 			rateEmpty.height = 30;
 			rateEmpty.y = 100;

@@ -139,7 +139,7 @@ package ua.com.syo.luckyfriday.view.ui {
 					}
 				case aBtn:
 					if (Controller.instance.ce.state == GameState.instance) {
-						Controller.instance.startLoadLevel(Controller.instance.currentLevelId);
+						Controller.instance.startLoadLevel(Controller.instance.currentMissionId);
 						PopUpManager.removePopUp(this);
 						Controller.instance.ce.playing = true;
 						break;

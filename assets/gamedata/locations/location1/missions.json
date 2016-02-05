@@ -1,42 +1,57 @@
 [
     {
-        "id":"mission1.1",
-        "name":"Mission Name",
+        "id":"1.1",
+        "name":"Mission Name 1",
         "description":"Big \n Cool",
-        "bg":"locations/location1/mission1.1/bg.png",
-        "fg":"locations/location1/mission1.1/fg.png",
         "rate":10,
-        "x":500,
-        "y":300,
-        "width":3840,
-        "height":3840,
+        "locX":100,
+        "locY":300,
         "isComplete":false
     },
     {
-        "id":"mission1.2",
-        "name":"Mission Name",
+        "id":"1.2",
+        "name":"Mission Name 2",
         "description":"Big \n Cool",
-        "bg":"locations/location1/mission1.2/bg.png",
-        "fg":"locations/location1/mission1.2/fg.png",
         "rate":10,
-        "x":500,
-        "y":300,
-        "width":3840,
-        "height":3840,
+        "locX":200,
+        "locY":300,
         "isComplete":false
     },
     {
-        "id":"mission1.2.1",
-        "linkId":"mission1.2",
-        "name":"Additional Mission Name",
+        "id":"1.2.1",
+        "linkId":"1.2",
+        "name":"Mission Name 2",
         "description":"Big \n Cool",
-        "bg":"locations/location1/mission1.2.1/bg.png",
-        "fg":"locations/location1/mission1.2.1/fg.png",
         "rate":10,
-        "x":500,
-        "y":300,
-        "width":3840,
-        "height":3840,
+        "locX":200,
+        "locY":300,
+        "isComplete":false
+    },
+    {
+        "id":"1.3",
+        "name":"Mission Name 3",
+        "description":"Big \n Cool",
+        "rate":10,
+        "locX":300,
+        "locY":300,
+        "isComplete":false
+    },
+    {
+        "id":"1.4",
+        "name":"Mission Name 3",
+        "description":"Big \n Cool",
+        "rate":10,
+        "locX":400,
+        "locY":300,
+        "isComplete":false
+    },
+    {
+        "id":"1.5",
+        "name":"Mission Name 3",
+        "description":"Big \n Cool",
+        "rate":10,
+        "locX":500,
+        "locY":300,
         "isComplete":false
     }
 ]

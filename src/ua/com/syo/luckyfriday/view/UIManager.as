@@ -26,7 +26,7 @@ package ua.com.syo.luckyfriday.view {
 	import ua.com.syo.luckyfriday.view.ui.ProfileView;
 	import ua.com.syo.luckyfriday.view.ui.SettingsView;
 
-	public class UIManager extends EventDispatcher{
+	public class UIManager extends EventDispatcher {
 
 		private var settingsView:SettingsView;
 		private var aboutView:AboutView;
@@ -117,7 +117,7 @@ package ua.com.syo.luckyfriday.view {
 				profileView = new ProfileView();
 			}
 			PopUpManager.addPopUp(profileView);
-			//Model.instance.loadProfileAssets();
+			Model.instance.loadProfileAssets();
 			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
 		}
 
@@ -128,7 +128,7 @@ package ua.com.syo.luckyfriday.view {
 			if (!profileView) {
 				profileView = new ProfileView();
 			}
-			Model.instance.loadProfileAssets();
+			//Model.instance.loadProfileAssets();
 			Model.instance.addEventListener(AssetsLoadingEvent.PROFILE_LOADED, arrageProfileView);
 		}
 
@@ -193,15 +193,13 @@ package ua.com.syo.luckyfriday.view {
 			}
 		}
 
-		public function showJoystick():void
-		{
+		public function showJoystick():void {
 			joystick = new JoyStick();
 			joystick.setPosition(joystick.minOffsetX, Globals.stageHeight - joystick.minOffsetY);
 			GameState.instance.addChild(joystick);
 		}
 
-		public function resize(w:int, h:int):void
-		{
+		public function resize(w:int, h:int):void {
 			Globals.stageWidth = w;
 			Globals.stageHeight = h;
 			dispatchEvent(new Event(Event.RESIZE));

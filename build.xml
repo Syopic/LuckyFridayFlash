@@ -18,22 +18,8 @@
 	</target>
 
 	<target name="copy assets">
-		<copy todir="${BIN_DIR}/assets/levels">
-			<fileset dir="${ASSETS_DIR}/levels">
-				<exclude name="*.pes"/>
-				<exclude name="**/mask.png"/>
-			</fileset>
-		</copy>
-		<copy todir="${BIN_DIR}/assets/sounds">
-			<fileset dir="${ASSETS_DIR}/sounds">
-			</fileset>
-		</copy>
-		<copy todir="${BIN_DIR}/assets/profile">
-			<fileset dir="${ASSETS_DIR}/profile">
-			</fileset>
-		</copy>
-		<copy todir="${BIN_DIR}/assets/missions">
-			<fileset dir="${ASSETS_DIR}/missions">
+		<copy todir="${BIN_DIR}/gamedata">
+			<fileset dir="${ASSETS_DIR}/gamedata">
 			</fileset>
 		</copy>
 	</target>

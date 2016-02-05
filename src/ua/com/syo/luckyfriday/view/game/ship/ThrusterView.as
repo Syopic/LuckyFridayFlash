@@ -6,7 +6,7 @@ package ua.com.syo.luckyfriday.view.game.ship
 	import starling.display.Sprite;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 
 	public class ThrusterView extends Sprite
 	{
@@ -21,7 +21,7 @@ package ua.com.syo.luckyfriday.view.game.ship
 		{
 			this.index = index;
 			_defaultAngle = defaultAngle;
-			img = new Image(Texture.fromEmbeddedAsset(EmbededAssets.EngineC));
+			img = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.EngineC));
 			img.pivotX = 4;
 			img.pivotY = 12;
 			addChild(img);

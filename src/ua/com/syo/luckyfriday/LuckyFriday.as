@@ -8,11 +8,12 @@ package ua.com.syo.luckyfriday {
 	import starling.events.ResizeEvent;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 
-	[SWF(frameRate = "60", width = "1280", height = "720", backgroundColor = "0x000410")]
+	[SWF(frameRate = "60", width = "280", height = "172", backgroundColor = "0x000410")]
 	public class LuckyFriday extends StarlingCitrusEngine {
 		/**
 		 * Entry point
@@ -39,9 +40,15 @@ package ua.com.syo.luckyfriday {
 
 		override public function handleStarlingReady():void {
 			Model.instance.init();
-			UIManager.instance.init();
-			Controller.instance.init();
-			Controller.instance.changeState(MenuState.newInstance);
+			Model.instance.assetManager.enqueue(EmbeddedAssets);
+			Model.instance.assetManager.loadQueue(function(ratio:Number):void {
+				if (ratio == 1.0) {
+					trace("EmbeddedAssets");
+					UIManager.instance.init();
+					Controller.instance.init();
+					Controller.instance.changeState(MenuState.newInstance);
+				}
+			});
 		}
 	}
 }

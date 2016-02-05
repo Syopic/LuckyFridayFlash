@@ -1,20 +1,14 @@
 [
     {
-        "id":"location1",
-        "name":"Eros",
+        "id":"1",
+        "name":"Eros 1",
         "description":"Big \n Cool",
-        "bg":"locations/location1/bg.jpg",
-        "fg":"locations/location1/fg.png",
-        "width":1920,
-        "height":1024
+        "isComplete":false
     },
     {
-        "id":"location2",
+        "id":"2",
         "name":"Eros 2",
         "description":"Big \n Cool",
-        "bg":"locations/location2/bg.jpg",
-        "fg":"locations/location2/fg.png",
-        "width":1920,
-        "height":1024
+        "isComplete":false
     }
 ]

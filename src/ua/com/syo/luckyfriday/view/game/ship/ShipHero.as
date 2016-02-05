@@ -12,9 +12,10 @@ package ua.com.syo.luckyfriday.view.game.ship {
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
-	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
+	import ua.com.syo.luckyfriday.model.Model;
+	import ua.com.syo.luckyfriday.model.mission.CurrentLevelStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
@@ -27,6 +28,9 @@ package ua.com.syo.luckyfriday.view.game.ship {
 		private var thrusters:Vector.<ThrusterView> = new Vector.<ThrusterView>(4);
 		private var thrustersPosition:Array = new Array(new Point(20, 22), new Point(185, 15), new Point(20, 69), new Point(185, 37));
 		private var thrusterRotation:Array = new Array(-Math.PI / 4, Math.PI / 4, -Math.PI / 4 - Math.PI / 2, Math.PI / 4 + Math.PI / 2);
+
+		private var shipRightPoints:Array;
+		private var shipLeftPoints:Array;
 
 		private var impulse:Vec2 = new Vec2(0, 0);
 
@@ -47,7 +51,8 @@ package ua.com.syo.luckyfriday.view.game.ship {
 		}
 
 		private function initAnimations():void {
-			var ta:TextureAtlas = EmbededAssets.getShipHeroAtlas();
+			//var ta:TextureAtlas = Model.instance.assetManager.getTextureAtlas("ShipAnimC");
+			var ta:TextureAtlas = EmbeddedAssets.getShipHeroAtlas();
 			animSeq = new AnimationSequence(ta, [Constants.IDLE_RIGHT_ANIMATION, Constants.IDLE_LEFT_ANIMATION, Constants.KREN_ANIMATION, Constants.ROTATE_ANIMATION, Constants.RROTATER_ANIMATION], Constants.IDLE_RIGHT_ANIMATION, 80);
 			animSeq.addChild(thrustersView);
 			animSeq.onAnimationComplete.add(onAnimationOver);
@@ -98,7 +103,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 
 		override protected function createShape():void {
 
-			points = CurrentLevelData.getShipGeom();
+			points = getShipGeom();
 			super.createShape();
 		}
 
@@ -109,11 +114,11 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			if (testFlip(dir)) {
 				body.shapes.clear();
 				if (dir == 1) {
-					points = CurrentLevelData.getShipGeom();
+					points = getShipGeom();
 					animation = Constants.RROTATER_ANIMATION;
 				} else {
 					animation = Constants.ROTATE_ANIMATION;
-					points = CurrentLevelData.getShipGeom(true);
+					points = getShipGeom(true);
 				}
 				super.createShape();
 				direction = dir;
@@ -131,9 +136,9 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			var result:Boolean = true;
 			body.shapes.clear();
 			if (dir == 1) {
-				points = CurrentLevelData.getShipGeom();
+				points = getShipGeom();
 			} else {
-				points = CurrentLevelData.getShipGeom(true);
+				points = getShipGeom(true);
 			}
 
 			super.createShape();
@@ -145,9 +150,9 @@ package ua.com.syo.luckyfriday.view.game.ship {
 				body.shapes.clear();
 				dir = -dir;
 				if (dir == 1) {
-					points = CurrentLevelData.getShipGeom();
+					points = getShipGeom();
 				} else {
-					points = CurrentLevelData.getShipGeom(true);
+					points = getShipGeom(true);
 				}
 
 				super.createShape();
@@ -315,6 +320,72 @@ package ua.com.syo.luckyfriday.view.game.ship {
 
 			thrustersView.visible = !isAnimationRunning;
 			moveEmiter();
+		}
+
+		/**
+		 * Ship geometry
+		 */
+		public function getShipGeom(isMirror:Boolean = false):Array {
+			var vertices:Array = [];
+			if (!isMirror)
+			{
+				if (!shipRightPoints)
+				{
+
+					vertices = getShipPoints();
+					shipRightPoints = vertices;
+				} else
+				{
+					vertices = shipRightPoints;
+				}
+			}
+			else
+			{
+				if (!shipLeftPoints)
+				{
+					vertices = getShipPoints();
+					for (var i:int = 0; i < vertices.length; i++) 
+					{
+						var p:Point = vertices[i] as Point;
+						p.x = - p.x;
+					}
+					shipLeftPoints = vertices;
+				} else {
+					vertices = shipLeftPoints;
+				}
+			}
+
+			return vertices;
+		}
+
+
+		private function getShipPoints():Array {
+			var vertices:Array = [];
+			var dx:int = -103;
+			var dy:int = -42;
+
+			vertices.push(new Point(15 + dx, 15 + dy));
+			vertices.push(new Point(22 + dx, 16 + dy));
+			vertices.push(new Point(22 + dx, 12 + dy));
+			vertices.push(new Point(51 + dx, 19 + dy));
+			vertices.push(new Point(106 + dx, 18 + dy));
+			vertices.push(new Point(117 + dx, 21 + dy));
+			vertices.push(new Point(144 + dx, 13 + dy));
+			vertices.push(new Point(140 + dx, 7 + dy));
+			vertices.push(new Point(184 + dx, 10 + dy));
+			vertices.push(new Point(196 + dx, 21 + dy));
+			vertices.push(new Point(196 + dx, 27 + dy));
+			vertices.push(new Point(164 + dx, 48 + dy));
+			vertices.push(new Point(138 + dx, 77 + dy));
+			vertices.push(new Point(67 + dx, 77 + dy));
+			vertices.push(new Point(61 + dx, 64 + dy));
+			vertices.push(new Point(23 + dx, 72 + dy));
+			vertices.push(new Point(22 + dx, 68 + dy));
+			vertices.push(new Point(15 + dx, 69 + dy));
+			vertices.push(new Point(7 + dx, 59 + dy));
+			vertices.push(new Point(7 + dx, 26 + dy));
+
+			return vertices;
 		}
 	}
 }

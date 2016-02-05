@@ -8,7 +8,8 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;
 
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
+	import ua.com.syo.luckyfriday.model.Model;
 
 	public class HUDView extends Sprite {
 		private var timerLabel:TextField;
@@ -24,16 +25,16 @@ package ua.com.syo.luckyfriday.view.ui {
 		public function HUDView():void {
 
 			// Font
-			headerFont = new EmbededAssets.UbuntuBoldClass();
+			headerFont = new EmbeddedAssets.UbuntuBoldClass();
 
 			timerLabel = new TextField(210, 50, "12'34\"", headerFont.fontName, 36, 0xFFFFFF);
 			addChild(timerLabel);
 
 			// and display it with an Image:
-			timeIcon = new Image(EmbededAssets.getTexture("HUDTimeIconC"));
-			hullIcon = new Image(EmbededAssets.getTexture("HUDHullIconC"));
-			energyIcon = new Image(EmbededAssets.getTexture("HUDEnergyIconC"));
-			containerIcon = new Image(EmbededAssets.getTexture("HUDContainerIconC"));
+			timeIcon = new Image(Model.instance.assetManager.getTexture("HUDTimeIconC"));
+			hullIcon = new Image(Model.instance.assetManager.getTexture("HUDHullIconC"));
+			energyIcon = new Image(Model.instance.assetManager.getTexture("HUDEnergyIconC"));
+			containerIcon = new Image(Model.instance.assetManager.getTexture("HUDContainerIconC"));
 
 			addChild(timeIcon);
 			timeIcon.x = 14;

@@ -17,7 +17,7 @@ package ua.com.syo.luckyfriday.controller {
 	import ua.com.syo.luckyfriday.LuckyFriday;
 	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.data.SaveData;
 	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
@@ -25,7 +25,7 @@ package ua.com.syo.luckyfriday.controller {
 
 	public class Controller extends EventDispatcher {
 
-		private var _currentLevelId:String = "1";
+		private var _currentMissionId:String = "1.1";
 
 		public function init():void {
 			// update settings from saved data in SharedObjects
@@ -39,7 +39,7 @@ package ua.com.syo.luckyfriday.controller {
 			trace("File.userDirectory.name: " + File.userDirectory.name)
 			if (File.userDirectory.name == "Syo")
 			{
-				startLoadLevel(currentLevelId);
+				//startLoadLevel(currentLevelId);
 			}
 			//startLoadMissions();
 		}
@@ -83,11 +83,11 @@ package ua.com.syo.luckyfriday.controller {
 		}
 
 
-		public function startLoadLevel(levelId:String):void {
-			trace("START LEVEL: " + levelId);
-			_currentLevelId = levelId;
+		public function startLoadLevel(missionId:String):void {
+			trace("START LEVEL: " + missionId);
+			_currentMissionId = missionId;
 			Model.instance.addEventListener(AssetsLoadingEvent.LEVEL_LOADED, levelLoadedComplete);
-			Model.instance.loadLevelsAssets(levelId);
+			Model.instance.loadLevelAssets(missionId);
 		}
 
 		/**
@@ -150,16 +150,16 @@ package ua.com.syo.luckyfriday.controller {
 		 * Init sounds
 		 */
 		protected function initCommonSounds():void {
-			SoundManager.getInstance().addSound(Constants.LOOP_MUSIC, {sound: EmbededAssets.ThemeSoundC, loops: -1, volume: 1, group: CitrusSoundGroup.BGM});
+			SoundManager.getInstance().addSound(Constants.LOOP_MUSIC, {sound: EmbeddedAssets.ThemeSoundC, loops: -1, volume: 1, group: CitrusSoundGroup.BGM});
 
-			SoundManager.getInstance().addSound(Constants.LOOP_ENVIRONMENT, {sound: EmbededAssets.EnvSoundC, loops: -1, volume: 0.1, permanent: true, group: CitrusSoundGroup.SFX});
-			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, {sound: EmbededAssets.EngineSoundC, loops: -1, group: CitrusSoundGroup.SFX});
-			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, {sound: EmbededAssets.ConnectSoundC, group: CitrusSoundGroup.SFX});
-			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: EmbededAssets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.LOOP_ENVIRONMENT, {sound: EmbeddedAssets.EnvSoundC, loops: -1, volume: 0.1, permanent: true, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, {sound: EmbeddedAssets.EngineSoundC, loops: -1, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, {sound: EmbeddedAssets.ConnectSoundC, group: CitrusSoundGroup.SFX});
+			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: EmbeddedAssets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
 		}
 
-		public function get currentLevelId():String {
-			return _currentLevelId;
+		public function get currentMissionId():String {
+			return _currentMissionId;
 		}
 
 		public function isDoing(actionName:String, channel:int = -1):Boolean
