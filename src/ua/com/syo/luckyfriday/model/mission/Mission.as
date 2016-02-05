@@ -12,7 +12,7 @@ package ua.com.syo.luckyfriday.model.mission
 		public var rate:int;
 		public var locX:int;
 		public var locY:int;
-		public var isEnable:Boolean;
+		public var isEnable:Boolean = true;
 		public var isComplete:Boolean;
 	}
 }

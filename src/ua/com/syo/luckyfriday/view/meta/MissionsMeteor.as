@@ -29,12 +29,11 @@ package ua.com.syo.luckyfriday.view.meta {
 		/**
 		 * Constructor
 	   * @param locationId
-						   */
+									*/
 		public function MissionsMeteor(locationId:String) {
 
 			location = MissionStorage.getLocationById(locationId);
 
-			Model.instance.assetManager.enqueue(File.applicationDirectory.resolvePath("gamedata/locations/location" + locationId + "/locationBg.jpg"));
 			Model.instance.assetManager.enqueue(File.applicationDirectory.resolvePath("gamedata/locations/location" + locationId + "/locationFg.png"));
 			Model.instance.assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {

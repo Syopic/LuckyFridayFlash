@@ -25,6 +25,7 @@ package ua.com.syo.luckyfriday.controller {
 
 	public class Controller extends EventDispatcher {
 
+		private var _currentLocationId:String = "1";
 		private var _currentMissionId:String = "1.1";
 
 		public function init():void {
@@ -156,6 +157,10 @@ package ua.com.syo.luckyfriday.controller {
 			SoundManager.getInstance().addSound(Constants.ENGINE_SFX, {sound: EmbeddedAssets.EngineSoundC, loops: -1, group: CitrusSoundGroup.SFX});
 			SoundManager.getInstance().addSound(Constants.CONNECT_SFX, {sound: EmbeddedAssets.ConnectSoundC, group: CitrusSoundGroup.SFX});
 			SoundManager.getInstance().addSound(Constants.DISCONNECT_SFX, {sound: EmbeddedAssets.DisconnectSoundC, group: CitrusSoundGroup.SFX});
+		}
+
+		public function get currentLocationId():String {
+			return _currentLocationId;
 		}
 
 		public function get currentMissionId():String {

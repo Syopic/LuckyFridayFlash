@@ -1,5 +1,6 @@
 package ua.com.syo.luckyfriday.view.states {
 
+	import flash.filesystem.File;
 	import flash.utils.Dictionary;
 
 	import citrus.core.starling.StarlingState;
@@ -13,11 +14,9 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.display.Shape;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.textures.Texture;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
-	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.model.mission.Mission;
@@ -42,19 +41,23 @@ package ua.com.syo.luckyfriday.view.states {
 
 		override public function initialize():void {
 			super.initialize();
-			initBg();
-			initButtons();
-			initMissionPoints()
-
+			Model.instance.assetManager.enqueue(File.applicationDirectory.resolvePath("gamedata/locations/location" + Controller.instance.currentLocationId + "/locationBg.jpg"));
+			Model.instance.assetManager.loadQueue(function(ratio:Number):void {
+				if (ratio == 1.0) {
+					initBg();
+					initButtons();
+					initMissionPoints();
+					arrange(null);
+				}
+			});
 		}
 
 		private function initBg():void {
 			bg = new Image(Model.instance.assetManager.getTexture("locationBg"));
-			meteor = new MissionsMeteor("1");
-			UIManager.instance.addEventListener(Event.RESIZE, arrange);
+			meteor = new MissionsMeteor(Controller.instance.currentLocationId);
 			addChild(bg);
 			addChild(meteor);
-
+			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 		}
 
 
@@ -103,7 +106,7 @@ package ua.com.syo.luckyfriday.view.states {
 			var n:String;
 			var s:int;
 			var enab:Boolean;
-			var additionalMissionId:Array = MissionStorage.getMissionIdByType("1", true);
+			var additionalMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, true);
 			if (additionalMissionId.length > 0) {
 				for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
 					var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
@@ -119,13 +122,13 @@ package ua.com.syo.luckyfriday.view.states {
 				}
 			} else {
 			}
-			var primaryMissionId:Array = MissionStorage.getMissionIdByType("1", false);
+			var primaryMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, false);
 			for (var i:int = 0; i < primaryMissionId.length; i++) {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.id.split(".", 2);
 				n = params[1];
 				trace("Mission " + n + " in Location + locationId");
-				point = new MissionsPoint(n, m.isEnable, m.rate);
+				point = new MissionsPoint(m.id, m.isEnable, m.rate);
 				point.name = n;
 				point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
 				point.y = (m.locY * meteor.resizeY) + 100;
@@ -134,7 +137,7 @@ package ua.com.syo.luckyfriday.view.states {
 				containerPoint.addChild(point);
 			}
 			addChild(containerPoint);
-			curves();
+			//curves();
 		}
 
 		/**
@@ -142,34 +145,35 @@ package ua.com.syo.luckyfriday.view.states {
 		 * @param event
 		 */
 		private function arrange(event:Event):void {
-
-			if (Globals.stageWidth < 1920) {
-				bg.width = 1920;
-				bg.height = 1024;
-			} else {
-				bg.width = Globals.stageWidth;
-				bg.height = Globals.stageHeight;
-			}
-			var n:String;
-			var primaryMissionId:Array = MissionStorage.getMissionIdByType("1", false);
-			//arange primary point
-			for (var i:int = 0; i < primaryMissionId.length; i++) {
-				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
-				var params:Array = m.id.split(".", 2);
-				n = params[1];
-				point = containerPoint.getChildByName(n) as MissionsPoint;
-				point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
-				point.y = (m.locY * meteor.resizeY) + 100;
-			}
-			var additionalMissionId:Array = MissionStorage.getMissionIdByType("1", true);
-			if (additionalMissionId.length > 0) {
-				for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
-					var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
-					additPoint = containerPoint.getChildByName(additionalMissionId[ai]) as AdditionalMissionPoint;
-					additPoint.x = (am.locX * meteor.resizeY) + meteor.psitionX;
-					additPoint.y = (am.locY * meteor.resizeY) + 100;
+			if (meteor != null)
+			{
+				if (Globals.stageWidth < 1920) {
+					bg.width = 1920;
+					bg.height = 1024;
+				} else {
+					bg.width = Globals.stageWidth;
+					bg.height = Globals.stageHeight;
 				}
-			} else {
+				var n:String;
+				var primaryMissionId:Array = MissionStorage.getMissionIdByType("1", false);
+				//arange primary point
+				for (var i:int = 0; i < primaryMissionId.length; i++) {
+					var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
+					var params:Array = m.id.split(".", 2);
+					n = params[1];
+					point = containerPoint.getChildByName(n) as MissionsPoint;
+					point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
+					point.y = (m.locY * meteor.resizeY) + 100;
+				}
+				var additionalMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, true);
+				if (additionalMissionId.length > 0) {
+					for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
+						var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
+						additPoint = containerPoint.getChildByName(additionalMissionId[ai]) as AdditionalMissionPoint;
+						additPoint.x = (am.locX * meteor.resizeY) + meteor.psitionX;
+						additPoint.y = (am.locY * meteor.resizeY) + 100;
+					}
+				}
 			}
 		}
 
@@ -177,7 +181,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 			for (var i:int = 1; i < 8; i++) {
 				//myShape.graphics.moveTo(pointDictionary[1].x, pointDictionary[1].y);
-				trace(pointDictionary[i].x, pointDictionary[i].y);
+				//trace(pointDictionary[i].x, pointDictionary[i].y);
 				myShape.graphics.lineTo(pointDictionary[i].x, pointDictionary[i].y);
 				myShape.graphics.moveTo(pointDictionary[i].x, pointDictionary[i].y);
 				myShape.graphics.lineStyle(3, 0xF6BF50);
