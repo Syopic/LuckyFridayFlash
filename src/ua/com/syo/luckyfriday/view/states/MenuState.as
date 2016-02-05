@@ -12,9 +12,9 @@ package ua.com.syo.luckyfriday.view.states
 	import starling.events.Event;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
-	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.model.Model;
+	import ua.com.syo.luckyfriday.model.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 
 	public class MenuState extends StarlingState
@@ -86,7 +86,7 @@ package ua.com.syo.luckyfriday.view.states
 			exitBtn.width = 75;
 			exitBtn.height = 75;
 			exitBtn.layoutData = new AnchorLayoutData(NaN, NaN, 20, 20);
-			exitBtn.defaultIcon = new Image(EmbededAssets.getTexture("PowerIconC"));
+			exitBtn.defaultIcon = new Image(Model.instance.assetManager.getTexture("PowerIconC"));
 			exitBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(exitBtn);
 
@@ -95,7 +95,7 @@ package ua.com.syo.luckyfriday.view.states
 			settingsBtn.width = 75;
 			settingsBtn.height = 75;
 			settingsBtn.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
-			settingsBtn.defaultIcon = new Image(EmbededAssets.getTexture("SettingsIconC"));
+			settingsBtn.defaultIcon = new Image(Model.instance.assetManager.getTexture("SettingsIconC"));
 			settingsBtn.addEventListener(Event.TRIGGERED, buttonClicked);
 			container.addChild(settingsBtn);
 
@@ -114,7 +114,7 @@ package ua.com.syo.luckyfriday.view.states
 			super.update(timeDelta);
 
 			if (_ce.input.hasDone(Constants.PLAY_ACTION)) {
-				Controller.instance.startLoadLevel(Controller.instance.currentLevelId);  
+				Controller.instance.startLoadLevel(Controller.instance.currentMissionId);  
 			}
 		}
 
@@ -124,7 +124,7 @@ package ua.com.syo.luckyfriday.view.states
 			{
 				case playBtn: 
 					//TODO goto location
-					Controller.instance.startLoadLevel(Controller.instance.currentLevelId);   
+					Controller.instance.startLoadLevel(Controller.instance.currentMissionId);   
 					break;
 				case locationsBtn: 
 					Controller.instance.changeState(LocationsState.newInstance);   

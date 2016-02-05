@@ -4,7 +4,7 @@ package ua.com.syo.luckyfriday.view.meta {
 	import starling.events.Event;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 
 	public class AdditionalMissionPoint extends Sprite {
@@ -13,8 +13,8 @@ package ua.com.syo.luckyfriday.view.meta {
 
 		public function AdditionalMissionPoint(id:String, enab:Boolean) {
 			n = id;
-			aditionalMissionBtn = new ImageButton(Texture.fromEmbeddedAsset(EmbededAssets.RadiationC), "", Texture.fromEmbeddedAsset(EmbededAssets.RadiationC), null, Texture.fromEmbeddedAsset(EmbededAssets.RadiationLocC));
-			aditionalMissionBtn.fontName = EmbededAssets.fontUbuntu.fontName;
+			aditionalMissionBtn = new ImageButton(Texture.fromEmbeddedAsset(EmbeddedAssets.RadiationC), "", Texture.fromEmbeddedAsset(EmbeddedAssets.RadiationC), null, Texture.fromEmbeddedAsset(EmbeddedAssets.RadiationLocC));
+			aditionalMissionBtn.fontName = EmbeddedAssets.fontUbuntu.fontName;
 			aditionalMissionBtn.fontSize = 50;
 			aditionalMissionBtn.fontBold = true;
 			aditionalMissionBtn.x = 1;

@@ -40,7 +40,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.Globals;
-	import ua.com.syo.luckyfriday.model.storage.level.CurrentLevelData;
+	import ua.com.syo.luckyfriday.model.mission.CurrentLevelStorage;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.game.ParticlesView;
 	import ua.com.syo.luckyfriday.view.game.draggedobjects.DrawingDO;
@@ -87,19 +87,17 @@ package ua.com.syo.luckyfriday.view.states {
 			}
 
 			// add background
-			bgSprite = new CitrusSprite("backgroud", {view: new Image(CurrentLevelData.bgTexture)});
+			bgSprite = new CitrusSprite("backgroud", {view: new Image(CurrentLevelStorage.bgTexture)});
 			add(bgSprite);
 			bgSprite.parallaxX = 0.1;
 			bgSprite.parallaxY = 0.1;
 			//addChild(new Demo());
-			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelData.fgTexture)});
+			caveSprite = new CitrusSprite("cave", {view: new Image(CurrentLevelStorage.fgTexture)});
 			add(caveSprite);
 
-			CurrentLevelData.generateShapes();
-
-			CurrentLevelData.getObjectsByType(this, DrawingDO.CAVE_SHAPES, BodyType.STATIC);
-			CurrentLevelData.getObjectsByType(this, DrawingDO.PLATFORM_SHAPES, BodyType.STATIC);
-			rocks = CurrentLevelData.getObjectsByType(this, DrawingDO.ROCK_SHAPES, BodyType.DYNAMIC);
+			CurrentLevelStorage.getObjectsByType(this, DrawingDO.CAVE_SHAPES, BodyType.STATIC);
+			CurrentLevelStorage.getObjectsByType(this, DrawingDO.PLATFORM_SHAPES, BodyType.STATIC);
+			rocks = CurrentLevelStorage.getObjectsByType(this, DrawingDO.ROCK_SHAPES, BodyType.DYNAMIC);
 
 
 			//initLights();
@@ -119,7 +117,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 			//lightLayer.addShadowGeometry(new ShadowGeometry(mc));
 			mainCamera = view.camera as StarlingCamera;
-			mainCamera.setUp(shipHero, new Rectangle(0, 0, CurrentLevelData.levelWidth, CurrentLevelData.levelHeight), new Point(.5, .5));
+			mainCamera.setUp(shipHero, new Rectangle(0, 0, CurrentLevelStorage.levelWidth, CurrentLevelStorage.levelHeight), new Point(.5, .5));
 			mainCamera.allowZoom = true;
 
 			mainCamera.zoomEasing = 0.001;
@@ -265,7 +263,7 @@ package ua.com.syo.luckyfriday.view.states {
 		 * Init debug layer
 		 */
 		private function initDebugLayer():void {
-			debug = new ShapeDebug(CurrentLevelData.levelWidth, CurrentLevelData.levelHeight);
+			debug = new ShapeDebug(CurrentLevelStorage.levelWidth, CurrentLevelStorage.levelHeight);
 			debug.drawBodies = true;
 			debug.drawCollisionArbiters = true;
 			debug.drawConstraints = true;
@@ -345,7 +343,7 @@ package ua.com.syo.luckyfriday.view.states {
 				mcDebug.y = -mainCamera.camPos.y + stage.stageHeight / 2;
 			}
 
-			if (Math.abs(CurrentLevelData.levelWidth / 2 - mainCamera.camPos.x) < 100) {
+			if (Math.abs(CurrentLevelStorage.levelWidth / 2 - mainCamera.camPos.x) < 100) {
 				if (!isZoomIn) {
 					mainCamera.baseZoom = 1;
 					isZoomIn = true;

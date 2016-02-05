@@ -16,8 +16,9 @@ package ua.com.syo.luckyfriday.view.ui
 	import starling.textures.TextureAtlas;
 
 	import ua.com.syo.luckyfriday.controller.Controller;
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
+	import ua.com.syo.luckyfriday.model.Model;
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
@@ -136,7 +137,7 @@ package ua.com.syo.luckyfriday.view.ui
 					Controller.instance.ce.playing = true;
 					break;
 				case playagainBtn:
-					Controller.instance.startLoadLevel(Controller.instance.currentLevelId);  
+					Controller.instance.startLoadLevel(Controller.instance.currentMissionId);  
 					PopUpManager.removePopUp(this);
 					Controller.instance.ce.playing = true;
 					break;
@@ -146,7 +147,7 @@ package ua.com.syo.luckyfriday.view.ui
 			}
 		}
 		private function initAnimations():void {
-			var sTextureAtlas:TextureAtlas = EmbededAssets.getShipHeroAtlas();
+			var sTextureAtlas:TextureAtlas = Model.instance.assetManager.getTextureAtlas("ShipAnimC");
 			var frames:Vector.<Texture> = sTextureAtlas.getTextures(Constants.ROTATE_ANIMATION);
 			mMovie = new MovieClip(frames, 10);
 			mMovie.x = 170;

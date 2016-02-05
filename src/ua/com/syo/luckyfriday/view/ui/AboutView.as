@@ -23,7 +23,7 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.data.Constants;
 
 
@@ -74,7 +74,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			//add text
 
 			s = new Sprite();
-			var legend:TextField = new TextField(180, 200, " ", EmbededAssets.font.fontName, 14, 0xFFFFFF, true);
+			var legend:TextField = new TextField(180, 200, " ", EmbeddedAssets.font.fontName, 14, 0xFFFFFF, true);
 			legend.text = "Kryvosheya (Syo) Serhii\nMyzika Slava\nGonhcar Urii\nKryvosheya Volodymyr\nKysliuk (Riks) Oleksii";
 			s.addChild(legend);
 			s.x = 140;
@@ -82,7 +82,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			addChild(s);
 
 			// add Logo
-			img = new Image(Texture.fromEmbeddedAsset(EmbededAssets.LogobtnC));
+			img = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.LogobtnC));
 			img.y = 5;
 			img.x = 180;
 			img.touchable = true;
@@ -90,7 +90,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			addChild(img);
 
 
-			imgdown = new Image(Texture.fromEmbeddedAsset(EmbededAssets.ButtonDownC));
+			imgdown = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.ButtonDownC));
 			imgdown.y = 5;
 			imgdown.x = 180;
 			imgdown.addEventListener(TouchEvent.TOUCH, onTouch);

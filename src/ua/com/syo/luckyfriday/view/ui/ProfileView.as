@@ -15,9 +15,9 @@ package ua.com.syo.luckyfriday.view.ui {
 	import starling.events.Event;
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.data.EmbededAssets;
-	import ua.com.syo.luckyfriday.model.storage.profile.Profile;
-	import ua.com.syo.luckyfriday.model.storage.profile.ProfileStorage;
+	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
+	import ua.com.syo.luckyfriday.model.profile.Profile;
+	import ua.com.syo.luckyfriday.model.profile.ProfileStorage;
 	import ua.com.syo.luckyfriday.view.ui.renderers.TopListItemRenderer;
 
 	/**
@@ -94,7 +94,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			this.addChild(backBtn);
 
 			// add img profile
-			profimg = new Image(Texture.fromEmbeddedAsset(EmbededAssets.AvatarC));
+			profimg = new Image(Texture.fromEmbeddedAsset(EmbeddedAssets.AvatarC));
 			profimg.y = 25;
 			profimg.x = 20;
 			addChild(profimg);
@@ -163,7 +163,7 @@ package ua.com.syo.luckyfriday.view.ui {
 			currentUser[0] = p.name;
 			currentUser[1] = "SCORE: " + p.score;
 			currentUser[2] = "RANK: " + p.rank;
-			currentUser[3] = "ACH: " + p.achives + "/" + p.achivesMax;
+			currentUser[3] = "ACH: " + 10 + "/" + 40;
 			currentUserList.data = currentUser;
 
 			return currentUserList;
