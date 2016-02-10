@@ -32,8 +32,8 @@ package ua.com.syo.luckyfriday.view.states {
 		private var container:LayoutGroup;
 		private var settingsBtn:Button;
 		private var bg:Image;
-		private var meteor:MissionsMeteor;
-		private var point:MissionsPoint;
+		private var meteor:MissionsMeteor = new MissionsMeteor(Controller.instance.currentLocationId);
+		private var primaryPoint:MissionsPoint;
 		private var additPoint:AdditionalMissionPoint;
 		private var containerPoint:Sprite = new Sprite();
 		private var myShape:Shape = new Shape();
@@ -54,8 +54,9 @@ package ua.com.syo.luckyfriday.view.states {
 
 		private function initBg():void {
 			bg = new Image(Model.instance.assetManager.getTexture("locationBg"));
-			meteor = new MissionsMeteor(Controller.instance.currentLocationId);
+			
 			addChild(bg);
+			
 			addChild(meteor);
 			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 		}
@@ -102,17 +103,15 @@ package ua.com.syo.luckyfriday.view.states {
 		 */
 		private function primaryMissionPoints():void {
 
-
 			var n:String;
 			var s:int;
-			var enab:Boolean;
 			var additionalMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, true);
 			if (additionalMissionId.length > 0) {
 				for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
 					var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
 					//var par:Array = am.missionId.split(".", 3);
 					//n = par[2];
-					trace("Additional Mission " + additionalMissionId[ai] + " in Location + locationId");
+					trace("Additional Mission " + additionalMissionId[ai] + "in location " + Controller.instance.currentLocationId);
 					additPoint = new AdditionalMissionPoint(additionalMissionId[ai], am.isEnable);
 					additPoint.name = additionalMissionId[ai];
 					additPoint.x = (am.locX * meteor.resizeY) + meteor.psitionX;
@@ -127,16 +126,17 @@ package ua.com.syo.luckyfriday.view.states {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.id.split(".", 2);
 				n = params[1];
-				trace("Mission " + n + " in Location + locationId");
-				point = new MissionsPoint(m.id, m.isEnable, m.rate);
-				point.name = n;
-				point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
-				point.y = (m.locY * meteor.resizeY) + 100;
-				pointDictionary[n] = {x: (point.x + 50), y: (point.y + 50)};
-				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
-				containerPoint.addChild(point);
+				trace("Mission " + n + "in location " + Controller.instance.currentLocationId);
+				primaryPoint = new MissionsPoint(m.id, m.isEnable, m.rate);
+				primaryPoint.name = n;
+				primaryPoint.x = (m.locX * meteor.resizeY) + meteor.psitionX;
+				primaryPoint.y = (m.locY * meteor.resizeY) + 100;
+				pointDictionary[n] = {x: (primaryPoint.x + 50), y: (primaryPoint.y + 50)};
+				primaryPoint.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
+				containerPoint.addChild(primaryPoint);
 			}
-			addChild(containerPoint);
+			this.addChild(containerPoint);
+			trace();
 			//curves();
 		}
 
@@ -145,8 +145,7 @@ package ua.com.syo.luckyfriday.view.states {
 		 * @param event
 		 */
 		private function arrange(event:Event):void {
-			if (meteor != null)
-			{
+			if (meteor != null) {
 				if (Globals.stageWidth < 1920) {
 					bg.width = 1920;
 					bg.height = 1024;
@@ -161,9 +160,9 @@ package ua.com.syo.luckyfriday.view.states {
 					var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 					var params:Array = m.id.split(".", 2);
 					n = params[1];
-					point = containerPoint.getChildByName(n) as MissionsPoint;
-					point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
-					point.y = (m.locY * meteor.resizeY) + 100;
+					primaryPoint = containerPoint.getChildByName(n) as MissionsPoint;
+					primaryPoint.x = (m.locX * meteor.resizeY) + meteor.psitionX;
+					primaryPoint.y = (m.locY * meteor.resizeY) + 100;
 				}
 				var additionalMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, true);
 				if (additionalMissionId.length > 0) {
@@ -188,7 +187,7 @@ package ua.com.syo.luckyfriday.view.states {
 				//myShape.graphics.lineTo(100, 100);
 				containerPoint.addChild(myShape);
 				trace(containerPoint.getChildIndex(myShape));
-				containerPoint.setChildIndex(myShape,0);
+				containerPoint.setChildIndex(myShape, 0);
 			}
 		}
 

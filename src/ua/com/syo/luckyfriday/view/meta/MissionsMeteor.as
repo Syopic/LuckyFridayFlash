@@ -27,9 +27,9 @@ package ua.com.syo.luckyfriday.view.meta {
 
 
 		/**
-		 * Constructor
-	   * @param locationId
-									*/
+		* Constructor
+	  	* @param locationId
+		*/
 		public function MissionsMeteor(locationId:String) {
 
 			location = MissionStorage.getLocationById(locationId);
@@ -43,12 +43,11 @@ package ua.com.syo.luckyfriday.view.meta {
 
 		}
 
-		private function init():void
-		{
+		private function init():void {
 			var locationTexture:Texture = Model.instance.assetManager.getTexture("locationFg");
 			met = new Image(locationTexture);
 
-			resizeY = (Globals.stageHeight - 200) / 1920;
+			resizeY = (Globals.stageHeight - 200) / 1024;
 			met.scaleX = resizeY;
 			met.scaleY = resizeY;
 			met.x = Globals.stageWidth / 2 - met.width / 2;
