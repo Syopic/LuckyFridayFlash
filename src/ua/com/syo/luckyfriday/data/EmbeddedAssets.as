@@ -175,10 +175,6 @@ package ua.com.syo.luckyfriday.data {
 		public static const UbuntuBoldClass:Class;
 		public static var fontUbuntu:Font = new UbuntuBoldClass();
 
-
-		/**
-		 * Cashing textures
-		 */
 		private static var gameTextures:Dictionary = new Dictionary();
 
 		public static function getTexture(name:String):Texture {
@@ -190,9 +186,6 @@ package ua.com.syo.luckyfriday.data {
 		}
 
 
-		/**
-		 * Cashing atlases
-		 */
 		private static var shipTextureAtlas:TextureAtlas;
 
 		public static function getShipHeroAtlas():TextureAtlas {
@@ -203,10 +196,6 @@ package ua.com.syo.luckyfriday.data {
 			}
 			return shipTextureAtlas;
 		}
-
-
-
-
 
 	}
 }

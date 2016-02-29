@@ -51,7 +51,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 		}
 
 		private function initAnimations():void {
-			//var ta:TextureAtlas = Model.instance.assetManager.getTextureAtlas("ShipAnimC");
+			//var ta:TextureAtlas = Model.instance.assetManager.getTextureAtlas("ShipAnim");
 			var ta:TextureAtlas = EmbeddedAssets.getShipHeroAtlas();
 			animSeq = new AnimationSequence(ta, [Constants.IDLE_RIGHT_ANIMATION, Constants.IDLE_LEFT_ANIMATION, Constants.KREN_ANIMATION, Constants.ROTATE_ANIMATION, Constants.RROTATER_ANIMATION], Constants.IDLE_RIGHT_ANIMATION, 80);
 			animSeq.addChild(thrustersView);

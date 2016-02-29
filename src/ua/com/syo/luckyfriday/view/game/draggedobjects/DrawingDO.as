@@ -10,6 +10,7 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 	import nape.geom.Vec2;
 	import nape.phys.Material;
 	import nape.shape.Edge;
+	import nape.shape.EdgeList;
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
@@ -111,12 +112,16 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 			{
 				braces.push(vertexes[i].copy());
 			}
-			for (var j:int = 0; j < polygon.edges.length; j++) {
-				var edge:Edge = polygon.edges.at(j);
-					//braces.push(new Vec2(edge.edge.localNormal);
+
+			var massCenter:Vec2 = body.localCOM.copy();
+			var edges:EdgeList = polygon.edges;
+
+			for (var j:int = 0; j < edges.length; j++) {
+				var edge:Edge = edges.at(j);
+				braces.push(edge.localNormal);
 			}
 
-			braces.push(body.localCOM.copy());
+			braces.push(massCenter);
 		}
 	}
 }
