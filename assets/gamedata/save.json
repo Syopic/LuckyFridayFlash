@@ -1,0 +1,56 @@
+{
+    "settings":{
+        "musicVolume":0.3,
+        "vfxVolume":0.6,
+        "windowled":true
+    },
+    "profile":{
+        "id":"i01",
+        "name":"che",
+        "img":"profile/img/avatar.jpg",
+        "score":29000,
+        "rank":8,
+        "achives":[
+            {
+                "id":"achieve1",
+                "progress":5
+            },
+            {
+                "id":"achive2",
+                "progress":0
+            }
+        ],
+        "top":[
+            {
+                "id":"v02",
+                "rank":1,
+                "name":"userNamebmn 1",
+                "score":99999
+            },
+            {
+                "id":"a03",
+                "rank":2,
+                "name":"userName 2",
+                "score":80000
+            }
+        ]
+    },
+    "locations":{
+        "id":"location1",
+        "missions":[
+            {
+                "id":"mission1.1",
+                "score":1000
+            },
+            {
+                "id":"mission1.2",
+                "score":300
+            },
+            {
+                "id":"mission1.2.1",
+                "score":500
+            }
+        ]
+    },
+    
+}

@@ -202,6 +202,7 @@ package ua.com.syo.luckyfriday.view {
 		public function resize(w:int, h:int):void {
 			Globals.stageWidth = w;
 			Globals.stageHeight = h;
+			//trace(Globals.stageWidth, Globals.stageHeight);
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 		/**

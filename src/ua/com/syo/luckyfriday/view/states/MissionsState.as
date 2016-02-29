@@ -2,20 +2,21 @@ package ua.com.syo.luckyfriday.view.states {
 
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-
+	
 	import citrus.core.starling.StarlingState;
-
+	
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-
+	
 	import starling.display.Image;
 	import starling.display.Shape;
 	import starling.display.Sprite;
 	import starling.events.Event;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
+	import ua.com.syo.luckyfriday.controller.events.AssetsLoadingEvent;
 	import ua.com.syo.luckyfriday.controller.events.MissionPointEvent;
 	import ua.com.syo.luckyfriday.data.Globals;
 	import ua.com.syo.luckyfriday.model.Model;
@@ -32,30 +33,34 @@ package ua.com.syo.luckyfriday.view.states {
 		private var container:LayoutGroup;
 		private var settingsBtn:Button;
 		private var bg:Image;
-		private var meteor:MissionsMeteor;
-		private var point:MissionsPoint;
+		private var meteor:MissionsMeteor = new MissionsMeteor(Controller.instance.currentLocationId);
+		private var primaryPoint:MissionsPoint;
 		private var additPoint:AdditionalMissionPoint;
 		private var containerPoint:Sprite = new Sprite();
 		private var myShape:Shape = new Shape();
 		private var pointDictionary:Dictionary = new Dictionary();
+		private var quantityMissions:int;
 
 		override public function initialize():void {
 			super.initialize();
 			Model.instance.assetManager.enqueue(File.applicationDirectory.resolvePath("gamedata/locations/location" + Controller.instance.currentLocationId + "/locationBg.jpg"));
 			Model.instance.assetManager.loadQueue(function(ratio:Number):void {
 				if (ratio == 1.0) {
+					
 					initBg();
 					initButtons();
 					initMissionPoints();
-					arrange(null);
+					//
+					//arrange(null);
 				}
 			});
 		}
 
 		private function initBg():void {
 			bg = new Image(Model.instance.assetManager.getTexture("locationBg"));
-			meteor = new MissionsMeteor(Controller.instance.currentLocationId);
+
 			addChild(bg);
+
 			addChild(meteor);
 			UIManager.instance.addEventListener(Event.RESIZE, arrange);
 		}
@@ -89,30 +94,19 @@ package ua.com.syo.luckyfriday.view.states {
 			container.addChild(settingsBtn);
 		}
 
+
 		/**
-		 * Init Mission Point
-		 *
+		 *  Init Mission Point
 		 */
 		private function initMissionPoints():void {
-			primaryMissionPoints();
-		}
-
-		/**
-		 * Add in state  Mission
-		 */
-		private function primaryMissionPoints():void {
-
-
+			trace(AssetsLoadingEvent.LEVEL_LOADED);
 			var n:String;
 			var s:int;
-			var enab:Boolean;
 			var additionalMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, true);
 			if (additionalMissionId.length > 0) {
 				for (var ai:int = 0; ai < additionalMissionId.length; ai++) {
 					var am:Mission = MissionStorage.getMissionById(additionalMissionId[ai]);
-					//var par:Array = am.missionId.split(".", 3);
-					//n = par[2];
-					trace("Additional Mission " + additionalMissionId[ai] + " in Location + locationId");
+					//trace("Additional Mission " + additionalMissionId[ai] + "in location " + Controller.instance.currentLocationId);
 					additPoint = new AdditionalMissionPoint(additionalMissionId[ai], am.isEnable);
 					additPoint.name = additionalMissionId[ai];
 					additPoint.x = (am.locX * meteor.resizeY) + meteor.psitionX;
@@ -127,17 +121,18 @@ package ua.com.syo.luckyfriday.view.states {
 				var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 				var params:Array = m.id.split(".", 2);
 				n = params[1];
-				trace("Mission " + n + " in Location + locationId");
-				point = new MissionsPoint(m.id, m.isEnable, m.rate);
-				point.name = n;
-				point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
-				point.y = (m.locY * meteor.resizeY) + 100;
-				pointDictionary[n] = {x: (point.x + 50), y: (point.y + 50)};
-				point.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
-				containerPoint.addChild(point);
+				quantityMissions = primaryMissionId.length;
+				//trace("Mission " + n + "in location " + Controller.instance.currentLocationId);
+				primaryPoint = new MissionsPoint(m.id, m.isEnable, m.rate);
+				primaryPoint.name = n;
+				primaryPoint.x = (m.locX * meteor.resizeY) + meteor.psitionX;
+				primaryPoint.y = (m.locY * meteor.resizeY) + 100;
+				pointDictionary[n] = {x: (primaryPoint.x + 50), y: (primaryPoint.y + 50)};
+				primaryPoint.addEventListener(MissionPointEvent.MISSION_SELECT, isSelect)
+				containerPoint.addChild(primaryPoint);
 			}
-			addChild(containerPoint);
-			//curves();
+			this.addChild(containerPoint);
+			curves();
 		}
 
 		/**
@@ -145,8 +140,7 @@ package ua.com.syo.luckyfriday.view.states {
 		 * @param event
 		 */
 		private function arrange(event:Event):void {
-			if (meteor != null)
-			{
+			if (meteor != null) {
 				if (Globals.stageWidth < 1920) {
 					bg.width = 1920;
 					bg.height = 1024;
@@ -155,15 +149,15 @@ package ua.com.syo.luckyfriday.view.states {
 					bg.height = Globals.stageHeight;
 				}
 				var n:String;
-				var primaryMissionId:Array = MissionStorage.getMissionIdByType("1", false);
+				var primaryMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, false);
 				//arange primary point
 				for (var i:int = 0; i < primaryMissionId.length; i++) {
 					var m:Mission = MissionStorage.getMissionById(primaryMissionId[i]);
 					var params:Array = m.id.split(".", 2);
 					n = params[1];
-					point = containerPoint.getChildByName(n) as MissionsPoint;
-					point.x = (m.locX * meteor.resizeY) + meteor.psitionX;
-					point.y = (m.locY * meteor.resizeY) + 100;
+					primaryPoint = containerPoint.getChildByName(n) as MissionsPoint;
+					primaryPoint.x = (m.locX * meteor.resizeY) + meteor.psitionX;
+					primaryPoint.y = (m.locY * meteor.resizeY) + 100;
 				}
 				var additionalMissionId:Array = MissionStorage.getMissionIdByType(Controller.instance.currentLocationId, true);
 				if (additionalMissionId.length > 0) {
@@ -179,7 +173,7 @@ package ua.com.syo.luckyfriday.view.states {
 
 		private function curves():void {
 
-			for (var i:int = 1; i < 8; i++) {
+			for (var i:int = 1; i <= quantityMissions; i++) {
 				//myShape.graphics.moveTo(pointDictionary[1].x, pointDictionary[1].y);
 				//trace(pointDictionary[i].x, pointDictionary[i].y);
 				myShape.graphics.lineTo(pointDictionary[i].x, pointDictionary[i].y);
@@ -188,7 +182,7 @@ package ua.com.syo.luckyfriday.view.states {
 				//myShape.graphics.lineTo(100, 100);
 				containerPoint.addChild(myShape);
 				trace(containerPoint.getChildIndex(myShape));
-				containerPoint.setChildIndex(myShape,0);
+				containerPoint.setChildIndex(myShape, 0);
 			}
 		}
 
@@ -198,7 +192,6 @@ package ua.com.syo.luckyfriday.view.states {
 		 */
 		public function isSelect(event:MissionPointEvent):void {
 			Controller.instance.startLoadLevel(event.id);
-			trace("triggered! " + event.id);
 		}
 
 		/**

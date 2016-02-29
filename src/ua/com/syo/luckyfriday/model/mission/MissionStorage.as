@@ -3,8 +3,6 @@ package ua.com.syo.luckyfriday.model.mission {
 
 	import starling.textures.Texture;
 
-	import ua.com.syo.luckyfriday.model.Model;
-
 	/**
 	 *
 	 * @author Alex
@@ -16,8 +14,7 @@ package ua.com.syo.luckyfriday.model.mission {
 		public static var locationTexture:Texture;
 
 		public static function setLocations(locations:Array):void {
-			for (var i:int = 0; i < locations.length; i++) 
-			{
+			for (var i:int = 0; i < locations.length; i++) {
 				var loc:Location = new Location();
 				loc.id = locations[i].id;
 				loc.name = locations[i].name;
@@ -29,12 +26,11 @@ package ua.com.syo.luckyfriday.model.mission {
 		}
 
 		public static function setMissions(missions:Array, locationId:String):void {
-			for (var i:int = 0; i < missions.length; i++) 
-			{
+			for (var i:int = 0; i < missions.length; i++) {
 				var mission:Mission = new Mission();
 				mission.id = missions[i].id;
 				mission.locationId = locationId;
-				mission.linkId = missions[i].missionId;
+				mission.linkId = missions[i].linkId;
 				mission.name = missions[i].name;
 				mission.description = missions[i].description;
 				mission.bgImageUrl = missions[i].bg;
@@ -47,40 +43,6 @@ package ua.com.syo.luckyfriday.model.mission {
 			}
 		}
 
-
-		/**
-		 * Parse Location and Misiion point from Json
-		 * @param js - json object
-		 *
-		 */
-		public static function ParseLocationMisiionFromJSON(js:Object):void {
-			var misiionPoint:Object = new Object();
-			var quantity:int;
-			//var q:int = js.location.point.length;
-			for (var i:int = 0; i < js.location.length; i++) {
-
-				misiionPoint = js[i];
-				quantity = misiionPoint.length;
-				for (var n:int = 0; n < misiionPoint.length; n++) {
-					//addMissionPointFromJSON(misiionPoint[n]);
-				}
-					//addLocationFromJSON(js.location[i], quantity);
-			}
-		}
-
-		/**
-		 * Add Location variables From JSON
-		 * @param locationData - object JSON
-		 */
-		private static function parceLocation(locationData:Object, quantity:int):void {
-			var loc:Location = new Location();
-			loc.id = locationData.id;
-			loc.name = locationData.name;
-			loc.description = locationData.description;
-			loc.bgImageUrl = locationData.bg;
-			loc.fgImageUrl = locationData.fg;
-			addLocation(loc);
-		}
 
 		/**
 		 * Add Location to Dictionary
@@ -96,6 +58,7 @@ package ua.com.syo.luckyfriday.model.mission {
 		 */
 		private static function addMission(mission:Mission):void {
 			missionDictionary[mission.id] = mission;
+			trace();
 		}
 
 		/**
@@ -119,8 +82,15 @@ package ua.com.syo.luckyfriday.model.mission {
 			var result:Array = new Array;
 			for each (var mission:Mission in missionDictionary) {
 				if (mission.locationId == locationId) {
-					if (mission.linkId != "") {
-						result.push(mission.id);
+					if (additional == false) {
+						if (mission.linkId == null) {
+							result.push(mission.id);
+						}
+					}
+					if (additional == true) {
+						if (mission.linkId != null) {
+							result.push(mission.id);
+						}
 					}
 				}
 			}
