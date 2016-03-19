@@ -13,7 +13,7 @@ package ua.com.syo.luckyfriday {
 	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.MenuState;
 
-	[SWF(frameRate = "60", width = "1280", height = "720", backgroundColor = "0x000410")]
+	[SWF(frameRate = "60", width = "1280", height = "72", backgroundColor = "0x000410")]
 	public class LuckyFriday extends StarlingCitrusEngine {
 		/**
 		 * Entry point

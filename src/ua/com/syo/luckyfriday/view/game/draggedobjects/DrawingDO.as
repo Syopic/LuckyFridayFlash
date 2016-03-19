@@ -6,17 +6,17 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
+	
 	import nape.geom.Vec2;
 	import nape.phys.Material;
 	import nape.shape.Edge;
 	import nape.shape.EdgeList;
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
-
+	
 	import starling.display.Image;
 	import starling.textures.Texture;
-
+	
 	import ua.com.syo.core.utils.Utils;
 
 	/**
@@ -118,7 +118,24 @@ package ua.com.syo.luckyfriday.view.game.draggedobjects {
 
 			for (var j:int = 0; j < edges.length; j++) {
 				var edge:Edge = edges.at(j);
-				braces.push(edge.localNormal);
+				
+				var v1:Vec2 = edge.worldVertex1;
+				var v2:Vec2 = edge.worldVertex2;
+				var v3:Vec2 = massCenter;
+				
+				var l1:Number = Vec2.distance(v1, v2);
+				var l2:Number = Vec2.distance(v1, v3);
+				var l3:Number = Vec2.distance(v2, v3);
+				
+				//var m:Number = (v1.cross() / v1.length * v2.length;
+				var a1:Number = Math.abs(v1.angle - v2.angle);
+				var a2:Number = 0;
+				var a3:Number = 0;
+				
+				trace("Triangle length:" + "l1: " + l1 + " l2: " + l2 + " l3: " + l3);
+				trace("Triangle angles: " + "a1: " + a1 + " a2: " + a2 + " a3: " + a3);
+				
+				braces.push(edge.worldNormal);
 			}
 
 			braces.push(massCenter);
