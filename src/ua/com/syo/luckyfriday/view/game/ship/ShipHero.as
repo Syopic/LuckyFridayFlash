@@ -1,28 +1,26 @@
 package ua.com.syo.luckyfriday.view.game.ship {
 	import flash.geom.Point;
-
+	
 	import citrus.objects.NapePhysicsObject;
 	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.AnimationSequence;
-
+	
 	import nape.geom.Vec2;
-
+	
 	import starling.display.Sprite;
 	import starling.textures.TextureAtlas;
-
+	
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
 	import ua.com.syo.luckyfriday.data.EmbeddedAssets;
 	import ua.com.syo.luckyfriday.data.Globals;
-	import ua.com.syo.luckyfriday.model.Model;
-	import ua.com.syo.luckyfriday.model.mission.CurrentLevelStorage;
-	import ua.com.syo.luckyfriday.view.UIManager;
 	import ua.com.syo.luckyfriday.view.states.GameState;
 
 
 	public class ShipHero extends NapePhysicsObject {
 
 		private var thrustersView:Sprite;
+		private var jointView:Sprite;
 		private var animSeq:AnimationSequence;
 
 		private var thrusters:Vector.<ThrusterView> = new Vector.<ThrusterView>(4);
@@ -43,6 +41,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 
 		public function ShipHero(name:String, params:Object = null) {
 			thrustersView = new Sprite();
+			jointView = new Sprite();
 
 			initAnimations();
 			initThrusters();
@@ -55,6 +54,7 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			var ta:TextureAtlas = EmbeddedAssets.getShipHeroAtlas();
 			animSeq = new AnimationSequence(ta, [Constants.IDLE_RIGHT_ANIMATION, Constants.IDLE_LEFT_ANIMATION, Constants.KREN_ANIMATION, Constants.ROTATE_ANIMATION, Constants.RROTATER_ANIMATION], Constants.IDLE_RIGHT_ANIMATION, 80);
 			animSeq.addChild(thrustersView);
+			animSeq.addChild(jointView);
 			animSeq.onAnimationComplete.add(onAnimationOver);
 		}
 
@@ -75,6 +75,11 @@ package ua.com.syo.luckyfriday.view.game.ship {
 			}
 			thrustersView.x = 105;
 			thrustersView.pivotX = 105;
+			
+			var joint:JointView = new JointView();
+			jointView.addChild(joint);
+			jointView.x = 95;
+			jointView.y = 55;
 		}
 
 		private function moveEmiter():void {
@@ -99,6 +104,15 @@ package ua.com.syo.luckyfriday.view.game.ship {
 					GameState.instance.particles.setThrusterPSParams(i, p, 300  * direction, body.rotation + (thrusters[i].angle - Math.PI/2) * direction );
 				}
 			}
+		}
+		
+		public function get anchor():Vec2 {
+			var result:Vec2 = new Vec2();
+			if (body!= null)
+			{
+				result = new Vec2(body.localCOM.x, body.localCOM.y + 40);
+			}
+			return result;
 		}
 
 		override protected function createShape():void {
@@ -320,6 +334,8 @@ package ua.com.syo.luckyfriday.view.game.ship {
 
 			thrustersView.visible = !isAnimationRunning;
 			moveEmiter();
+			jointView.visible = GameState.instance.isJoint;
+			
 		}
 
 		/**

@@ -4,16 +4,17 @@ package ua.com.syo.luckyfriday.view.states {
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.sampler.pauseSampling;
 	import flash.system.Capabilities;
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
-
+	
 	import citrus.core.starling.StarlingState;
 	import citrus.objects.CitrusSprite;
 	import citrus.physics.nape.Nape;
 	import citrus.sounds.SoundManager;
 	import citrus.view.starlingview.StarlingCamera;
-
+	
 	import nape.callbacks.CbEvent;
 	import nape.callbacks.CbType;
 	import nape.callbacks.InteractionCallback;
@@ -25,7 +26,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import nape.phys.Body;
 	import nape.phys.BodyType;
 	import nape.util.ShapeDebug;
-
+	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -35,7 +36,7 @@ package ua.com.syo.luckyfriday.view.states {
 	import starling.extensions.lighting.core.LightLayer;
 	import starling.extensions.lighting.lights.PointLight;
 	import starling.filters.BlurFilter;
-
+	
 	import ua.com.syo.core.utils.Utils;
 	import ua.com.syo.luckyfriday.controller.Controller;
 	import ua.com.syo.luckyfriday.data.Constants;
@@ -140,6 +141,8 @@ package ua.com.syo.luckyfriday.view.states {
 			trace("manufacturer: " + Capabilities.manufacturer);
 			if (Capabilities.manufacturer != "Adobe Windows")
 				UIManager.instance.showJoystick();
+			
+			
 		}
 
 		private function OnCollision(e:InteractionCallback):void {
@@ -160,7 +163,7 @@ package ua.com.syo.luckyfriday.view.states {
 			var w:Number = bBox.width;
 			var h:Number = bBox.height;
 
-			var shipAnchor:Vec2 = new Vec2(shipBody.localCOM.x, shipBody.localCOM.y + 40);
+			var shipAnchor:Vec2 = shipHero.anchor;
 			var nearestAnchor:Vec2;
 			var minDistance:Number = 1000;
 			for (var i:int = 0; i < container.braces.length; i++) 
@@ -301,7 +304,7 @@ package ua.com.syo.luckyfriday.view.states {
 			}
 
 			if (_ce.input.hasDone(Constants.BREAK_ACTION)) {
-				if (pivotJoint && pivotJoint.space) {
+				if (isJoint) {
 					pivotJoint.space = null;
 					SoundManager.getInstance().playSound(Constants.DISCONNECT_SFX);
 					if (currentContainer != null)
@@ -313,7 +316,7 @@ package ua.com.syo.luckyfriday.view.states {
 					var minDistance:Number = 1000;
 					for (var i:int = 0; i < rocks.length; i++) {
 						// TODO
-						var shipAnchor:Vec2 = new Vec2(shipHero.body.localCOM.x, shipHero.body.localCOM.y + 40);
+						var shipAnchor:Vec2 = shipHero.anchor;
 						for (var n:int = 0; n < rocks[i].braces.length; n++) 
 						{
 							var tAnchor:Vec2 = new Vec2(rocks[i].body.localCOM.x + rocks[i].braces[n].x, rocks[i].body.localCOM.y + rocks[i].braces[n].y);
@@ -377,6 +380,16 @@ package ua.com.syo.luckyfriday.view.states {
 				this.x = 0;
 				this.y = 0;
 			}
+		}
+		
+		public function get joint():PivotJoint
+		{
+			return pivotJoint;
+		}
+
+		public function get isJoint():Boolean
+		{
+			return (pivotJoint && pivotJoint.space);
 		}
 
 		private static var _instance:GameState;

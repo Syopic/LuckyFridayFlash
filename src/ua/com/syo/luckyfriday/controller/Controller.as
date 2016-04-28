@@ -26,7 +26,7 @@ package ua.com.syo.luckyfriday.controller {
 	public class Controller extends EventDispatcher {
 
 		private var _currentLocationId:String = "1";
-		private var _currentMissionId:String = "1.1";
+		private var _currentMissionId:String = "1.2";
 
 		public function init():void {
 			// update settings from saved data in SharedObjects

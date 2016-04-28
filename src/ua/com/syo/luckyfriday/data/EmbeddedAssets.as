@@ -72,6 +72,7 @@ package ua.com.syo.luckyfriday.data {
 		[Embed(source = "/../assets/img/gui/gameover/go4.png")]
 		public static const GameOver4C:Class;
 
+		
 		/**
 		 * Ship hero assets
 		 */
@@ -83,6 +84,9 @@ package ua.com.syo.luckyfriday.data {
 
 		[Embed(source = "/../assets/img/engine.png")]
 		public static const EngineC:Class;
+		
+		[Embed(source = "/../assets/img/joint.png")]
+		public static const JointC:Class;
 
 		/**
 		 * Icons

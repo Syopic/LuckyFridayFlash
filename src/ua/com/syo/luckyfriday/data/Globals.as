@@ -10,7 +10,7 @@ package ua.com.syo.luckyfriday.data
 		/**
 		 * Envirement params
 		 */
-		public static var gravity:Number = 0.3;
+		public static var gravity:Number = 0.2;
 
 		/**
 		 * Input params
